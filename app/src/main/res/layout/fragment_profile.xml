@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivProfile"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Tan Ah Ming"
+        android:textColor="#060606"
+        android:textSize="46dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivProfile" />
+
+    <View
+        android:id="@+id/hr"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="#6F060606"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+            <TextView
+                android:id="@+id/tvPhone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Contact No: "
+                android:textColor="#060606"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/ivPhone"
+                app:layout_constraintStart_toEndOf="@+id/ivPhone"
+                app:layout_constraintTop_toTopOf="@+id/ivPhone" />
+
+            <TextView
+                android:id="@+id/tvIc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="IC Number: "
+                android:textColor="#060606"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/ivAge"
+                app:layout_constraintStart_toEndOf="@+id/ivAge"
+                app:layout_constraintTop_toTopOf="@+id/ivAge" />
+
+            <TextView
+                android:id="@+id/tvAge"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Age : "
+                android:textColor="#060606"
+                android:textSize="22sp"
+                app:layout_constraintStart_toEndOf="@+id/ivIc"
+                app:layout_constraintTop_toTopOf="@+id/ivIc" />
+
+            <ImageView
+                android:id="@+id/ivPhone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/ic_phone"
+                app:layout_constraintBottom_toTopOf="@+id/ivAge"
+                app:layout_constraintStart_toStartOf="@+id/hr"
+                app:layout_constraintTop_toBottomOf="@+id/hr"
+                app:srcCompat="@drawable/ic_phone" />
+
+            <ImageView
+                android:id="@+id/ivIc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/ic_ic"
+                app:layout_constraintStart_toStartOf="@+id/ivAge"
+                app:layout_constraintTop_toBottomOf="@+id/ivAge"
+                app:srcCompat="@drawable/ic_age" />
+
+            <ImageView
+                android:id="@+id/ivAge"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/ic_age"
+                app:layout_constraintStart_toStartOf="@+id/ivPhone"
+                app:layout_constraintTop_toBottomOf="@+id/ivPhone"
+                app:srcCompat="@drawable/ic_ic" />
+
+            <TextView
+                android:id="@+id/tvPhone2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="35dp"
+                android:text="1234"
+                android:textColor="#060606"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvPhone"
+                app:layout_constraintEnd_toEndOf="@+id/hr"
+                app:layout_constraintStart_toEndOf="@+id/tvPhone"
+                app:layout_constraintTop_toTopOf="@+id/tvPhone" />
+
+            <TextView
+                android:id="@+id/tvIc2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:text="1234"
+                android:textColor="#060606"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvIc"
+                app:layout_constraintEnd_toEndOf="@+id/tvPhone2"
+                app:layout_constraintStart_toEndOf="@+id/tvIc"
+                app:layout_constraintTop_toTopOf="@+id/tvIc"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/tvAge2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="1234"
+                android:textColor="#060606"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvIc2"
+                app:layout_constraintStart_toStartOf="@+id/tvIc2"
+                app:layout_constraintTop_toTopOf="@+id/tvAge" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

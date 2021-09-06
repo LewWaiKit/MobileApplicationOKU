@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <ScrollView android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        tools:context=".Register2Activity">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvFirstName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="30dp"
+                android:text="First Name :"
+                android:textColor="#060606"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvLastName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Last Name :"
+                android:textColor="#060606"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvFirstName"
+                app:layout_constraintTop_toBottomOf="@+id/tvFirstName" />
+
+            <TextView
+                android:id="@+id/tvNRIC"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="NRIC :"
+                android:textColor="#060606"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvLastName"
+                app:layout_constraintTop_toBottomOf="@+id/tvLastName" />
+
+            <TextView
+                android:id="@+id/tvContactNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Contact No :"
+                android:textColor="#060606"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvNRIC"
+                app:layout_constraintTop_toBottomOf="@+id/tvNRIC" />
+
+            <TextView
+                android:id="@+id/tvAge"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Age :"
+                android:textColor="#060606"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvContactNo"
+                app:layout_constraintTop_toBottomOf="@+id/tvContactNo" />
+
+            <TextView
+                android:id="@+id/tvOKUNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="OKU No :"
+                android:textColor="#060606"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvAge"
+                app:layout_constraintTop_toBottomOf="@+id/tvAge" />
+
+            <EditText
+                android:id="@+id/tfFirstName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="50dp"
+                android:ems="10"
+                android:hint="Enter Your First Name"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toBottomOf="@+id/tvFirstName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvFirstName"
+                app:layout_constraintTop_toTopOf="@+id/tvFirstName" />
+
+            <EditText
+                android:id="@+id/tfLastName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="50dp"
+                android:ems="10"
+                android:hint="Enter Your Last Name"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toBottomOf="@+id/tvLastName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvLastName"
+                app:layout_constraintTop_toTopOf="@+id/tvLastName" />
+
+            <EditText
+                android:id="@+id/tfNRIC"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="50dp"
+                android:ems="10"
+                android:hint="Enter Your IC No"
+                android:inputType="numberSigned"
+                app:layout_constraintBottom_toBottomOf="@+id/tvNRIC"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvNRIC"
+                app:layout_constraintTop_toTopOf="@+id/tvNRIC" />
+
+            <EditText
+                android:id="@+id/tfContactNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="50dp"
+                android:ems="10"
+                android:hint="Enter Your Phone No"
+                android:inputType="phone"
+                app:layout_constraintBottom_toBottomOf="@+id/tvContactNo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvContactNo"
+                app:layout_constraintTop_toTopOf="@+id/tvContactNo" />
+
+            <EditText
+                android:id="@+id/tfAge"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="50dp"
+                android:ems="10"
+                android:hint="Enter Your Age"
+                android:inputType="number"
+                app:layout_constraintBottom_toBottomOf="@+id/tvAge"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvAge"
+                app:layout_constraintTop_toTopOf="@+id/tvAge" />
+
+            <EditText
+                android:id="@+id/tfOKUNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="50dp"
+                android:ems="10"
+                android:hint="Enter Your OKU No"
+                android:inputType="numberSigned"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOKUNo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvOKUNo"
+                app:layout_constraintTop_toTopOf="@+id/tvOKUNo" />
+
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Register"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOKUNo" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</layout>

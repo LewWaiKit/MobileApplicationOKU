@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "555151374803",
+    "firebase_url": "https://madoku-fa5a5-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "madoku-fa5a5",
+    "storage_bucket": "madoku-fa5a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555151374803:android:c2b95f7bcb850b8e669726",
+        "android_client_info": {
+          "package_name": "com.example.mobileapplicationoku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "555151374803-kgf18oj7bji566aiaf6apcdhuidabnlc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCn8TD5ZM7Tqaz4apz16xMnoyIDnRU2YaE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "555151374803-kgf18oj7bji566aiaf6apcdhuidabnlc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

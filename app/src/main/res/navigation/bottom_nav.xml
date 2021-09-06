@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_nav"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.mobileapplicationoku.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.mobileapplicationoku.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/approveListFragment"
+        android:name="com.example.mobileapplicationoku.approveListFragment"
+        android:label="Approve"
+        tools:layout="@layout/fragment_approve_list">
+        <action
+            android:id="@+id/action_approveListFragment_to_approveDetailsFragment"
+            app:destination="@id/approveDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/approveDetailsFragment"
+        android:name="com.example.mobileapplicationoku.ApproveDetailsFragment"
+        android:label="Approve Details"
+        tools:layout="@layout/fragment_approve_details">
+        <argument
+            android:name="approveID"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_approveDetailsFragment_to_approveListFragment"
+            app:destination="@id/approveListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.mobileapplicationoku.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
+</navigation>
