@@ -74,6 +74,8 @@ class LoginFragment : Fragment() {
         if(currentUser!=null){
             if(currentUser.isEmailVerified){
                 hideProgessBar()
+                binding.tfEmail.text.clear()
+                binding.tfPassword.text.clear()
                 findNavController().navigate(R.id.action_loginFragment_to_bottomNavActivity)
             }else{
                 hideProgessBar()

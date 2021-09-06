@@ -2,6 +2,7 @@ package com.example.mobileapplicationoku
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -26,14 +27,5 @@ class BottomNavActivity : AppCompatActivity() {
 
         bottomNavigationView.setupWithNavController(navController)
 
-        val callback: OnBackPressedCallback =
-            object : OnBackPressedCallback(true /* enabled by default */) {
-                override fun handleOnBackPressed() {
-                    if(auth.currentUser != null){
-                        auth.signOut()
-
-                    }
-                }
-            }
     }
 }

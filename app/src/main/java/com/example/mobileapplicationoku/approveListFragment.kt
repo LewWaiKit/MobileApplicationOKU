@@ -66,7 +66,7 @@ class approveListFragment : Fragment() {
                     displayList.clear()
                     displayList.addAll(approveArrayList)
 
-                    binding.rvApproveList.adapter!!.notifyDataSetChanged()
+                    /*binding.rvApproveList.adapter!!.notifyDataSetChanged()*/
                 }
 
                 return true
