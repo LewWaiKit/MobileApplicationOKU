@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.browser.customtabs.CustomTabsClient.getPackageName
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mobileapplicationoku.databinding.FragmentProfileBinding
@@ -51,8 +52,7 @@ class ProfileFragment : Fragment() {
             uploadImage()
         }
         binding.btnCancel.setOnClickListener(){
-            val DefaultUri = Uri.parse("android.resource://com.example.mobileapplicationoku/drawable/ic_profile_pic")
-            binding.ivProfile.setImageURI(DefaultUri)
+            binding.ivProfile.setImageResource(R.drawable.ic_profie_pic)
             getUserDetails()
         }
         return binding.root
