@@ -19,6 +19,7 @@ class LoginFragment : Fragment() {
     private val args: LoginFragmentArgs by navArgs()
     private var dialog = LoadingDialogFragment()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,6 +39,7 @@ class LoginFragment : Fragment() {
             if(checkIsEmpty()==true){
                 showProgressBar()
                 if(email=="admin"&&pass=="admin123"){
+                    hideProgessBar()
                     findNavController().navigate(R.id.action_loginFragment_to_adminBottomNavActivity)
                 }else{
                     auth.signInWithEmailAndPassword(email, pass)
@@ -62,7 +64,6 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-
     /*public override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
@@ -84,8 +85,6 @@ class LoginFragment : Fragment() {
             }
         }
     }
-
-
 
     fun checkIsEmpty():Boolean{
         val email = binding.tfEmail.text.toString().trim()

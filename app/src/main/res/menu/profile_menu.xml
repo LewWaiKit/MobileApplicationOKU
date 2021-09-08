@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Edit profile"
-        android:id="@+id/iEditProfile"/>
     <item android:title="Change password"
         android:id="@+id/iChangePassword"/>
+    <item android:title="Sign Out"
+        android:id="@+id/iSignOut"/>
 </menu>

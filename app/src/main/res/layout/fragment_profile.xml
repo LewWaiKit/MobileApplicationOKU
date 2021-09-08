@@ -9,8 +9,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-            android:padding="20dp">
+        android:layout_height="match_parent">
         <ImageView
             android:id="@+id/ivProfile"
             android:layout_width="150dp"
@@ -18,31 +17,32 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/ic_launcher" />
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Tan Ah Ming"
-        android:textColor="#060606"
-        android:textSize="46dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivProfile" />
+            app:srcCompat="@drawable/ic_profile" />
 
-    <View
-        android:id="@+id/hr"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="#6F060606"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvName" />
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Tan Ah Ming"
+                android:textColor="#060606"
+                android:textSize="46dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivProfile" />
+
+            <View
+                android:id="@+id/hr"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:background="#6F060606"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
             <TextView
                 android:id="@+id/tvPhone"
@@ -76,6 +76,7 @@
                 android:text="Age : "
                 android:textColor="#060606"
                 android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/ivIc"
                 app:layout_constraintStart_toEndOf="@+id/ivIc"
                 app:layout_constraintTop_toTopOf="@+id/ivIc" />
 
@@ -83,11 +84,37 @@
                 android:id="@+id/tvProfileEmail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Age : "
+                android:layout_marginStart="10dp"
+                android:text="Email :"
                 android:textColor="#060606"
                 android:textSize="22sp"
-                tools:layout_editor_absoluteX="101dp"
-                tools:layout_editor_absoluteY="411dp" />
+                app:layout_constraintBottom_toBottomOf="@+id/ivEmail"
+                app:layout_constraintStart_toEndOf="@+id/ivEmail"
+                app:layout_constraintTop_toTopOf="@+id/ivEmail" />
+
+            <TextView
+                android:id="@+id/tvUserType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="User type :"
+                android:textColor="#060606"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/ivType"
+                app:layout_constraintStart_toEndOf="@+id/ivType"
+                app:layout_constraintTop_toTopOf="@+id/ivType" />
+
+            <TextView
+                android:id="@+id/tvOkuCardNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Oku CardNo:"
+                android:textColor="#060606"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/ivOkuCardNo"
+                app:layout_constraintStart_toEndOf="@+id/ivOkuCardNo"
+                app:layout_constraintTop_toTopOf="@+id/ivOkuCardNo" />
 
             <ImageView
                 android:id="@+id/ivPhone"
@@ -105,26 +132,51 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/ic_ic"
                 app:layout_constraintStart_toStartOf="@+id/ivAge"
                 app:layout_constraintTop_toBottomOf="@+id/ivAge"
-                app:srcCompat="@drawable/ic_age" />
+                app:srcCompat="@drawable/ic_ic" />
+
+            <ImageView
+                android:id="@+id/ivEmail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="@+id/ivIc"
+                app:layout_constraintTop_toBottomOf="@+id/ivIc"
+                app:srcCompat="@drawable/ic_email" />
+
+            <ImageView
+                android:id="@+id/ivType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="@+id/ivEmail"
+                app:layout_constraintTop_toBottomOf="@+id/ivEmail"
+                app:srcCompat="@drawable/ic_profile" />
+
+            <ImageView
+                android:id="@+id/ivOkuCardNo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="@+id/ivType"
+                app:layout_constraintTop_toBottomOf="@+id/ivType"
+                app:srcCompat="@drawable/ic_ic" />
 
             <ImageView
                 android:id="@+id/ivAge"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/ic_age"
                 app:layout_constraintStart_toStartOf="@+id/ivPhone"
                 app:layout_constraintTop_toBottomOf="@+id/ivPhone"
-                app:srcCompat="@drawable/ic_ic" />
+                app:srcCompat="@drawable/ic_age" />
 
             <TextView
                 android:id="@+id/tvPhone2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
+                android:layout_marginStart="5dp"
                 android:text="1234"
                 android:textColor="#060606"
                 android:textSize="22sp"
@@ -137,13 +189,12 @@
                 android:id="@+id/tvIc2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
                 android:text="1234"
                 android:textColor="#060606"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvIc"
                 app:layout_constraintEnd_toEndOf="@+id/tvPhone2"
-                app:layout_constraintStart_toEndOf="@+id/tvIc"
+                app:layout_constraintStart_toStartOf="@+id/tvPhone2"
                 app:layout_constraintTop_toTopOf="@+id/tvIc"
                 app:layout_constraintVertical_bias="0.0" />
 
@@ -154,9 +205,87 @@
                 android:text="1234"
                 android:textColor="#060606"
                 android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvAge"
                 app:layout_constraintEnd_toEndOf="@+id/tvIc2"
                 app:layout_constraintStart_toStartOf="@+id/tvIc2"
-                app:layout_constraintTop_toTopOf="@+id/tvAge" />
+                app:layout_constraintTop_toTopOf="@+id/tvAge"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/tvProfileEmail1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="1234"
+                android:textColor="#060606"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvProfileEmail"
+                app:layout_constraintEnd_toEndOf="@+id/tvAge2"
+                app:layout_constraintStart_toStartOf="@+id/tvAge2"
+                app:layout_constraintTop_toTopOf="@+id/tvProfileEmail" />
+
+            <TextView
+                android:id="@+id/tvUserType1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="1234"
+                android:textColor="#060606"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvUserType"
+                app:layout_constraintEnd_toEndOf="@+id/tvProfileEmail1"
+                app:layout_constraintStart_toStartOf="@+id/tvProfileEmail1"
+                app:layout_constraintTop_toTopOf="@+id/tvUserType" />
+
+            <TextView
+                android:id="@+id/tvOkuCardNo1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="1234"
+                android:textColor="#060606"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOkuCardNo"
+                app:layout_constraintEnd_toEndOf="@+id/tvUserType1"
+                app:layout_constraintStart_toStartOf="@+id/tvUserType1"
+                app:layout_constraintTop_toTopOf="@+id/tvOkuCardNo" />
+
+            <ImageView
+                android:id="@+id/ivCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/ivProfile"
+                app:layout_constraintEnd_toEndOf="@+id/ivProfile"
+                app:srcCompat="@drawable/ic_camera" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@+id/hr"
+                app:layout_constraintStart_toStartOf="@+id/hr"
+                app:layout_constraintTop_toBottomOf="@+id/tvOkuCardNo1"
+                tools:ignore="MissingConstraints">
+
+                <Button
+                    android:id="@+id/btnSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Save"
+                    android:layout_marginEnd="30dp"
+                    app:backgroundTint="#CDDC39"
+                    tools:layout_editor_absoluteX="10dp"
+                    tools:layout_editor_absoluteY="552dp" />
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="Cancel"
+                    app:backgroundTint="#FF5722"
+                    tools:layout_editor_absoluteX="309dp"
+                    tools:layout_editor_absoluteY="552dp" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

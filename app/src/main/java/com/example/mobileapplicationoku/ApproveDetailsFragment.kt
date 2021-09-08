@@ -17,7 +17,6 @@ import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
 
@@ -49,7 +48,7 @@ class ApproveDetailsFragment : Fragment() {
         getApproveDetail()
         auth = FirebaseAuth.getInstance()
         v_binding= FragmentApproveDetailsBinding.inflate(inflater,  container ,false)
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragmentz
 
         binding.btnApprove.setOnClickListener(){
             showProgressBar()
@@ -60,8 +59,7 @@ class ApproveDetailsFragment : Fragment() {
                         val userID = auth.currentUser?.uid
                         val profileUpdates = userProfileChangeRequest {
                             displayName = "$firstName $lastName"
-                            photoUri =
-                                Uri.parse("android.resource://com.example.mobileapplicationoku/drawable/ic_base_profile_pic")
+                            photoUri = null
                         }
                         Cuser!!.updateProfile(profileUpdates)
                             .addOnCompleteListener { task ->
@@ -69,7 +67,7 @@ class ApproveDetailsFragment : Fragment() {
                                     Cuser!!.sendEmailVerification()
                                         .addOnCompleteListener { task ->
                                             if (task.isSuccessful) {
-                                                dbref = FirebaseDatabase.getInstance().getReference("User")
+                                                dbref = FirebaseDatabase.getInstance().getReference("Users")
                                                 val user = User(
                                                     userID,
                                                     firstName,
@@ -176,18 +174,6 @@ class ApproveDetailsFragment : Fragment() {
         }
     }
 
-    private fun uploadProfilePic() {
-        imgUri =Uri.parse("android.resource://com.example.mobileapplicationoku/drawable/ic_base_profile_pic")
-        srref = FirebaseStorage.getInstance().getReference("User"+auth.currentUser?.uid)
-        srref.putFile(imgUri).addOnSuccessListener {
-            Toast.makeText(context, "Uploaded the profile pic",
-                Toast.LENGTH_SHORT).show()
-        }.addOnFailureListener{
-            Toast.makeText(context, "Error fails to upload pic",
-                Toast.LENGTH_SHORT).show()
-        }
-
-    }
     private fun showProgressBar(){
         dialog.show(getChildFragmentManager(), "loadingDialog")
     }
