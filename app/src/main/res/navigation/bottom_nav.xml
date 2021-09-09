@@ -8,11 +8,7 @@
         android:id="@+id/homeFragment"
         android:name="com.example.mobileapplicationoku.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_approveDetailsFragment"
-            app:destination="@id/approveDetailsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/profileFragment"
@@ -22,6 +18,9 @@
         <action
             android:id="@+id/action_profileFragment_to_mainActivity"
             app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_profileFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/approveListFragment"
@@ -31,6 +30,9 @@
         <action
             android:id="@+id/action_approveListFragment_to_approveDetailsFragment"
             app:destination="@id/approveDetailsFragment" />
+        <action
+            android:id="@+id/action_approveListFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/approveDetailsFragment"
@@ -52,5 +54,18 @@
     <activity
         android:id="@+id/mainActivity"
         android:name="com.example.mobileapplicationoku.MainActivity"
-        android:label="MainActivity" />
+        android:label="MainActivity"
+        tools:layout="@layout/activity_main"/>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.example.mobileapplicationoku.ChangePasswordFragment"
+        android:label="Change Password"
+        tools:layout="@layout/fragment_change_password">
+        <action
+            android:id="@+id/action_changePasswordFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_changePasswordFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
 </navigation>

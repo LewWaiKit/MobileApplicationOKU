@@ -5,12 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.mobileapplicationoku.database.Approve
-import com.example.mobileapplicationoku.database.ApproveAdapter
-import com.example.mobileapplicationoku.database.User
+import com.example.mobileapplicationoku.dataClass.Approve
 import com.example.mobileapplicationoku.databinding.FragmentRegister2Binding
 import com.google.firebase.database.*
 import java.util.regex.Pattern
@@ -33,6 +32,16 @@ class Register2Fragment : Fragment() {
             "$"
     )
 
+    override fun onResume() {
+        super.onResume()
+        val gender = resources.getStringArray(R.array.Gender)
+        val genderAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, gender)
+        binding.iGender.setAdapter(genderAdapter)
+        val state = resources.getStringArray(R.array.State)
+        val stateAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, state)
+        binding.iState.setAdapter(stateAdapter)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,22 +56,7 @@ class Register2Fragment : Fragment() {
         binding.btnRegister.setOnClickListener(){
             if(checkIsEmpty()==true){
                 if(checkPhoneNo()==true&&checkCardNo()==true){
-                    val age = binding.tfAge.text.toString().toInt()
-                    if(userType!="Carepeople") {
-                        if (age < 18 || age > 50) {
-                            binding.tfAge.error = "Caregiver must between 18-50 year old"
-                            binding.tfAge.requestFocus()
-                        }else{
-                            complete()
-                        }
-                    }else{
-                        if (age < 0 || age > 80) {
-                            binding.tfAge.error = "Carepeople must between 0-80 year old"
-                            binding.tfAge.requestFocus()
-                        }else{
-                            complete()
-                        }
-                    }
+                    complete()
                 }
             }else{
                 Toast.makeText(context, "Please check all information", Toast.LENGTH_SHORT).show()
@@ -76,10 +70,11 @@ class Register2Fragment : Fragment() {
         val email = args.email
         val pass = args.pass
         val userType = args.userType
-        val age = binding.tfAge.text.toString().toInt()
-        val firstName = binding.tfFirstName.text.toString().trim()
-        val lastName = binding.tfLastName.text.toString().trim()
+        val fullName = binding.tfName1.text.toString().trim()
         val nric = binding.tfNRIC.text.toString().trim()
+        val gender = binding.iGender.text.toString().trim()
+        val address = binding.tfAddress.text.toString().trim()
+        val state = binding.iState.text.toString().trim()
         val contactNo = binding.tfContactNo.text.toString().trim()
         var okuNo = binding.tfOKUNo.text.toString().trim()
 
@@ -91,7 +86,7 @@ class Register2Fragment : Fragment() {
                 }else{
                     newID="A0001"
                 }
-                val approve = Approve(newID,firstName,lastName,nric,email,contactNo,age,userType,okuNo,"Pending",pass)
+                val approve = Approve(newID,fullName,nric,gender,address,state,contactNo,userType,okuNo,"Pending",email,pass)
                 dbref.child(newID).setValue(approve).addOnSuccessListener() {
                     Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
                     }.addOnFailureListener {
@@ -108,19 +103,16 @@ class Register2Fragment : Fragment() {
 
     private fun checkIsEmpty():Boolean{
         val userType = args.userType
-        val age = binding.tfAge.text.toString()
-        val firstName = binding.tfFirstName.text.toString().trim()
-        val lastName = binding.tfLastName.text.toString().trim()
+        val fullName = binding.tfName1.text.toString().trim()
         val nric = binding.tfNRIC.text.toString().trim()
         val contactNo = binding.tfContactNo.text.toString().trim()
+        val gender = binding.iGender.text.toString().trim()
+        val address = binding.tfAddress.text.toString().trim()
+        val state = binding.iState.text.toString().trim()
         val okuNo = binding.tfOKUNo.text.toString().trim()
-        if (firstName.isEmpty()){
-            binding.tfFirstName.error = "Please fill in first name"
-            binding.tfFirstName.requestFocus()
-            return false
-        }else if(lastName.isEmpty()){
-            binding.tfLastName.error = "Please fill in last name"
-            binding.tfLastName.requestFocus()
+        if (fullName.isEmpty()){
+            binding.tfName1.error = "Please fill in your name"
+            binding.tfName1.requestFocus()
             return false
         }else if(nric.isEmpty()){
             binding.tfNRIC.error = "Please fill in NRIC"
@@ -130,9 +122,17 @@ class Register2Fragment : Fragment() {
             binding.tfContactNo.error = "Please fill in contact no"
             binding.tfContactNo.requestFocus()
             return false
-        }else if(age.isEmpty()){
-            binding.tfAge.error = "Please fill in age"
-            binding.tfAge.requestFocus()
+        }else if(gender=="Please select"){
+            binding.tiGender.error = "Please select gender"
+            binding.tiGender.requestFocus()
+            return false
+        }else if(address.isEmpty()){
+            binding.tfAddress.error = "Please fill in your address"
+            binding.tfAddress.requestFocus()
+            return false
+        }else if(state=="Please select"){
+            binding.tiGender.error = "Please select state"
+            binding.tiGender.requestFocus()
             return false
         }else if(userType=="Carepeople"){
             if(okuNo.isEmpty()){

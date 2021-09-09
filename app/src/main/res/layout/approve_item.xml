@@ -5,10 +5,10 @@
     <data>
         <variable
             name="approve"
-            type="com.example.mobileapplicationoku.database.Approve"/>
+            type="com.example.mobileapplicationoku.dataClass.Approve"/>
         <variable
             name="clickListener"
-            type="com.example.mobileapplicationoku.database.ApproveAdapter.ViewListener" />
+            type="com.example.mobileapplicationoku.adapter.ApproveAdapter.ViewListener" />
     </data>
 <androidx.cardview.widget.CardView
     android:layout_width="match_parent"

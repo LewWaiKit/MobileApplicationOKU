@@ -48,135 +48,106 @@
                 android:id="@+id/tvPhone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
                 android:text="Contact No: "
                 android:textColor="#060606"
                 android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@+id/ivPhone"
-                app:layout_constraintStart_toEndOf="@+id/ivPhone"
-                app:layout_constraintTop_toTopOf="@+id/ivPhone" />
+                app:layout_constraintStart_toStartOf="@+id/hr"
+                app:layout_constraintTop_toBottomOf="@+id/hr" />
 
             <TextView
                 android:id="@+id/tvIc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
                 android:text="IC Number: "
                 android:textColor="#060606"
                 android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@+id/ivAge"
-                app:layout_constraintStart_toEndOf="@+id/ivAge"
-                app:layout_constraintTop_toTopOf="@+id/ivAge" />
+                app:layout_constraintEnd_toEndOf="@+id/tvPhone"
+                app:layout_constraintTop_toBottomOf="@+id/tvPhone" />
 
             <TextView
-                android:id="@+id/tvAge"
+                android:id="@+id/tvGender2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="Age : "
+                android:layout_marginTop="15dp"
+                android:text="Gender : "
                 android:textColor="#060606"
                 android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@+id/ivIc"
-                app:layout_constraintStart_toEndOf="@+id/ivIc"
-                app:layout_constraintTop_toTopOf="@+id/ivIc" />
+                app:layout_constraintEnd_toEndOf="@+id/tvIc"
+                app:layout_constraintTop_toBottomOf="@+id/tvIc" />
+
+            <TextView
+                android:id="@+id/tvAddress4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Address : "
+                android:textColor="#060606"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvAddress5"
+                app:layout_constraintEnd_toEndOf="@+id/tvGender2"
+                app:layout_constraintTop_toTopOf="@+id/tvAddress5" />
+
+            <TextView
+                android:id="@+id/tvState2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="State : "
+                android:textColor="#060606"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvAddress4"
+                app:layout_constraintTop_toBottomOf="@+id/tvAddress5" />
 
             <TextView
                 android:id="@+id/tvProfileEmail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
                 android:text="Email :"
                 android:textColor="#060606"
                 android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@+id/ivEmail"
-                app:layout_constraintStart_toEndOf="@+id/ivEmail"
-                app:layout_constraintTop_toTopOf="@+id/ivEmail" />
+                app:layout_constraintEnd_toEndOf="@+id/tvState2"
+                app:layout_constraintTop_toBottomOf="@+id/tvState2" />
 
             <TextView
                 android:id="@+id/tvUserType"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
                 android:text="User type :"
                 android:textColor="#060606"
                 android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@+id/ivType"
-                app:layout_constraintStart_toEndOf="@+id/ivType"
-                app:layout_constraintTop_toTopOf="@+id/ivType" />
+                app:layout_constraintEnd_toEndOf="@+id/tvProfileEmail"
+                app:layout_constraintTop_toBottomOf="@+id/tvProfileEmail1" />
 
             <TextView
                 android:id="@+id/tvOkuCardNo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
                 android:text="Oku CardNo:"
                 android:textColor="#060606"
                 android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@+id/ivOkuCardNo"
-                app:layout_constraintStart_toEndOf="@+id/ivOkuCardNo"
-                app:layout_constraintTop_toTopOf="@+id/ivOkuCardNo" />
+                app:layout_constraintEnd_toEndOf="@+id/tvUserType"
+                app:layout_constraintTop_toBottomOf="@+id/tvUserType" />
 
-            <ImageView
-                android:id="@+id/ivPhone"
+            <TextView
+                android:id="@+id/tvCare"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/ic_phone"
-                app:layout_constraintBottom_toTopOf="@+id/ivAge"
-                app:layout_constraintStart_toStartOf="@+id/hr"
-                app:layout_constraintTop_toBottomOf="@+id/hr"
-                app:srcCompat="@drawable/ic_phone" />
-
-            <ImageView
-                android:id="@+id/ivIc"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                app:layout_constraintStart_toStartOf="@+id/ivAge"
-                app:layout_constraintTop_toBottomOf="@+id/ivAge"
-                app:srcCompat="@drawable/ic_ic" />
-
-            <ImageView
-                android:id="@+id/ivEmail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                app:layout_constraintStart_toStartOf="@+id/ivIc"
-                app:layout_constraintTop_toBottomOf="@+id/ivIc"
-                app:srcCompat="@drawable/ic_email" />
-
-            <ImageView
-                android:id="@+id/ivType"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                app:layout_constraintStart_toStartOf="@+id/ivEmail"
-                app:layout_constraintTop_toBottomOf="@+id/ivEmail"
-                app:srcCompat="@drawable/ic_profile" />
-
-            <ImageView
-                android:id="@+id/ivOkuCardNo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                app:layout_constraintStart_toStartOf="@+id/ivType"
-                app:layout_constraintTop_toBottomOf="@+id/ivType"
-                app:srcCompat="@drawable/ic_ic" />
-
-            <ImageView
-                android:id="@+id/ivAge"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                app:layout_constraintStart_toStartOf="@+id/ivPhone"
-                app:layout_constraintTop_toBottomOf="@+id/ivPhone"
-                app:srcCompat="@drawable/ic_age" />
+                android:layout_marginTop="15dp"
+                android:text="Care by :"
+                android:textColor="#060606"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvOkuCardNo"
+                app:layout_constraintTop_toBottomOf="@+id/tvOkuCardNo" />
 
             <TextView
                 android:id="@+id/tvPhone2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="15dp"
                 android:text="1234"
                 android:textColor="#060606"
                 android:textSize="22sp"
@@ -199,17 +170,41 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/tvAge2"
+                android:id="@+id/tvGender3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="1234"
                 android:textColor="#060606"
                 android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@+id/tvAge"
+                app:layout_constraintBottom_toBottomOf="@+id/tvGender2"
                 app:layout_constraintEnd_toEndOf="@+id/tvIc2"
                 app:layout_constraintStart_toStartOf="@+id/tvIc2"
-                app:layout_constraintTop_toTopOf="@+id/tvAge"
+                app:layout_constraintTop_toTopOf="@+id/tvGender2"
                 app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/tvAddress5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="1234"
+                android:textColor="#060606"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvGender3"
+                app:layout_constraintStart_toStartOf="@+id/tvGender3"
+                app:layout_constraintTop_toBottomOf="@+id/tvGender3" />
+
+            <TextView
+                android:id="@+id/tvState3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="1234"
+                android:textColor="#060606"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvState2"
+                app:layout_constraintEnd_toEndOf="@+id/tvAddress5"
+                app:layout_constraintStart_toStartOf="@+id/tvAddress5"
+                app:layout_constraintTop_toTopOf="@+id/tvState2" />
 
             <TextView
                 android:id="@+id/tvProfileEmail1"
@@ -217,10 +212,10 @@
                 android:layout_height="wrap_content"
                 android:text="1234"
                 android:textColor="#060606"
-                android:textSize="14sp"
+                android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="@+id/tvProfileEmail"
-                app:layout_constraintEnd_toEndOf="@+id/tvAge2"
-                app:layout_constraintStart_toStartOf="@+id/tvAge2"
+                app:layout_constraintEnd_toEndOf="@+id/tvState3"
+                app:layout_constraintStart_toStartOf="@+id/tvState3"
                 app:layout_constraintTop_toTopOf="@+id/tvProfileEmail" />
 
             <TextView
@@ -247,6 +242,18 @@
                 app:layout_constraintStart_toStartOf="@+id/tvUserType1"
                 app:layout_constraintTop_toTopOf="@+id/tvOkuCardNo" />
 
+            <TextView
+                android:id="@+id/tvCare1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="1234"
+                android:textColor="#060606"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvCare"
+                app:layout_constraintEnd_toEndOf="@+id/tvOkuCardNo1"
+                app:layout_constraintStart_toStartOf="@+id/tvOkuCardNo1"
+                app:layout_constraintTop_toTopOf="@+id/tvCare" />
+
             <ImageView
                 android:id="@+id/ivCamera"
                 android:layout_width="wrap_content"
@@ -256,22 +263,23 @@
                 app:srcCompat="@drawable/ic_camera" />
 
             <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="@+id/hr"
                 app:layout_constraintStart_toStartOf="@+id/hr"
-                app:layout_constraintTop_toBottomOf="@+id/tvOkuCardNo1"
+                app:layout_constraintTop_toBottomOf="@+id/tvCare1"
                 tools:ignore="MissingConstraints">
 
                 <Button
                     android:id="@+id/btnSave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="30dp"
                     android:padding="10dp"
                     android:text="Save"
-                    android:layout_marginEnd="30dp"
                     app:backgroundTint="#CDDC39"
                     tools:layout_editor_absoluteX="10dp"
                     tools:layout_editor_absoluteY="552dp" />
@@ -286,6 +294,14 @@
                     tools:layout_editor_absoluteX="309dp"
                     tools:layout_editor_absoluteY="552dp" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/Empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                tools:layout_editor_absoluteX="45dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

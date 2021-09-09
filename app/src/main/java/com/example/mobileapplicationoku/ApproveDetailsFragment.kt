@@ -7,9 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.mobileapplicationoku.database.User
+import com.example.mobileapplicationoku.dataClass.User
 import com.example.mobileapplicationoku.databinding.FragmentApproveDetailsBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -17,6 +18,7 @@ import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
 
@@ -31,11 +33,12 @@ class ApproveDetailsFragment : Fragment() {
     private val args: ApproveDetailsFragmentArgs by navArgs()
     private var password = ""
     private var email =""
-    private var firstName = ""
-    private var lastName = ""
+    private var fullName = ""
     private var nric  = ""
     private var contactNo = ""
-    private var age = ""
+    private var gender  = ""
+    private var address  = ""
+    private var state  = ""
     private var userType = ""
     private var okuCardNo = ""
     private var newStatus = ""
@@ -45,6 +48,12 @@ class ApproveDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val callback = object: OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                findNavController().navigate(R.id.action_approveListFragment_to_homeFragment)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,callback)
         getApproveDetail()
         auth = FirebaseAuth.getInstance()
         v_binding= FragmentApproveDetailsBinding.inflate(inflater,  container ,false)
@@ -58,9 +67,16 @@ class ApproveDetailsFragment : Fragment() {
                         val Cuser = Firebase.auth.currentUser
                         val userID = auth.currentUser?.uid
                         val profileUpdates = userProfileChangeRequest {
-                            displayName = "$firstName $lastName"
+                            displayName = "$fullName"
                             photoUri = null
                         }
+                        val packageName = context?.getPackageName()
+                        if(gender=="Male"){
+                            imgUri = Uri.parse("android.resource://$packageName/${R.drawable.male}")
+                        }else{
+                            imgUri = Uri.parse("android.resource://$packageName/${R.drawable.female}")
+                        }
+                        uploadProfilePic()
                         Cuser!!.updateProfile(profileUpdates)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
@@ -68,21 +84,10 @@ class ApproveDetailsFragment : Fragment() {
                                         .addOnCompleteListener { task ->
                                             if (task.isSuccessful) {
                                                 dbref = FirebaseDatabase.getInstance().getReference("Users")
-                                                val user = User(
-                                                    userID,
-                                                    firstName,
-                                                    lastName,
-                                                    nric,
-                                                    email,
-                                                    contactNo,
-                                                    age.toInt(),
-                                                    userType,
-                                                    okuCardNo
-                                                )
+                                                val user = User(userID,fullName,nric,gender,"",address,state,contactNo,userType,okuCardNo)
                                                 if (userID != null) {
                                                     dbref.child(userID).setValue(user).addOnCompleteListener {
                                                         if (it.isSuccessful) {
-
                                                             Toast.makeText(
                                                                 context, "Complete",
                                                                 Toast.LENGTH_SHORT
@@ -142,22 +147,23 @@ class ApproveDetailsFragment : Fragment() {
         dbref = FirebaseDatabase.getInstance().getReference("Approve")
         dbref.child(approveID).get().addOnSuccessListener {
             if(it.exists()){
-                firstName = it.child("firstName").value.toString()
-                lastName = it.child("lastName").value.toString()
+                fullName = it.child("fullName").value.toString()
                 nric = it.child("nric").value.toString()
                 email = it.child("email").value.toString()
                 contactNo = it.child("contactNo").value.toString()
-                age = it.child("age").value.toString()
+                gender = it.child("gender").value.toString()
+                address = it.child("address").value.toString()
+                state = it.child("state").value.toString()
                 userType = it.child("type").value.toString()
                 okuCardNo = it.child("okucardNo").value.toString()
                 password = it.child("pass").value.toString()
 
-                binding.tvFirstName2.text = firstName
-                binding.tvLastName2.text = lastName
+                binding.tvName3.text = fullName
                 binding.tvNRIC2.text = nric
                 binding.tvEmail2.text = email
                 binding.tvContactNo2.text = contactNo
-                binding.tvAge2.text = age
+                binding.tvGender3.text = gender
+                binding.tvAddress3.text = address
                 binding.tvType2.text = userType
                 binding.tvOKUNo2.text = okuCardNo
                 if(userType=="Caregiver"){
@@ -185,6 +191,17 @@ class ApproveDetailsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         v_binding = null
+    }
+
+    private fun uploadProfilePic() {
+        srref = FirebaseStorage.getInstance().getReference("UserProfilePic/"+auth.currentUser?.uid)
+        srref.putFile(imgUri).addOnSuccessListener {
+            Toast.makeText(context, "Uploaded the profile pic",
+                Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener{
+            Toast.makeText(context, "Error fails to upload pic",
+                Toast.LENGTH_SHORT).show()
+        }
     }
 
 

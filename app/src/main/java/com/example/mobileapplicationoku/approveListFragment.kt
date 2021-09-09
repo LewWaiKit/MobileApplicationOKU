@@ -2,14 +2,13 @@ package com.example.mobileapplicationoku
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Adapter
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mobileapplicationoku.database.Approve
-import com.example.mobileapplicationoku.database.ApproveAdapter
+import com.example.mobileapplicationoku.dataClass.Approve
+import com.example.mobileapplicationoku.adapter.ApproveAdapter
 import com.example.mobileapplicationoku.databinding.FragmentApproveListBinding
 import com.google.firebase.database.*
 import java.util.*
@@ -48,7 +47,7 @@ class approveListFragment : Fragment() {
                     displayList.clear()
                     val search = newText.lowercase(Locale.getDefault())
                     for (Approve in approveArrayList) {
-                        val combineText = Approve.lastName
+                        val combineText = Approve.fullName
                         if (combineText?.lowercase(Locale.getDefault())?.contains(search) == true) {
                             displayList.add(Approve)
                         }

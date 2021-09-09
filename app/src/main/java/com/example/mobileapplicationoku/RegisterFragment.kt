@@ -30,7 +30,7 @@ class RegisterFragment : Fragment() {
             "(?=.*[a-z])" +       //at least 1 lower case letter
             "(?=.*[A-Z])" +       //at least 1 upper case letter
             //"(?=.*[a-zA-Z])" +    //any letter
-            "(?=.*[@#$%^&+=])" +  //at least 1 special character
+            "(?=.*[;@#$%^&+=])" +  //at least 1 special character
             "(?=\\S+$)" +         //no white spaces
             ".{8,20}" +             //at least 8 characters max 20
             "$"
@@ -112,8 +112,8 @@ class RegisterFragment : Fragment() {
     private fun userTypeValidate():Boolean{
         val userType = binding.iUserType.text.toString()
         if (userType == "Please select"){
-            binding.iUserType.error = "Please select user type"
-            binding.iUserType.requestFocus()
+            binding.tiType.error = "Please select user type"
+            binding.tiType.requestFocus()
             return false
         }
         return true

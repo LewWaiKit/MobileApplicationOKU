@@ -11,27 +11,16 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tvFirstName"
+                android:id="@+id/tvName1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="60dp"
                 android:layout_marginTop="30dp"
-                android:text="First Name :"
+                android:text="Name :"
                 android:textColor="#060606"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvLastName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="Last Name :"
-                android:textColor="#060606"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="@+id/tvFirstName"
-                app:layout_constraintTop_toBottomOf="@+id/tvFirstName" />
 
             <TextView
                 android:id="@+id/tvNRIC"
@@ -41,12 +30,12 @@
                 android:text="NRIC :"
                 android:textColor="#060606"
                 android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="@+id/tvLastName"
-                app:layout_constraintTop_toBottomOf="@+id/tvLastName" />
+                app:layout_constraintEnd_toEndOf="@+id/tvName1"
+                app:layout_constraintTop_toBottomOf="@+id/tvName1" />
 
             <TextView
                 android:id="@+id/tvContactNo"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:text="Contact No :"
@@ -56,11 +45,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvNRIC" />
 
             <TextView
-                android:id="@+id/tvAge"
-                android:layout_width="0dp"
+                android:id="@+id/tvGender"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="Age :"
+                android:text="Gender :"
                 android:textColor="#060606"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@+id/tvContactNo"
@@ -68,97 +57,83 @@
 
             <TextView
                 android:id="@+id/tvOKUNo"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:text="OKU No :"
                 android:textColor="#060606"
                 android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="@+id/tvAge"
-                app:layout_constraintTop_toBottomOf="@+id/tvAge" />
+                app:layout_constraintEnd_toEndOf="@+id/tvAddress2"
+                app:layout_constraintTop_toBottomOf="@+id/tvAddress2" />
+
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address :"
+                android:textColor="#060606"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tfAddress"
+                app:layout_constraintEnd_toEndOf="@+id/tvGender"
+                app:layout_constraintTop_toTopOf="@+id/tfAddress" />
+
+            <TextView
+                android:id="@+id/tvAddress2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="State :"
+                android:textColor="#060606"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvAddress"
+                app:layout_constraintTop_toBottomOf="@+id/tfAddress" />
 
             <EditText
-                android:id="@+id/tfFirstName"
-                android:layout_width="0dp"
+                android:id="@+id/tfName1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="50dp"
                 android:ems="10"
-                android:hint="Enter Your First Name"
+                android:hint="Enter Your Name"
                 android:inputType="textPersonName"
-                app:layout_constraintBottom_toBottomOf="@+id/tvFirstName"
+                app:layout_constraintBottom_toBottomOf="@+id/tvName1"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvFirstName"
-                app:layout_constraintTop_toTopOf="@+id/tvFirstName" />
-
-            <EditText
-                android:id="@+id/tfLastName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="50dp"
-                android:ems="10"
-                android:hint="Enter Your Last Name"
-                android:inputType="textPersonName"
-                app:layout_constraintBottom_toBottomOf="@+id/tvLastName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvLastName"
-                app:layout_constraintTop_toTopOf="@+id/tvLastName" />
+                app:layout_constraintStart_toEndOf="@+id/tvName1"
+                app:layout_constraintTop_toTopOf="@+id/tvName1" />
 
             <EditText
                 android:id="@+id/tfNRIC"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="50dp"
                 android:ems="10"
                 android:hint="Enter Your IC No"
                 android:inputType="numberSigned"
                 app:layout_constraintBottom_toBottomOf="@+id/tvNRIC"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvNRIC"
+                app:layout_constraintEnd_toEndOf="@+id/tfName1"
                 app:layout_constraintTop_toTopOf="@+id/tvNRIC" />
 
             <EditText
                 android:id="@+id/tfContactNo"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="50dp"
                 android:ems="10"
                 android:hint="Enter Your Phone No"
                 android:inputType="phone"
                 app:layout_constraintBottom_toBottomOf="@+id/tvContactNo"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvContactNo"
+                app:layout_constraintEnd_toEndOf="@+id/tfNRIC"
                 app:layout_constraintTop_toTopOf="@+id/tvContactNo" />
 
             <EditText
-                android:id="@+id/tfAge"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="50dp"
-                android:ems="10"
-                android:hint="Enter Your Age"
-                android:inputType="number"
-                app:layout_constraintBottom_toBottomOf="@+id/tvAge"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvAge"
-                app:layout_constraintTop_toTopOf="@+id/tvAge" />
-
-            <EditText
                 android:id="@+id/tfOKUNo"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="50dp"
                 android:ems="10"
                 android:hint="Enter Your OKU No"
                 android:inputType="numberSigned"
                 app:layout_constraintBottom_toBottomOf="@+id/tvOKUNo"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tvOKUNo"
+                app:layout_constraintEnd_toEndOf="@+id/tiState"
+                app:layout_constraintStart_toStartOf="@+id/tiState"
                 app:layout_constraintTop_toTopOf="@+id/tvOKUNo" />
 
             <Button
@@ -170,6 +145,60 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvOKUNo" />
+
+            <EditText
+                android:id="@+id/tfAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="Enter Your Address"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                app:layout_constraintEnd_toEndOf="@+id/tiGender"
+                app:layout_constraintStart_toStartOf="@+id/tiGender"
+                app:layout_constraintTop_toBottomOf="@+id/tiGender" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiGender"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Gender"
+                app:layout_constraintBottom_toBottomOf="@+id/tvGender"
+                app:layout_constraintEnd_toEndOf="@+id/tfContactNo"
+                app:layout_constraintStart_toStartOf="@+id/tfContactNo"
+                app:layout_constraintTop_toTopOf="@+id/tvGender">
+
+                <AutoCompleteTextView
+                    android:id="@+id/iGender"
+                    android:inputType="none"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Please select" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiState"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="State"
+                app:layout_constraintBottom_toBottomOf="@+id/tvAddress2"
+                app:layout_constraintEnd_toEndOf="@+id/tfAddress"
+                app:layout_constraintStart_toStartOf="@+id/tfAddress"
+                app:layout_constraintTop_toTopOf="@+id/tvAddress2">
+
+                <AutoCompleteTextView
+                    android:id="@+id/iState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:text="Please select" />
+            </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

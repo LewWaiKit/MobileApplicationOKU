@@ -1,13 +1,14 @@
-package com.example.mobileapplicationoku.database
+package com.example.mobileapplicationoku.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileapplicationoku.R
+import com.example.mobileapplicationoku.dataClass.Approve
 import com.example.mobileapplicationoku.databinding.ApproveItemBinding
 
-class ApproveAdapter(private val approveList:ArrayList<Approve>,val clickListener: ViewListener) : RecyclerView.Adapter<ApproveAdapter.myViewHolder>() {
+class ApproveAdapter(private val approveList:ArrayList<Approve>, val clickListener: ViewListener) : RecyclerView.Adapter<ApproveAdapter.myViewHolder>() {
 
     class myViewHolder private constructor(val binding: ApproveItemBinding) : RecyclerView.ViewHolder(binding.root){
 
@@ -34,9 +35,7 @@ class ApproveAdapter(private val approveList:ArrayList<Approve>,val clickListene
 
     override fun onBindViewHolder(holder: myViewHolder, position: Int) {
         val currentApprove= approveList [position]
-        val firstname = currentApprove.firstName
-        val lastname = currentApprove.lastName
-        holder.fullName.text ="$firstname $lastname"
+        holder.fullName.text = currentApprove.fullName
         holder.bind(currentApprove!!, clickListener)
     }
     override fun getItemCount(): Int {

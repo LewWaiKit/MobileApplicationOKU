@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mobileapplicationoku.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -27,13 +28,15 @@ class ProfileFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var dbref : DatabaseReference
     private var email =""
-    private var firstName = ""
-    private var lastName = ""
+    private var fullName =""
     private var nric  = ""
     private var contactNo = ""
-    private var age = ""
+    private var gender = ""
+    private var address = ""
+    private var state = ""
     private var userType = ""
     private var okuCardNo = ""
+    private var care = ""
     private var dialog = LoadingDialogFragment()
     private lateinit var ImageUri :Uri
     private lateinit var srref : StorageReference
@@ -42,6 +45,7 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         auth = FirebaseAuth.getInstance()
+        checkUser()
         v_binding= FragmentProfileBinding.inflate(inflater,  container ,false)
         getUserDetails()
 
@@ -52,10 +56,18 @@ class ProfileFragment : Fragment() {
             uploadImage()
         }
         binding.btnCancel.setOnClickListener(){
-            binding.ivProfile.setImageResource(R.drawable.ic_profie_pic)
             getUserDetails()
         }
         return binding.root
+    }
+
+    private fun checkUser() {
+        val user: FirebaseUser? = auth.currentUser
+        if(user == null) {
+            Toast.makeText(context, "Please login first",
+                Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_profileFragment_to_mainActivity)
+        }
     }
 
     private fun selectImage() {
@@ -63,7 +75,6 @@ class ProfileFragment : Fragment() {
         intent.type = "image/*"
         startActivityForResult(intent,100)
     }
-
 
     private fun uploadImage() {
         showProgressBar()
@@ -93,14 +104,12 @@ class ProfileFragment : Fragment() {
         }
     }
 
-
-
     private fun getUserDetails(){
         showProgressBar()
         binding.btnSave.setVisibility(View.GONE)
         binding.btnCancel.setVisibility(View.GONE)
         srref = FirebaseStorage.getInstance().reference.child("UserProfilePic/"+auth.currentUser?.uid)
-        val localfile = File.createTempFile("tempIamge","gif")
+        val localfile = File.createTempFile("tempImage","jpg")
         srref.getFile(localfile).addOnSuccessListener {
             val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
             binding.ivProfile.setImageBitmap(bitmap)
@@ -111,27 +120,41 @@ class ProfileFragment : Fragment() {
         dbref = FirebaseDatabase.getInstance().getReference("Users")
         dbref.child(userID.toString()).get().addOnSuccessListener {
             if(it.exists()){
-                firstName = it.child("firstName").value.toString()
-                lastName = it.child("lastName").value.toString()
-                val fullName = "$firstName $lastName"
+                fullName = it.child("fullName").value.toString()
                 nric = it.child("nric").value.toString()
-                email = it.child("email").value.toString()
+                email = auth.currentUser?.email.toString()
                 contactNo = it.child("contactNo").value.toString()
-                age = it.child("age").value.toString()
+                gender = it.child("gender").value.toString()
+                address = it.child("address").value.toString()
+                state = it.child("state").value.toString()
                 userType = it.child("type").value.toString()
                 okuCardNo = it.child("okucardNo").value.toString()
+                care = it.child("care").value.toString()
 
                 binding.tvName.text = fullName
                 binding.tvIc2.text = nric
                 binding.tvProfileEmail1.text = email
                 binding.tvPhone2.text = contactNo
-                binding.tvAge2.text = age
+                binding.tvGender3.text = gender
+                binding.tvAddress5.text = address
+                binding.tvState3.text = state
                 binding.tvUserType1.text = userType
                 binding.tvOkuCardNo1.text = okuCardNo
+                binding.tvCare1.text = care
                 if(userType=="Caregiver"){
                     binding.tvOkuCardNo.setVisibility(View.GONE)
                     binding.tvOkuCardNo1.setVisibility(View.GONE)
-                    binding.ivOkuCardNo.setVisibility(View.GONE)
+                    binding.tvCare.text = "Take care:"
+                    if(care.isEmpty()){
+                        binding.tvCare.setVisibility(View.GONE)
+                        binding.tvCare1.setVisibility(View.GONE)
+                    }
+                }else{
+                    binding.tvCare.text = "Care by:"
+                    if(care.isEmpty()){
+                        binding.tvCare.setVisibility(View.GONE)
+                        binding.tvCare1.setVisibility(View.GONE)
+                    }
                 }
                 hideProgessBar()
             }else{
@@ -157,7 +180,7 @@ class ProfileFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item!!.itemId
         if (id==R.id.iChangePassword){
-
+            findNavController().navigate(R.id.action_profileFragment_to_changePasswordFragment)
         }
         if (id==R.id.iSignOut){
             auth.signOut()
