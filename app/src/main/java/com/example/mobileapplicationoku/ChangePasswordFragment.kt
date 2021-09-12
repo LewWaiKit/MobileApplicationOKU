@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.mobileapplicationoku.databinding.FragmentChangePasswordBinding
-import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import java.util.regex.Pattern
 import com.google.firebase.auth.EmailAuthProvider

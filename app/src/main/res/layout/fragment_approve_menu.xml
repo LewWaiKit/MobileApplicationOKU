@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--<androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
+            app:cardBackgroundColor="@color/design_default_color_on_secondary"
+            tools:ignore="MissingConstraints">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.099"
+                tools:layout_editor_absoluteX="1dp">
+
+                <ImageView
+                    android:id="@+id/img1"
+                    android:layout_width="58dp"
+                    android:layout_height="47dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="#FFC107"
+                    app:srcCompat="@drawable/ic_baseline_local_taxi_24" />
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="260dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/img1"
+                    android:padding="10dp"
+                    android:text="Transport"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/imageButton1"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/tv1"
+                    android:background="#FFFFFF"
+                    android:padding="10dp"
+                    app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/relativeLayout1"
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_editor_absoluteX="-1dp">
+
+                <ImageView
+                    android:id="@+id/img2"
+                    android:layout_width="58dp"
+                    android:layout_height="47dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="#FFC107"
+                    app:srcCompat="@drawable/ic_baseline_medical_services_24" />
+
+                <TextView
+                    android:id="@+id/tv2"
+                    android:layout_width="260dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/img2"
+                    android:padding="10dp"
+                    android:text="Virtual Health Advisory"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/tv2"
+                    android:background="#FFFFFF"
+                    android:padding="10dp"
+                    app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_editor_absoluteX="-1dp">
+
+                <ImageView
+                    android:id="@+id/img3"
+                    android:layout_width="58dp"
+                    android:layout_height="47dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="#FFC107"
+                    app:srcCompat="@drawable/ic_baseline_psychology_24" />
+
+                <TextView
+                    android:id="@+id/tv3"
+                    android:layout_width="260dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/img3"
+                    android:padding="10dp"
+                    android:text="Psychology/Counseling"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/imageButton3"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/tv3"
+                    android:background="#FFFFFF"
+                    android:padding="10dp"
+                    app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/relativeLayout3"
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_editor_absoluteX="-1dp">
+
+                <ImageView
+                    android:id="@+id/img4"
+                    android:layout_width="58dp"
+                    android:layout_height="47dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="#FFC107"
+                    app:srcCompat="@drawable/ic_baseline_supervised_user_circle_24" />
+
+                <TextView
+                    android:id="@+id/tv4"
+                    android:layout_width="260dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/img4"
+                    android:padding="10dp"
+                    android:text="Part-time Cargiver "
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/imageButton4"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/tv4"
+                    android:background="#FFFFFF"
+                    android:padding="10dp"
+                    app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/relativeLayout4"
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_editor_absoluteX="-1dp">
+
+                <ImageView
+                    android:id="@+id/img5"
+                    android:layout_width="58dp"
+                    android:layout_height="47dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="#FFC107"
+                    app:srcCompat="@drawable/ic_baseline_local_library_24" />
+
+                <TextView
+                    android:id="@+id/tv5"
+                    android:layout_width="260dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/img5"
+                    android:padding="10dp"
+                    android:text="Handsign Interpreter"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/imageButton5"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/tv5"
+                    android:background="#FFFFFF"
+                    android:padding="10dp"
+                    app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

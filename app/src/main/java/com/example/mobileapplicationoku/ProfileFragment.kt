@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.File
+import java.util.regex.Pattern
 
 
 class ProfileFragment : Fragment() {
@@ -60,6 +61,7 @@ class ProfileFragment : Fragment() {
         }
         return binding.root
     }
+
 
     private fun checkUser() {
         val user: FirebaseUser? = auth.currentUser

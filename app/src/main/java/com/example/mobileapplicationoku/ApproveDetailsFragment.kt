@@ -48,12 +48,7 @@ class ApproveDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val callback = object: OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                findNavController().navigate(R.id.action_approveListFragment_to_homeFragment)
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,callback)
+
         getApproveDetail()
         auth = FirebaseAuth.getInstance()
         v_binding= FragmentApproveDetailsBinding.inflate(inflater,  container ,false)

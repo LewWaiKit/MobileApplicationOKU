@@ -1,8 +1,319 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MapFragment" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="-1dp">
+
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MapsFragment">
+
+            </fragment>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/map" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/map">
+
+                    <fragment
+                        android:id="@+id/autocomplete_fragment"
+                        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <EditText
+                        android:id="@+id/editText"
+                        android:layout_width="248dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:hint="Search Location"
+                        android:inputType="textPersonName" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/title_color"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="@id/editText"
+                    app:layout_constraintStart_toStartOf="@id/editText"
+                    app:layout_constraintTop_toTopOf="@+id/map">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cvRest"
+                        android:layout_width="69dp"
+                        android:layout_height="67dp"
+                        android:clickable="true">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/imgRestaurant"
+                                android:layout_width="37dp"
+                                android:layout_height="35dp"
+                                android:layout_marginTop="3dp"
+                                android:background="#FDAF01"
+                                android:src="@drawable/ic_baseline_restaurant_24"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvRest"
+                                android:layout_width="67dp"
+                                android:layout_height="29dp"
+                                android:text="Food &amp; Beverages"
+                                android:textAlignment="center"
+                                android:textSize="11sp"
+                                app:layout_constraintEnd_toEndOf="@+id/imgRestaurant"
+                                app:layout_constraintStart_toStartOf="@+id/imgRestaurant"
+                                app:layout_constraintTop_toBottomOf="@+id/imgRestaurant" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cvTransport"
+                        android:layout_width="69dp"
+                        android:layout_height="67dp"
+                        android:clickable="true">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/imgTransport"
+                                android:layout_width="37dp"
+                                android:layout_height="35dp"
+                                android:layout_marginTop="3dp"
+                                android:background="#FDAF01"
+                                android:src="@drawable/ic_baseline_directions_car_24"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvTransport"
+                                android:layout_width="67dp"
+                                android:layout_height="29dp"
+                                android:text="Transport"
+                                android:textAlignment="center"
+                                android:textSize="11sp"
+                                app:layout_constraintEnd_toEndOf="@+id/imgTransport"
+                                app:layout_constraintStart_toStartOf="@+id/imgTransport"
+                                app:layout_constraintTop_toBottomOf="@+id/imgTransport" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cvShopping"
+                        android:layout_width="69dp"
+                        android:layout_height="67dp"
+                        android:clickable="true">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/imgShopping"
+                                android:layout_width="37dp"
+                                android:layout_height="35dp"
+                                android:layout_marginTop="3dp"
+                                android:background="#FDAF01"
+                                android:src="@drawable/ic_baseline_local_grocery_store_24"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvShopping"
+                                android:layout_width="67dp"
+                                android:layout_height="29dp"
+                                android:text="Shopping"
+                                android:textAlignment="center"
+                                android:textSize="11sp"
+                                app:layout_constraintEnd_toEndOf="@+id/imgShopping"
+                                app:layout_constraintStart_toStartOf="@+id/imgShopping"
+                                app:layout_constraintTop_toBottomOf="@+id/imgShopping" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cvTourism"
+                        android:layout_width="69dp"
+                        android:layout_height="67dp"
+                        android:clickable="true">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/imgTourism"
+                                android:layout_width="37dp"
+                                android:layout_height="35dp"
+                                android:layout_marginTop="3dp"
+                                android:background="#FDAF01"
+                                android:src="@drawable/ic_baseline_tour_24"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvTourism"
+                                android:layout_width="67dp"
+                                android:layout_height="29dp"
+                                android:text="Tourism"
+                                android:textAlignment="center"
+                                android:textSize="11sp"
+                                app:layout_constraintEnd_toEndOf="@+id/imgTourism"
+                                app:layout_constraintStart_toStartOf="@+id/imgTourism"
+                                app:layout_constraintTop_toBottomOf="@+id/imgTourism" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cvEducation"
+                        android:layout_width="69dp"
+                        android:layout_height="67dp"
+                        android:clickable="true">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/imgEducation"
+                                android:layout_width="37dp"
+                                android:layout_height="35dp"
+                                android:layout_marginTop="3dp"
+                                android:background="#FDAF01"
+                                android:src="@drawable/ic_baseline_school_24"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvEducation"
+                                android:layout_width="67dp"
+                                android:layout_height="29dp"
+                                android:text="Education"
+                                android:textAlignment="center"
+                                android:textSize="11sp"
+                                app:layout_constraintEnd_toEndOf="@+id/imgEducation"
+                                app:layout_constraintStart_toStartOf="@+id/imgEducation"
+                                app:layout_constraintTop_toBottomOf="@+id/imgEducation" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cvHealth"
+                        android:layout_width="69dp"
+                        android:layout_height="67dp"
+                        android:clickable="true">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/imgHealth"
+                                android:layout_width="37dp"
+                                android:layout_height="35dp"
+                                android:layout_marginTop="3dp"
+                                android:background="#FDAF01"
+                                android:src="@drawable/ic_baseline_local_hospital_24"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvHealth"
+                                android:layout_width="67dp"
+                                android:layout_height="29dp"
+                                android:text="Health"
+                                android:textAlignment="center"
+                                android:textSize="11sp"
+                                app:layout_constraintEnd_toEndOf="@+id/imgHealth"
+                                app:layout_constraintStart_toStartOf="@+id/imgHealth"
+                                app:layout_constraintTop_toBottomOf="@+id/imgHealth" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="bottom">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    app:layout_anchor="@id/tvAdjust"
+                    app:layout_anchorGravity="top|end"
+                    android:src="@drawable/ic_baseline_location_on_24" />
+
+                <TextView
+                    android:id="@+id/tvAdjust"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_height="65dp"
+                    app:layout_anchor="@id/include"
+                    app:layout_anchorGravity="top|end"
+                    />
+
+            </LinearLayout>
+
+            <include
+                android:id="@+id/include"
+                layout="@layout/fragment_bottom_sheet"
+                />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </RelativeLayout>
+</layout>
+
+

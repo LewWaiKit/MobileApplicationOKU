@@ -1,11 +1,15 @@
 package com.example.mobileapplicationoku
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
@@ -13,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.mobileapplicationoku.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import java.util.regex.Pattern
 
 class LoginFragment : Fragment() {
     private var v_binding: FragmentLoginBinding? = null
@@ -21,6 +26,16 @@ class LoginFragment : Fragment() {
     private val args: LoginFragmentArgs by navArgs()
     private var dialog = LoadingDialogFragment()
     private var backPressedTime = 0L
+
+    val EMAIL_PATTERN = Pattern.compile(
+        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                "\\@" +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                "(" +
+                "\\." +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                ")+"
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +64,19 @@ class LoginFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         // Inflate the layout for this fragment
         v_binding= FragmentLoginBinding.inflate(inflater,  container ,false)
+
+        binding.tvForgotPass.setOnClickListener {
+            val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+            builder.setTitle("Please enter email")
+            val view = layoutInflater.inflate(R.layout.dialog_forgot_password,null)
+            val userEmail:EditText = view.findViewById<EditText>(R.id.et_Eamil)
+            builder.setView(view)
+            builder.setPositiveButton("Confirm",DialogInterface.OnClickListener { _, _ ->
+                forgotPassword(userEmail)
+            })
+            builder.setNegativeButton("Cancel",DialogInterface.OnClickListener { _, _ -> })
+            builder.show()
+        }
         binding.btnLogin.setOnClickListener(){
             val email = binding.tfEmail.text.toString().trim()
             val pass = binding.tfPassword.text.toString().trim()
@@ -79,6 +107,26 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
         return binding.root
+    }
+
+    private fun forgotPassword(email:EditText) {
+        if(email.text.toString().isEmpty()){
+            Toast.makeText(context, "Please fill in your email",
+                Toast.LENGTH_SHORT).show()
+            return
+        }
+        if(!Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()){
+            Toast.makeText(context, "Plase enter valid email",
+                Toast.LENGTH_SHORT).show()
+            return
+        }
+        auth.sendPasswordResetEmail(email.text.toString()).addOnCompleteListener { task ->
+            if (task.isSuccessful){
+                Toast.makeText(context, "Email send, please check your email",
+                    Toast.LENGTH_SHORT).show()
+            }
+        }
+        return
     }
 
     /*public override fun onStart() {

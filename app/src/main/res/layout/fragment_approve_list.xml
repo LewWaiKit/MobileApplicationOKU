@@ -11,6 +11,24 @@
         android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/tvApproveTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="User Approve List"
+            android:textAlignment="center"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/hr3"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="#6F060606" />
+
         <SearchView
             android:id="@+id/svApprove"
             android:layout_width="match_parent"
@@ -21,7 +39,7 @@
             android:layout_marginHorizontal="16dp"
             android:background="@drawable/search_view_background"
             android:queryBackground="@android:color/transparent"/>
-        <!--app:layout_constraintTop_toTopOf="parent"-->
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvApproveList"
@@ -32,14 +50,21 @@
             tools:listitem="@layout/approve_item"
             android:background="@drawable/search_view_background" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAppFacilitiesList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:visibility="gone"
+            tools:listitem="@layout/facilities_item"
+            android:background="@drawable/search_view_background" />
+
         <TextView
             android:id="@+id/Empty1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp" />
-        <!--app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/svApprove"-->
 </LinearLayout>
     </ScrollView>
 </layout>

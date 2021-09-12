@@ -75,39 +75,41 @@
                 app:layout_constraintStart_toEndOf="@+id/tvPassword"
                 app:layout_constraintTop_toTopOf="@+id/tvPassword" />
 
-            <CheckBox
-                android:id="@+id/cbRemember"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Remember Me"
-                android:textColorLink="#060606"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="@+id/tfPassword"
-                app:layout_constraintTop_toBottomOf="@+id/tfPassword" />
-
             <TextView
                 android:id="@+id/tvSignUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="20dp"
                 android:text="New user? Sign up now!"
                 android:textColor="#0645AD"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cbRemember" />
+                app:layout_constraintTop_toBottomOf="@+id/tfPassword" />
+
+            <TextView
+                android:id="@+id/tvForgotPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Forgot password?"
+                android:textColor="#0645AD"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvSignUp"
+                app:layout_constraintStart_toStartOf="@+id/tvSignUp"
+                app:layout_constraintTop_toBottomOf="@+id/tvSignUp" />
 
             <Button
                 android:id="@+id/btnLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="20dp"
                 android:text="Login"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvSignUp" />
+                app:layout_constraintTop_toBottomOf="@+id/tvForgotPass" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
