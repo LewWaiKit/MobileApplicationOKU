@@ -1,18 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-    <FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".AppFacilitiesDetailsFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:visibility="visible">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/tvFacilitiesID"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="text" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/tvFacilitiesID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sample" />
+
+        <ImageView
+            android:id="@+id/ivFacilityImg"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvFacilitiesID"
+            app:srcCompat="@drawable/female" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivFacilityImg"
+            tools:ignore="MissingConstraints">
+
+            <Button
+                android:id="@+id/btnApprove1"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#01FD0C"
+                android:text="Approve" />
+
+            <Button
+                android:id="@+id/btnReject1"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:backgroundTint="#FD4301"
+                android:text="Reject" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

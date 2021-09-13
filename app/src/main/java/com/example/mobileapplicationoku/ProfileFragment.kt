@@ -1,14 +1,12 @@
 package com.example.mobileapplicationoku
 
 import android.app.Activity.RESULT_OK
-import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.browser.customtabs.CustomTabsClient.getPackageName
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.mobileapplicationoku.databinding.FragmentProfileBinding
@@ -19,7 +17,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.File
-import java.util.regex.Pattern
 
 
 class ProfileFragment : Fragment() {

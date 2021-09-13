@@ -16,7 +16,7 @@ class AdminBottomNavActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView2)
         val navController = findNavController(R.id.fragment2)
 
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment,R.id.mapFragment,R.id.approveListFragment,R.id.approveDetailsFragment))
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment,R.id.mapFragment,R.id.approveListFragment,R.id.approveDetailsFragment,R.id.appFacilitiesDetailsFragment))
         setupActionBarWithNavController(navController,appBarConfiguration)
 
         bottomNavigationView.setupWithNavController(navController)
