@@ -120,25 +120,6 @@ class MapFragment : Fragment(), LocationListener {
                 serviceList = place.types
                 binding.include.tvPlaceName.text = name
                 binding.include.tvService.text = service
-                dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
-                dbref.addValueEventListener(object: ValueEventListener{
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if(snapshot.exists()){
-                            for(appFacilitySnapshot in snapshot.children){
-                                if(appFacilitySnapshot.child("id").value.toString() == placeID){
-                                    binding.include.btnSubmit.text = "Update"
-                                }
-                                else{
-                                    binding.include.btnSubmit.text = "Submit"
-                                }
-                            }
-                        }
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                    }
-
-                })
 
                 latilongi = LatLng(latitude, longitude)
                 if(latilongi != null){
@@ -161,6 +142,25 @@ class MapFragment : Fragment(), LocationListener {
 
         mMap.setOnMarkerClickListener {marker ->
             if(hasMarker){
+                dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
+                dbref.addValueEventListener(object: ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if(snapshot.exists()){
+                            for(appFacilitySnapshot in snapshot.children){
+                                if(appFacilitySnapshot.child("id").value.toString() == placeID){
+                                    binding.include.btnSubmit.text = "Update"
+                                }
+                                else{
+                                    binding.include.btnSubmit.text = "Submit"
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+
+                })
                 for(i in 0 until markerList.size){
                     mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                 }
