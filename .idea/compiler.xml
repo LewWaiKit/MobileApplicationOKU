@@ -5,7 +5,9 @@
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/compiler/4.12.0/75cf5e43fd6e6c6e769e060014feb985284cfae7/compiler-4.12.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.databinding/databinding-compiler/4.2.1/129cd4e5a4672afffb54db07a619f8d80178c330/databinding-compiler-4.2.1.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/annotations/4.12.0/298d793db124809d74ad9a90de5eddc408898c84/annotations-4.12.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.databinding/databinding-compiler-common/4.2.1/aaba33f6adc2ef79619b4d6401c46d277992fa71/databinding-compiler-common-4.2.1.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.databinding/databinding-common/4.2.1/7cd151c60e0967a321e5731b714faf89fb95319/databinding-common-4.2.1.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk8/1.4.31/e613be5465ef1e6fd0468707690b7ebf625ea2fe/kotlin-stdlib-jdk8-1.4.31.jar" />

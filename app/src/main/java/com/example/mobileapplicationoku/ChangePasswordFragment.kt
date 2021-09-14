@@ -87,6 +87,7 @@ class ChangePasswordFragment : Fragment() {
                                     Toast.LENGTH_SHORT).show()
                                 auth.signOut()
                                 findNavController().navigate(R.id.action_changePasswordFragment_to_mainActivity)
+                                getActivity()?.finish()
                             }
                         }
                     }

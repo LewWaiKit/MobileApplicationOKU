@@ -100,10 +100,9 @@ class AppFacilitiesDetailsFragment : Fragment() {
         }
     }
 
-
     private fun getFacilitiesDetail() {
         showProgressBar()
-        srref = FirebaseStorage.getInstance().reference.child("UserProfilePic/4aiXGkwziTewZQ4rlngfL5iotTh2")
+        srref = FirebaseStorage.getInstance().reference.child("")
         val localfile = File.createTempFile("tempImage","jpg")
         srref.getFile(localfile).addOnSuccessListener {
             Toast.makeText(context, "Success",

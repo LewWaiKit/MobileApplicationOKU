@@ -1,14 +1,17 @@
 package com.example.mobileapplicationoku
 
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.mobileapplicationoku.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -16,6 +19,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import java.io.File
 
 
@@ -70,8 +75,11 @@ class ProfileFragment : Fragment() {
     }
 
     private fun selectImage() {
-        val intent = Intent(Intent.ACTION_PICK)
+        val intent = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.type = "image/*"
+        val mimeType = arrayOf("image/jpeg","image/png","image/jpg")
+        intent.putExtra(Intent.EXTRA_MIME_TYPES,mimeType)
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         startActivityForResult(intent,100)
     }
 
@@ -95,12 +103,46 @@ class ProfileFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == 100 && resultCode == RESULT_OK){
-            ImageUri = data?.data!!
-            binding.ivProfile.setImageURI(ImageUri)
-            binding.btnSave.setVisibility(View.VISIBLE)
-            binding.btnCancel.setVisibility(View.VISIBLE)
+
+        if(requestCode == 100){
+            if(resultCode == RESULT_OK){
+                data?.data?.let{ uri ->
+                    launchImageCrop(uri)
+                }
+            }else{
+                //
+            }
+        }else if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE ){
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == RESULT_OK ){
+                setIamge(result.uri)
+            }else if(resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+                //show error
+            }
+
         }
+        /*if(requestCode == 100 && resultCode == RESULT_OK){
+            data?.data?.let{ uri ->
+                launchImageCrop(uri)
+            }
+        }*/
+    }
+
+    private fun setIamge(uri: Uri?) {
+        Glide.with(requireContext())
+            .load(uri)
+            .into(binding.ivProfile)
+        ImageUri = Uri.parse(uri.toString())
+        binding.btnSave.setVisibility(View.VISIBLE)
+        binding.btnCancel.setVisibility(View.VISIBLE)
+    }
+
+    private fun launchImageCrop(uri: Uri) {
+        CropImage.activity(uri)
+            .setGuidelines(CropImageView.Guidelines.ON)
+            .setAspectRatio(1080,1080)
+            .setCropShape(CropImageView.CropShape.RECTANGLE)
+            .start(requireContext(),this)
     }
 
     private fun getUserDetails(){
@@ -186,6 +228,7 @@ class ProfileFragment : Fragment() {
             Toast.makeText(context, "Logout successful",
                 Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_profileFragment_to_mainActivity)
+            getActivity()?.finish()
         }
         return super.onOptionsItemSelected(item)
     }
