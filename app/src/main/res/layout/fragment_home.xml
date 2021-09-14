@@ -6,14 +6,101 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
-    <TextView
-        android:id="@+id/tvHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Home"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/box"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/ivEvent"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_event"
+        app:layout_constraintBottom_toBottomOf="@+id/ivService"
+        app:layout_constraintEnd_toStartOf="@+id/ivService"
+        app:layout_constraintStart_toStartOf="@+id/view2"
+        app:layout_constraintTop_toTopOf="@+id/ivService" />
+
+    <ImageView
+        android:id="@+id/ivService"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_service"
+        app:layout_constraintBottom_toBottomOf="@+id/view2"
+        app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintStart_toStartOf="@+id/view2"
+        app:layout_constraintTop_toTopOf="@+id/view2"
+        app:layout_constraintVertical_bias="0.312" />
+
+    <ImageView
+        android:id="@+id/ivTravel"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_travel"
+        app:layout_constraintBottom_toBottomOf="@+id/ivService"
+        app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintStart_toEndOf="@+id/ivService"
+        app:layout_constraintTop_toTopOf="@+id/ivService" />
+
+    <TextView
+        android:id="@+id/tvEvent1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event"
+        android:textColor="#FDAF01"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/ivEvent"
+        app:layout_constraintStart_toStartOf="@+id/ivEvent"
+        app:layout_constraintTop_toBottomOf="@+id/ivEvent" />
+
+    <TextView
+        android:id="@+id/tvService1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Service"
+        android:textColor="#FDAF01"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/ivService"
+        app:layout_constraintStart_toStartOf="@+id/ivService"
+        app:layout_constraintTop_toBottomOf="@+id/ivService" />
+
+    <TextView
+        android:id="@+id/tvTravel1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Travel"
+        android:textColor="#FDAF01"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/ivTravel"
+        app:layout_constraintStart_toStartOf="@+id/ivTravel"
+        app:layout_constraintTop_toBottomOf="@+id/ivTravel" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAnnoucement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/view2"
+        tools:layout_editor_absoluteX="16dp"
+        tools:listitem="@layout/announcement_item" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

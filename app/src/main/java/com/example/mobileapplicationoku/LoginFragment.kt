@@ -1,6 +1,7 @@
 package com.example.mobileapplicationoku
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.provider.Settings
@@ -24,7 +25,6 @@ class LoginFragment : Fragment() {
     private val binding get() = v_binding!!
     private lateinit var auth: FirebaseAuth
     private val args: LoginFragmentArgs by navArgs()
-    private var dialog = LoadingDialogFragment()
     private var backPressedTime = 0L
 
     val EMAIL_PATTERN = Pattern.compile(
@@ -64,6 +64,9 @@ class LoginFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         // Inflate the layout for this fragment
         v_binding= FragmentLoginBinding.inflate(inflater,  container ,false)
+        val progressDialog = ProgressDialog(context)
+        progressDialog.setMessage("Loading...")
+        progressDialog.setCancelable(false)
 
         binding.tvForgotPass.setOnClickListener {
             val builder: AlertDialog.Builder = AlertDialog.Builder(context)
@@ -78,35 +81,44 @@ class LoginFragment : Fragment() {
             builder.show()
         }
         binding.btnLogin.setOnClickListener(){
-            val email = binding.tfEmail.text.toString().trim()
-            val pass = binding.tfPassword.text.toString().trim()
-            if(checkIsEmpty()==true){
-                showProgressBar()
-                if(email=="admin"&&pass=="admin123"){
-                    hideProgessBar()
-                    findNavController().navigate(R.id.action_loginFragment_to_adminBottomNavActivity)
-                    getActivity()?.finish()
-                }else{
-                    auth.signInWithEmailAndPassword(email, pass)
-                        .addOnCompleteListener() { task ->
-                            if (task.isSuccessful) {
-                                // Sign in success, update UI with the signed-in user's information
-                                val user = auth.currentUser
-                                updateUI(user)
-                            } else {
-                                hideProgessBar()
-                                Toast.makeText(context, "Invalid email or password, please try again later",
-                                    Toast.LENGTH_SHORT).show()
-                                updateUI(null)
-                            }
-                        }
-                }
-            }
+
+            doLogin()
         }
         binding.tvSignUp.setOnClickListener(){
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
         return binding.root
+    }
+
+    private fun doLogin() {
+        val email = binding.tfEmail.text.toString().trim()
+        val pass = binding.tfPassword.text.toString().trim()
+        if(checkIsEmpty()==true){
+            if(email=="admin"&&pass=="admin123"){
+                findNavController().navigate(R.id.action_loginFragment_to_adminBottomNavActivity)
+                getActivity()?.finish()
+            }else{
+                val progressDialog = ProgressDialog(context)
+                progressDialog.setMessage("Loading...")
+                progressDialog.setCancelable(false)
+                progressDialog.show()
+                auth.signInWithEmailAndPassword(email, pass)
+                    .addOnCompleteListener() { task ->
+                        if (task.isSuccessful) {
+                            // Sign in success, update UI with the signed-in user's information
+                            val user = auth.currentUser
+                            updateUI(user)
+                        } else {
+                            if(progressDialog.isShowing){
+                                progressDialog.dismiss()
+                            }
+                            Toast.makeText(context, "Invalid email or password, please try again later",
+                                Toast.LENGTH_SHORT).show()
+                            updateUI(null)
+                        }
+                    }
+            }
+        }
     }
 
     private fun forgotPassword(email:EditText) {
@@ -129,23 +141,33 @@ class LoginFragment : Fragment() {
         return
     }
 
-    /*public override fun onStart() {
+    public override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser : FirebaseUser? = auth.currentUser
         updateUI(currentUser)
-    }*/
+    }
 
     private fun updateUI(currentUser:FirebaseUser?){
+        val progressDialog = ProgressDialog(context)
+        progressDialog.setMessage("Loading...")
+        progressDialog.setCancelable(false)
         if(currentUser!=null){
             if(currentUser.isEmailVerified){
-                hideProgessBar()
+                if(progressDialog.isShowing){
+                    progressDialog.dismiss()
+                }
                 findNavController().navigate(R.id.action_loginFragment_to_bottomNavActivity)
+                getActivity()?.finish()
             }else{
-                hideProgessBar()
+                if(progressDialog.isShowing){
+                    progressDialog.dismiss()
+                }
                 Toast.makeText(context, "Please verify your email address",
                     Toast.LENGTH_SHORT).show()
             }
+        }else{
+
         }
     }
 
@@ -165,13 +187,6 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun showProgressBar(){
-        dialog.show(getChildFragmentManager(), "loadingDialog")
-    }
-
-    private fun hideProgessBar(){
-        dialog.dismiss()
-    }
 
     override fun onDestroy() {
         super.onDestroy()
