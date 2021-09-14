@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="caregiver"
+            type="com.example.mobileapplicationoku.dataClass.CareGiver"/>
+        <variable
+            name="clickListener"
+            type="com.example.mobileapplicationoku.adapter.CaregiverAdapter.ViewListener" />
+    </data>
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:onClick="@{() -> clickListener.onClick(caregiver)}">
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_toEndOf="@id/imgProfile"
+                android:text="TextView"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvName"
+                android:layout_marginStart="30dp"
+                android:layout_toEndOf="@id/imgProfile"
+                android:text="TextView"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <ImageButton
+                android:id="@+id/imageButton3"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="185dp"
+                android:layout_toEndOf="@+id/imgProfile"
+                android:background="#FFFFFF"
+                android:padding="10dp"
+                app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_homeFragment_to_mainActivity"
             app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_homeFragment_to_serviceHomeFragment"
+            app:destination="@id/serviceHomeFragment" />
     </fragment>
 
     <fragment
@@ -87,4 +90,47 @@
             android:id="@+id/action_appFacilitiesDetailsFragment_to_approveListFragment"
             app:destination="@id/approveListFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/serviceHomeFragment"
+        android:name="com.example.mobileapplicationoku.ServiceHomeFragment"
+        android:label="ServiceHomeFragment"
+        tools:layout="@layout/fragment_service_home">
+        <action
+            android:id="@+id/action_serviceHomeFragment_to_handsignFragment"
+            app:destination="@id/handsignFragment" />
+        <action
+            android:id="@+id/action_serviceHomeFragment_to_caregiverFragment"
+            app:destination="@id/caregiverFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/handsignFragment"
+        android:name="com.example.mobileapplicationoku.HandsignFragment"
+        android:label="HandsignFragment"
+        tools:layout="@layout/fragment_handsign"/>
+    <fragment
+        android:id="@+id/caregiverFragment"
+        android:name="com.example.mobileapplicationoku.CaregiverFragment"
+        android:label="CaregiverFragment"
+        tools:layout="@layout/fragment_caregiver" >
+        <action
+            android:id="@+id/action_caregiverFragment_to_parttimeDetailsFragment"
+            app:destination="@id/parttimeDetailsFragment" />
+        <action
+            android:id="@+id/action_caregiverFragment_to_applyFragment"
+            app:destination="@id/applyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/parttimeDetailsFragment"
+        android:name="com.example.mobileapplicationoku.ParttimeDetailsFragment"
+        android:label="ParttimeDetailsFragment"
+        tools:layout="@layout/fragment_parttime_details" >
+    <argument
+        android:name="userID"
+        app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/applyFragment"
+        android:name="com.example.mobileapplicationoku.ApplyFragment"
+        android:label="ApplyFragment"
+        tools:layout="@layout/fragment_apply_parttime" />
 </navigation>

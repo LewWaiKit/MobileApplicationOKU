@@ -66,6 +66,10 @@ class HomeFragment : Fragment() {
         binding.tvEvent1.setOnClickListener() {
             //addAnnouncementImage()
         }
+
+        binding.ivService.setOnClickListener {
+            Navigation.findNavController(it).navigate(HomeFragmentDirections.actionHomeFragmentToServiceHomeFragment())
+        }
         return binding.root
     }
 
