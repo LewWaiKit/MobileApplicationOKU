@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.mobileapplicationoku.dataClass.AppFacilities
 import com.example.mobileapplicationoku.databinding.FragmentAppFacilitiesDetailsBinding
+import com.google.android.libraries.places.api.model.Place
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -34,7 +36,8 @@ class AppFacilitiesDetailsFragment : Fragment() {
     private var locationName: String? = null
     private var latitude: Double? = null
     private var longitude: Double? = null
-    private var serviceList: MutableList<String>? = null
+    /*private var serviceList: MutableList<String>? = null*/
+    var serviceList: MutableList<Place.Type>? = null
     private var description: String? = null
     private var hasImage = false
     private lateinit var ImageUri : Uri
@@ -52,9 +55,9 @@ class AppFacilitiesDetailsFragment : Fragment() {
         binding.btnApprove1.setOnClickListener {
             showProgressBar()
             dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
-            val facilities = AppFacilities(placeID,locationName,longitude,latitude,serviceList,description)
+            val facilities = AppFacilities(placeID,locationName,latitude,longitude,serviceList,description)
             if (placeID != null) {
-                dbref.child(facilityID).setValue(facilities).addOnCompleteListener {
+                dbref.child(placeID!!).setValue(facilities).addOnCompleteListener {
                     if (it.isSuccessful) {
                         Toast.makeText(
                             context, "Complete",
@@ -62,7 +65,7 @@ class AppFacilitiesDetailsFragment : Fragment() {
                         ).show()
                         newStatus = "Approved"
                         if(hasImage == true){
-                            //uploadImage()
+                            uploadImage()
                         }
                         updateStatus()
                     } else {
@@ -103,7 +106,7 @@ class AppFacilitiesDetailsFragment : Fragment() {
 
     private fun getFacilitiesDetail() {
         showProgressBar()
-        srref = FirebaseStorage.getInstance().reference.child("UserProfilePic/4aiXGkwziTewZQ4rlngfL5iotTh2")
+        /*srref = FirebaseStorage.getInstance().reference.child("UserProfilePic/4aiXGkwziTewZQ4rlngfL5iotTh2")
         val localfile = File.createTempFile("tempImage","jpg")
         srref.getFile(localfile).addOnSuccessListener {
             Toast.makeText(context, "Success",
@@ -115,7 +118,7 @@ class AppFacilitiesDetailsFragment : Fragment() {
         }.addOnFailureListener(){
             Toast.makeText(context, "Error",
                 Toast.LENGTH_SHORT).show()
-        }
+        }*/
         dbref = FirebaseDatabase.getInstance().getReference("Facilities")
         dbref.child(facilityID).get().addOnSuccessListener {
             if(it.exists()){
@@ -124,14 +127,30 @@ class AppFacilitiesDetailsFragment : Fragment() {
                 locationName = it.child("locationName").value.toString()
                 longitude = it.child("longitude").value.toString().toDouble()
                 latitude = it.child("latitude").value.toString().toDouble()
-                val service = it.child("serviceList").child("0").value.toString()
+                serviceList = it.child("serviceList").value as MutableList<Place.Type>?
+                /*val service = it.child("serviceList").child("0").value.toString()
                 val service1 = it.child("serviceList").child("1").value.toString()
                 serviceList?.add(service)
-                serviceList?.add(service1)
+                serviceList?.add(service1)*/
                 description = it.child("description").value.toString()
 
                 //binding.settext
                 // println("loadPost:onCancelled ${databaseError.toException()}")
+                srref = FirebaseStorage.getInstance().reference.child("FacilitiesImg/Facilities/$facilityID")
+                val localfile = File.createTempFile("tempImage","jpg")
+                srref.getFile(localfile).addOnSuccessListener {
+                    Toast.makeText(context, "Success",
+                        Toast.LENGTH_SHORT).show()
+                    val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+                    binding.ivFacilityImg.setImageBitmap(bitmap)
+                    binding.ivFacilityImg.setVisibility(View.VISIBLE)
+                    val path = MediaStore.Images.Media.insertImage(context?.contentResolver, bitmap, "Title", null)
+                    ImageUri = Uri.parse(path.toString())
+                    hasImage = true
+                }.addOnFailureListener(){
+                    Toast.makeText(context, "Error",
+                        Toast.LENGTH_SHORT).show()
+                }
 
                 hideProgessBar()
             }else{
@@ -144,12 +163,11 @@ class AppFacilitiesDetailsFragment : Fragment() {
         }
 
 
-
     }
 
 
     private fun updateStatus() {
-        dbref = FirebaseDatabase.getInstance().getReference("Approve")
+        dbref = FirebaseDatabase.getInstance().getReference("Facilities")
         val facilityID = args.facilityID
 
         val facilities = mapOf<String,String>(

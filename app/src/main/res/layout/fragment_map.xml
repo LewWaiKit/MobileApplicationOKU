@@ -40,19 +40,21 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/map">
 
-                    <fragment
-                        android:id="@+id/autocomplete_fragment"
-                        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
                     <EditText
                         android:id="@+id/editText"
                         android:layout_width="248dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
-                        android:hint="Search Location"
+                        android:hint="Search Place"
+                        android:drawableLeft="@drawable/ic_map_search_24"
+                        android:background="@drawable/map_search"
                         android:inputType="textPersonName" />
+
+                    <fragment
+                        android:id="@+id/autocomplete_fragment"
+                        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
