@@ -132,6 +132,14 @@ class CaregiverFragment :Fragment() {
                         var status = dataSnapshot.child("status").getValue().toString()
 
 
+                        if(status == "booked"){
+                            view?.findViewById<Button>(R.id.btnApply)?.visibility = View.GONE
+                            if(date_.compareTo(today) < 0){
+                                myRef.child(userID).removeValue()
+                            }
+                        }
+
+
                         if(status == "pending"){
                             if(date_.compareTo(today) < 0){
                                 val stat = mapOf<String,String>("status" to "expired")
@@ -170,7 +178,7 @@ class CaregiverFragment :Fragment() {
                             }
                         }*/
                     }.addOnFailureListener(){
-                        Toast.makeText(context,"Failed to retrieve list", Toast.LENGTH_LONG).show()
+/*                        Toast.makeText(context,"Failed to retrieve list", Toast.LENGTH_LONG).show()*/
                     }
 
                 }

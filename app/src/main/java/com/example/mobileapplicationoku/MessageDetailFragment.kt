@@ -35,6 +35,7 @@ class MessageDetailFragment : Fragment() {
         var appliername = ""
         var careID = ""
         var status = ""
+        var status_ = ""
 
         val auth = FirebaseAuth.getInstance()
         val currentUser: FirebaseUser = auth.getCurrentUser() as FirebaseUser
@@ -67,17 +68,29 @@ class MessageDetailFragment : Fragment() {
                         dbref = FirebaseDatabase.getInstance().getReference("Parttime")
                         dbref.child(userID).get().addOnSuccessListener {
                             val jobDate = it.child("date").value.toString()
+                            status_ = it.child("status").value.toString()
 
                             view.findViewById<TextView>(R.id.tvMessContain).text = appliername + " would like to hire you as their part-time caregiver on " + jobDate
                         }.addOnFailureListener {
                             Toast.makeText(context,"Failed to retrieve details", Toast.LENGTH_LONG).show()
                         }
+
                         dbref = FirebaseDatabase.getInstance().getReference("Message")
                         view.findViewById<Button>(R.id.btnMessAccept).setOnClickListener {
-                            val stat = mapOf<String,String>("status" to "accepted")
-                            dbref.child(messageID).updateChildren(stat).addOnSuccessListener {
-                                Toast.makeText(context,"Accepted", Toast.LENGTH_SHORT).show()
+                            if(status_ != "booked"){
+                                val stat = mapOf<String,String>("status" to "accepted")
+                                dbref.child(messageID).updateChildren(stat).addOnSuccessListener {
+                                    Toast.makeText(context,"Accepted", Toast.LENGTH_SHORT).show()
+                                    dbref = FirebaseDatabase.getInstance().getReference("Parttime")
+                                    val stat = mapOf<String,String>("status" to "booked")
+                                    dbref.child(userID).updateChildren(stat).addOnSuccessListener {
+
+                                    }
+                                }
+                            }else{
+                                Toast.makeText(context,"You can only accept 1 request at a time", Toast.LENGTH_LONG).show()
                             }
+
                         }
 
                         view.findViewById<Button>(R.id.btnMessReject).setOnClickListener {

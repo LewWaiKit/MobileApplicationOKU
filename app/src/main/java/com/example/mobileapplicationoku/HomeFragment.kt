@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
             Navigation.findNavController(it).navigate(HomeFragmentDirections.actionHomeFragmentToServiceHomeFragment())
         }
 
-        binding.ivTravel.setOnClickListener {
+        binding.ivMessage.setOnClickListener {
             Navigation.findNavController(it).navigate(HomeFragmentDirections.actionHomeFragmentToMessageFragment())
         }
         return binding.root
