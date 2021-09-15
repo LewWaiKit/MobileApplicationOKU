@@ -1,5 +1,6 @@
 package com.example.mobileapplicationoku
 
+import android.app.AlertDialog
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,38 +11,47 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
+import com.example.mobileapplicationoku.adapter.CaregiverAdapter
+import com.example.mobileapplicationoku.dataClass.Approve
+import com.example.mobileapplicationoku.dataClass.CareGiver
+import com.example.mobileapplicationoku.dataClass.CaregiverApply
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ParttimeDetailsFragment : Fragment() {
     private lateinit var dbref : DatabaseReference
     private lateinit var srref : StorageReference
     private val args: ParttimeDetailsFragmentArgs by navArgs()
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_parttime_details, container, false)
 
-        var user = ""
+        val careID = args.userID
+        var userID = ""
+        var username = ""
         var userType = ""
         var care = ""
 
-        getCaregiverDetails()
+        getCaregiverDetails(careID)
 
         val auth = FirebaseAuth.getInstance()
         val currentUser: FirebaseUser = auth.getCurrentUser() as FirebaseUser
         if (currentUser != null) {
-            val userID = auth.currentUser?.uid.toString()
+            userID = auth.currentUser?.uid.toString()
             dbref = FirebaseDatabase.getInstance().getReference("Users")
             dbref.child(userID).get().addOnSuccessListener {
-                user = it.child("userID").value.toString()
+                username = it.child("fullName").value.toString()
                 userType = it.child("type").value.toString()
                 care = it.child("care").value.toString()
 
@@ -51,26 +61,92 @@ class ParttimeDetailsFragment : Fragment() {
 
         }
         view.findViewById<Button>(R.id.btnDetApply).setOnClickListener() {
+            var newID = ""
+            var status = ""
+            var applierID = ""
+            var temp = 0
+            val today = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+
+            dbref = FirebaseDatabase.getInstance().getReference("Message")
+            dbref.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for(dataSnapshot : DataSnapshot in snapshot.children){
+                        status = dataSnapshot.child("status").getValue().toString()
+                        applierID = dataSnapshot.child("applierID").getValue().toString()
+
+                        if(applierID == userID){
+                            if(status == "pending"){
+                                temp + 1
+                            }
+                        }
+
+
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+
+            })
 
             if(userType == "Caregiver"){
                 if(care != ""){
-
+                    if(temp == 0){
+                        dbref = FirebaseDatabase.getInstance().getReference("Message")
+                        dbref.addListenerForSingleValueEvent(object: ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if(snapshot.exists()){
+                                    newID="C"+ "%04d".format(snapshot.childrenCount + 1)
+                                }else{
+                                    newID="C0001"
+                                }
+                                val save = CaregiverApply(newID,careID,userID,username,"pending",today)
+                                dbref.child(newID).setValue(save).addOnSuccessListener() {
+                                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+                                }.addOnFailureListener {
+                                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                            }
+                        })
+                    }else{
+                        Toast.makeText(context,"You can only apply to a part-time caregiver", Toast.LENGTH_LONG).show()
+                    }
                 }else{
                     Toast.makeText(context,"You must have care people inserted", Toast.LENGTH_LONG).show()
                 }
             }else{
-
+                dbref = FirebaseDatabase.getInstance().getReference("Message")
+                dbref.addListenerForSingleValueEvent(object: ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if(snapshot.exists()){
+                            newID="C"+ "%04d".format(snapshot.childrenCount + 1)
+                        }else{
+                            newID="C0001"
+                        }
+                        val save = CaregiverApply(newID,careID,userID,username,"pending",today)
+                        dbref.child(newID).setValue(save).addOnSuccessListener() {
+                            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+                        }.addOnFailureListener {
+                            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                    }
+                })
             }
         }
 
         return view
     }
 
-    private fun getCaregiverDetails(){
-        val userID = args.userID
+    private fun getCaregiverDetails(careID :String){
 
-        if(userID != ""){
-            srref = FirebaseStorage.getInstance().reference.child("UserProfilePic/"+userID)
+        if(careID != ""){
+            srref = FirebaseStorage.getInstance().reference.child("UserProfilePic/"+careID)
             var localfile = File.createTempFile("tempImage","jpg")
             srref.getFile(localfile).addOnSuccessListener {
                 var bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
@@ -78,7 +154,7 @@ class ParttimeDetailsFragment : Fragment() {
                 view?.findViewById<ImageView>(R.id.imgDetProfile)?.setImageBitmap(bitmap)
             }
             dbref = FirebaseDatabase.getInstance().getReference("Parttime")
-            dbref.child(userID).get().addOnSuccessListener {
+            dbref.child(careID).get().addOnSuccessListener {
                 val contactNo = it.child("contactNo").value.toString()
                 val date = it.child("date").value.toString()
                 val desc = it.child("desc").value.toString()

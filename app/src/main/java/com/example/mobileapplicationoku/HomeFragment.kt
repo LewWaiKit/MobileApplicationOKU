@@ -70,6 +70,10 @@ class HomeFragment : Fragment() {
         binding.ivService.setOnClickListener {
             Navigation.findNavController(it).navigate(HomeFragmentDirections.actionHomeFragmentToServiceHomeFragment())
         }
+
+        binding.ivTravel.setOnClickListener {
+            Navigation.findNavController(it).navigate(HomeFragmentDirections.actionHomeFragmentToMessageFragment())
+        }
         return binding.root
     }
 
