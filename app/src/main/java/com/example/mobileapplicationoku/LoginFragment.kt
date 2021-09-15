@@ -81,7 +81,6 @@ class LoginFragment : Fragment() {
             builder.show()
         }
         binding.btnLogin.setOnClickListener(){
-
             doLogin()
         }
         binding.tvSignUp.setOnClickListener(){
@@ -105,6 +104,9 @@ class LoginFragment : Fragment() {
                 auth.signInWithEmailAndPassword(email, pass)
                     .addOnCompleteListener() { task ->
                         if (task.isSuccessful) {
+                            if(progressDialog.isShowing){
+                                progressDialog.dismiss()
+                            }
                             // Sign in success, update UI with the signed-in user's information
                             val user = auth.currentUser
                             updateUI(user)
@@ -149,20 +151,11 @@ class LoginFragment : Fragment() {
     }
 
     private fun updateUI(currentUser:FirebaseUser?){
-        val progressDialog = ProgressDialog(context)
-        progressDialog.setMessage("Loading...")
-        progressDialog.setCancelable(false)
         if(currentUser!=null){
             if(currentUser.isEmailVerified){
-                if(progressDialog.isShowing){
-                    progressDialog.dismiss()
-                }
                 findNavController().navigate(R.id.action_loginFragment_to_bottomNavActivity)
                 getActivity()?.finish()
             }else{
-                if(progressDialog.isShowing){
-                    progressDialog.dismiss()
-                }
                 Toast.makeText(context, "Please verify your email address",
                     Toast.LENGTH_SHORT).show()
             }
@@ -186,7 +179,6 @@ class LoginFragment : Fragment() {
             return true
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

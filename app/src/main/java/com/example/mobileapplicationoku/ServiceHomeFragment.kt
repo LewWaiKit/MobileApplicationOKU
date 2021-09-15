@@ -46,7 +46,6 @@ class ServiceHomeFragment : Fragment() {
             Navigation.findNavController(view).navigate(ServiceHomeFragmentDirections.actionServiceHomeFragmentToHandsignFragment())
         }
 
-
         return view
     }
 }

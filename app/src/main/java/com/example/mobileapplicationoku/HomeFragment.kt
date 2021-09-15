@@ -124,8 +124,6 @@ class HomeFragment : Fragment() {
         v_binding = null
     }
 
-}
-
     private fun addAnnouncementImage() {
         /*val packageName = context?.getPackageName()
         imgUri = Uri.parse("android.resource://$packageName/${R.drawable.an04}")
@@ -138,3 +136,7 @@ class HomeFragment : Fragment() {
                 Toast.LENGTH_SHORT).show()
         }*/
     }
+
+}
+
+
