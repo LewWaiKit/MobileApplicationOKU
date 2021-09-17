@@ -50,10 +50,10 @@
         app:layout_constraintVertical_bias="0.312" />
 
     <ImageView
-        android:id="@+id/ivTravel"
+        android:id="@+id/ivMessage"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:src="@drawable/ic_travel"
+        android:src="@drawable/ic_message"
         app:layout_constraintBottom_toBottomOf="@+id/ivService"
         app:layout_constraintEnd_toEndOf="@+id/view2"
         app:layout_constraintStart_toEndOf="@+id/ivService"
@@ -82,15 +82,15 @@
         app:layout_constraintTop_toBottomOf="@+id/ivService" />
 
     <TextView
-        android:id="@+id/tvTravel1"
+        android:id="@+id/tvMessage1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Travel"
+        android:text="Message"
         android:textColor="#FDAF01"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/ivTravel"
-        app:layout_constraintStart_toStartOf="@+id/ivTravel"
-        app:layout_constraintTop_toBottomOf="@+id/ivTravel" />
+        app:layout_constraintEnd_toEndOf="@+id/ivMessage"
+        app:layout_constraintStart_toStartOf="@+id/ivMessage"
+        app:layout_constraintTop_toBottomOf="@+id/ivMessage" />
 
 
     <androidx.recyclerview.widget.RecyclerView

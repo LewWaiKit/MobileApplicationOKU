@@ -47,12 +47,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
-            android:layout_marginTop="30dp"
             android:text="Name :"
             android:textColor="#060606"
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvName3"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hr" />
+            app:layout_constraintTop_toTopOf="@+id/tvName3" />
 
         <TextView
             android:id="@+id/tvNRIC1"
@@ -69,12 +69,12 @@
             android:id="@+id/tvEmail1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:text="Email :"
             android:textColor="#060606"
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvEmail2"
             app:layout_constraintEnd_toEndOf="@+id/tvNRIC1"
-            app:layout_constraintTop_toBottomOf="@+id/tvNRIC1" />
+            app:layout_constraintTop_toTopOf="@+id/tvEmail2" />
 
         <TextView
             android:id="@+id/tvContactNo1"
@@ -102,12 +102,12 @@
             android:id="@+id/tvAddress1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:text="Address :"
             android:textColor="#060606"
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvAddress3"
             app:layout_constraintEnd_toEndOf="@+id/tvGender1"
-            app:layout_constraintTop_toBottomOf="@+id/tvGender1" />
+            app:layout_constraintTop_toTopOf="@+id/tvAddress3" />
 
         <TextView
             android:id="@+id/tvState1"
@@ -175,14 +175,14 @@
             android:id="@+id/tvName3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="30dp"
             android:text="1234"
             android:textColor="#060606"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvName2"
-            app:layout_constraintEnd_toEndOf="@+id/hr"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvName2"
-            app:layout_constraintTop_toTopOf="@+id/tvName2" />
+            app:layout_constraintTop_toBottomOf="@+id/hr" />
 
         <TextView
             android:id="@+id/tvNRIC2"
@@ -200,13 +200,13 @@
             android:id="@+id/tvEmail2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:text="1234"
             android:textColor="#060606"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvEmail1"
             app:layout_constraintEnd_toEndOf="@+id/tvNRIC2"
             app:layout_constraintStart_toStartOf="@+id/tvNRIC2"
-            app:layout_constraintTop_toTopOf="@+id/tvEmail1" />
+            app:layout_constraintTop_toBottomOf="@+id/tvNRIC2" />
 
         <TextView
             android:id="@+id/tvContactNo2"
@@ -236,13 +236,13 @@
             android:id="@+id/tvAddress3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:text="1234"
             android:textColor="#060606"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvAddress1"
-            app:layout_constraintEnd_toEndOf="@+id/tvGender3"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvGender3"
-            app:layout_constraintTop_toTopOf="@+id/tvAddress1" />
+            app:layout_constraintTop_toBottomOf="@+id/tvGender3" />
 
         <TextView
             android:id="@+id/tvState"

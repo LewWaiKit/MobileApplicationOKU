@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_homeFragment_to_serviceHomeFragment"
             app:destination="@id/serviceHomeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
     </fragment>
 
     <fragment
@@ -133,4 +136,22 @@
         android:name="com.example.mobileapplicationoku.ApplyFragment"
         android:label="ApplyFragment"
         tools:layout="@layout/fragment_apply_parttime" />
+    <fragment
+        android:id="@+id/messageFragment"
+        android:name="com.example.mobileapplicationoku.MessageFragment"
+        android:label="MessageFragment"
+        tools:layout="@layout/fragment_notification_message">
+        <action
+            android:id="@+id/action_messageFragment_to_messageDetailFragment"
+            app:destination="@id/messageDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/messageDetailFragment"
+        android:name="com.example.mobileapplicationoku.MessageDetailFragment"
+        android:label="MessageDetailFragment"
+        tools:layout="@layout/fragment_message_details">
+        <argument
+            android:name="messageID"
+            app:argType="string" />
+    </fragment>
 </navigation>

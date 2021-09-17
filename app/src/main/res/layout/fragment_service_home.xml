@@ -3,216 +3,252 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout1"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.099"
-        tools:layout_editor_absoluteX="1dp">
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/Empty3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv5"
+            tools:layout_editor_absoluteX="109dp" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/box2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/img1"
-            android:layout_width="58dp"
-            android:layout_height="47dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
             android:background="#FFC107"
+            app:layout_constraintStart_toStartOf="@+id/view3"
+            app:layout_constraintTop_toTopOf="@+id/view3"
             app:srcCompat="@drawable/ic_baseline_local_taxi_24" />
 
         <TextView
             android:id="@+id/tv1"
-            android:layout_width="260dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/img1"
             android:padding="10dp"
             android:text="Transport"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/img1"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton1"
+            app:layout_constraintStart_toEndOf="@+id/img1"
+            app:layout_constraintTop_toTopOf="@+id/img1" />
 
         <ImageButton
             android:id="@+id/imageButton1"
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/tv1"
-            android:background="#FFFFFF"
+            android:layout_marginEnd="5dp"
+            android:background="#F1F1F1"
             android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv1"
+            app:layout_constraintEnd_toEndOf="@+id/view3"
+            app:layout_constraintTop_toTopOf="@+id/tv1"
             app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
 
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout1"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="-1dp">
+        <View
+            android:id="@+id/hr"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="#C1C1C1"
+            app:layout_constraintEnd_toEndOf="@+id/view3"
+            app:layout_constraintStart_toStartOf="@+id/view3"
+            app:layout_constraintTop_toBottomOf="@+id/img1" />
 
         <ImageView
             android:id="@+id/img2"
-            android:layout_width="58dp"
-            android:layout_height="47dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:background="#FFC107"
+            app:layout_constraintEnd_toEndOf="@+id/img1"
+            app:layout_constraintStart_toStartOf="@+id/img1"
+            app:layout_constraintTop_toBottomOf="@+id/hr"
             app:srcCompat="@drawable/ic_baseline_medical_services_24" />
 
         <TextView
             android:id="@+id/tv2"
-            android:layout_width="260dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/img2"
             android:padding="10dp"
             android:text="Virtual Health Advisory"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/img2"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+            app:layout_constraintStart_toEndOf="@+id/img2"
+            app:layout_constraintTop_toTopOf="@+id/img2" />
 
         <ImageButton
             android:id="@+id/imageButton2"
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/tv2"
-            android:background="#FFFFFF"
+            android:background="#F1F1F1"
             android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv2"
+            app:layout_constraintEnd_toEndOf="@+id/imageButton1"
+            app:layout_constraintStart_toEndOf="@+id/tv1"
+            app:layout_constraintTop_toTopOf="@+id/tv2"
             app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="-1dp">
+        <View
+            android:id="@+id/hr1"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="#C1C1C1"
+            app:layout_constraintEnd_toEndOf="@+id/view3"
+            app:layout_constraintStart_toStartOf="@+id/view3"
+            app:layout_constraintTop_toBottomOf="@+id/img2" />
 
         <ImageView
             android:id="@+id/img3"
-            android:layout_width="58dp"
-            android:layout_height="47dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:background="#FFC107"
+            app:layout_constraintEnd_toEndOf="@+id/img2"
+            app:layout_constraintStart_toStartOf="@+id/img2"
+            app:layout_constraintTop_toBottomOf="@+id/hr1"
             app:srcCompat="@drawable/ic_baseline_psychology_24" />
 
         <TextView
             android:id="@+id/tv3"
-            android:layout_width="260dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/img3"
             android:padding="10dp"
             android:text="Psychology/Counseling"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/img3"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton3"
+            app:layout_constraintStart_toEndOf="@+id/img3"
+            app:layout_constraintTop_toTopOf="@+id/img3" />
 
         <ImageButton
             android:id="@+id/imageButton3"
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/tv3"
-            android:background="#FFFFFF"
+            android:background="#F1F1F1"
             android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv3"
+            app:layout_constraintEnd_toEndOf="@+id/imageButton2"
+            app:layout_constraintStart_toStartOf="@+id/imageButton2"
+            app:layout_constraintTop_toTopOf="@+id/tv3"
             app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout3"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="-1dp">
+        <View
+            android:id="@+id/hr2"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="#C1C1C1"
+            app:layout_constraintEnd_toEndOf="@+id/view3"
+            app:layout_constraintStart_toStartOf="@+id/view3"
+            app:layout_constraintTop_toBottomOf="@+id/img3" />
 
         <ImageView
             android:id="@+id/img4"
-            android:layout_width="58dp"
-            android:layout_height="47dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:background="#FFC107"
+            app:layout_constraintEnd_toEndOf="@+id/img3"
+            app:layout_constraintStart_toStartOf="@+id/img3"
+            app:layout_constraintTop_toBottomOf="@+id/hr2"
             app:srcCompat="@drawable/ic_baseline_supervised_user_circle_24" />
 
         <TextView
             android:id="@+id/tv4"
-            android:layout_width="260dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/img4"
             android:padding="10dp"
             android:text="Part-time Cargiver "
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/img4"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton4"
+            app:layout_constraintStart_toEndOf="@+id/img4"
+            app:layout_constraintTop_toTopOf="@+id/img4" />
 
         <ImageButton
             android:id="@+id/imageButton4"
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/tv4"
-            android:background="#FFFFFF"
+            android:background="#F1F1F1"
             android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv4"
+            app:layout_constraintEnd_toEndOf="@+id/imageButton3"
+            app:layout_constraintStart_toEndOf="@+id/tv3"
+            app:layout_constraintTop_toTopOf="@+id/tv4"
             app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout4"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="-1dp">
+        <View
+            android:id="@+id/hr3"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="#C1C1C1"
+            app:layout_constraintEnd_toEndOf="@+id/view3"
+            app:layout_constraintStart_toStartOf="@+id/view3"
+            app:layout_constraintTop_toBottomOf="@+id/img4" />
 
         <ImageView
             android:id="@+id/img5"
-            android:layout_width="58dp"
-            android:layout_height="47dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:background="#FFC107"
+            app:layout_constraintEnd_toEndOf="@+id/img4"
+            app:layout_constraintStart_toStartOf="@+id/img4"
+            app:layout_constraintTop_toBottomOf="@+id/hr3"
             app:srcCompat="@drawable/ic_baseline_local_library_24" />
 
         <TextView
             android:id="@+id/tv5"
-            android:layout_width="260dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/img5"
             android:padding="10dp"
             android:text="Handsign Interpreter"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/img5"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton5"
+            app:layout_constraintStart_toEndOf="@+id/img5"
+            app:layout_constraintTop_toTopOf="@+id/img5"
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageButton
             android:id="@+id/imageButton5"
-            android:layout_width="25dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/tv5"
-            android:background="#FFFFFF"
+            android:background="#F1F1F1"
             android:padding="10dp"
-            app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24"/>
-    </RelativeLayout>
+            app:layout_constraintBottom_toBottomOf="@+id/tv5"
+            app:layout_constraintEnd_toEndOf="@+id/imageButton4"
+            app:layout_constraintStart_toEndOf="@+id/tv4"
+            app:layout_constraintTop_toTopOf="@+id/tv5"
+            app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
