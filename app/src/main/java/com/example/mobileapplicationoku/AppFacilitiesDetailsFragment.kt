@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,7 +37,8 @@ class AppFacilitiesDetailsFragment : Fragment() {
     private var locationName: String? = null
     private var latitude: Double? = null
     private var longitude: Double? = null
-    /*private var serviceList: MutableList<String>? = null*/
+    private var serviceString: ArrayList<String>? = null
+    private var service: String? = null
     var serviceList: MutableList<Place.Type>? = null
     private var description: String? = null
     private var hasImage = false
@@ -122,17 +124,22 @@ class AppFacilitiesDetailsFragment : Fragment() {
         dbref = FirebaseDatabase.getInstance().getReference("Facilities")
         dbref.child(facilityID).get().addOnSuccessListener {
             if(it.exists()){
-                binding.tvFacilitiesID.text = "$it"
+                binding.tvFacilityID.text = facilityID
                 placeID = it.child("placeID").value.toString()
                 locationName = it.child("locationName").value.toString()
-                longitude = it.child("longitude").value.toString().toDouble()
                 latitude = it.child("latitude").value.toString().toDouble()
+                longitude = it.child("longitude").value.toString().toDouble()
                 serviceList = it.child("serviceList").value as MutableList<Place.Type>?
                 /*val service = it.child("serviceList").child("0").value.toString()
                 val service1 = it.child("serviceList").child("1").value.toString()
                 serviceList?.add(service)
                 serviceList?.add(service1)*/
                 description = it.child("description").value.toString()
+                binding.tvLocationName.text = locationName
+                binding.tvServiceList.text = serviceList.toString()
+                binding.tvDescription.text = description
+                binding.tvLat.text = latitude.toString()
+                binding.tvLong.text = longitude.toString()
 
                 //binding.settext
                 // println("loadPost:onCancelled ${databaseError.toException()}")
@@ -144,7 +151,7 @@ class AppFacilitiesDetailsFragment : Fragment() {
                     val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
                     binding.ivFacilityImg.setImageBitmap(bitmap)
                     binding.ivFacilityImg.setVisibility(View.VISIBLE)
-                    val path = MediaStore.Images.Media.insertImage(context?.contentResolver, bitmap, "Title", null)
+                    val path = MediaStore.Images.Media.insertImage(context?.contentResolver, bitmap, "Title"+ System.currentTimeMillis(), null)
                     ImageUri = Uri.parse(path.toString())
                     hasImage = true
                 }.addOnFailureListener(){

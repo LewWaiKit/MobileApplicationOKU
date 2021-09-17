@@ -77,6 +77,7 @@ class MapFragment : Fragment(), LocationListener {
     private var bmp: Bitmap? = null
     private var imgUri1: Uri? = null
     private lateinit var dbref : DatabaseReference
+    private lateinit var dbref2 : DatabaseReference
     private lateinit var srref : StorageReference
     private var v_binding: FragmentMapBinding? = null
     private val binding get() = v_binding!!
@@ -110,6 +111,7 @@ class MapFragment : Fragment(), LocationListener {
             override fun onPlaceSelected(place: Place) {
                 // TODO: Get info about the selected place.
                 viewVisible()
+                markerList.clear()
                 Log.i(TAG, "Place: ${place.name}, ${place.id}, ${place.latLng}, ${place.types}")
 
                 placeID = place.id.toString()
@@ -142,30 +144,21 @@ class MapFragment : Fragment(), LocationListener {
 
         mMap.setOnMarkerClickListener {marker ->
             if(hasMarker){
-                dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
-                dbref.addValueEventListener(object: ValueEventListener{
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if(snapshot.exists()){
-                            for(appFacilitySnapshot in snapshot.children){
-                                if(appFacilitySnapshot.child("id").value.toString() == placeID){
-                                    binding.include.btnSubmit.text = "Update"
-                                }
-                                else{
-                                    binding.include.btnSubmit.text = "Submit"
-                                }
-                            }
-                        }
-                    }
+                dbref2 = FirebaseDatabase.getInstance().getReference("AppFacilities")
+                dbref2.child(placeID).get().addOnSuccessListener {
+                    if(it.exists())
+                    binding.include.btnSubmit.text = "Update"
+                    else
+                    binding.include.btnSubmit.text = "Submit"
+                }
+                .addOnFailureListener(){
 
-                    override fun onCancelled(error: DatabaseError) {
-                    }
-
-                })
+                }
                 for(i in 0 until markerList.size){
                     mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                 }
+
                 for(i in 0 until placeList.size){
-                    Log.i("jiho", placeList.toString())
                     if(placeList[i].id  == marker.tag){
 
                         srref = FirebaseStorage.getInstance().reference.child("FacilitiesImg/AppFacilities/" + placeList[i].id)
@@ -243,6 +236,7 @@ class MapFragment : Fragment(), LocationListener {
         }
 
         fab.setOnClickListener {
+            mMap.clear()
             fetchLocation()
         }
 
@@ -286,9 +280,9 @@ class MapFragment : Fragment(), LocationListener {
 
         binding.cvRest.setOnClickListener(){
             mMap.clear()
+            hasMarker = false
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             compareFBService()
-
         }
 
         binding.cvTransport.setOnClickListener(){
@@ -388,7 +382,7 @@ class MapFragment : Fragment(), LocationListener {
                     byteArray.size
                 )
 
-                val path = MediaStore.Images.Media.insertImage(context?.contentResolver, bitmap, "Title", null)
+                val path = MediaStore.Images.Media.insertImage(context?.contentResolver, bitmap, "Title" + System.currentTimeMillis(), null)
                 imgUri1 = Uri.parse(path.toString())
                 /*view?.findViewById<ImageView>(R.id.showImg)?.setImageBitmap(bitmap)*/
                 view?.findViewById<ImageView>(R.id.showImg)?.setImageURI(imgUri1)
@@ -448,10 +442,10 @@ class MapFragment : Fragment(), LocationListener {
     }
 
     private fun compareFBService(){
+        markerList.clear()
         dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
         dbref.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                markerList.clear()
                 if(snapshot.exists()){
                     for(facilitySnapshot in snapshot.children){
                         for(child in facilitySnapshot.child("serviceList").children){
@@ -466,7 +460,14 @@ class MapFragment : Fragment(), LocationListener {
                                 serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
                                 var serviceLocation = LatLng(serviceLat, serviceLng)
                                 markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title("$pID"))
-                                markerList.groupBy { it.title }
+
+                                markerList.distinct()
+                                placeList.distinct()
+                                for(i in 0 until markerList.size){
+                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                    mMap.addMarker(markerList[i])
+                                }
+                                /*markerList.groupBy { it.title }
                                 for(i in 0 until markerList.size - 1){
                                     if(markerList[i].title.toString() == pID){
                                         markerList.removeAt(i)
@@ -479,8 +480,7 @@ class MapFragment : Fragment(), LocationListener {
                                     if(placeList[i].id == pID){
                                         placeList.removeAt(i)
                                     }
-                                    mMap.addMarker(markerList[i])
-                                }
+                                }*/
                                 hasMarker = true
                             }
                         }
@@ -500,10 +500,11 @@ class MapFragment : Fragment(), LocationListener {
     }
 
     private fun compareTransportService(){
+        markerList.clear()
         dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
         dbref.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                markerList.clear()
+
                 if(snapshot.exists()){
                     for(facilitySnapshot in snapshot.children){
                         for(child in facilitySnapshot.child("serviceList").children){
@@ -518,9 +519,15 @@ class MapFragment : Fragment(), LocationListener {
                                 serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
                                 serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
                                 var serviceLocation = LatLng(serviceLat, serviceLng)
-                                markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title("$pID"))
-                                markerList.groupBy { it.title }
-                                for(i in 0 until markerList.size - 1){
+                                markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).title("$pID"))
+
+                                markerList.distinct()
+                                placeList.distinct()
+                                for(i in 0 until markerList.size){
+                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                    mMap.addMarker(markerList[i])
+                                }
+                                /*for(i in 0 until markerList.size - 1){
                                     if(markerList[i].title.toString() == pID){
                                         markerList.removeAt(i)
                                     }
@@ -528,6 +535,13 @@ class MapFragment : Fragment(), LocationListener {
                                     mMap.addMarker(markerList[i])
 
                                 }
+
+                                for(i in 0 until placeList.size - 1){
+                                    if(placeList[i].id == pID){
+                                        placeList.removeAt(i)
+                                    }
+                                }*/
+
                                 hasMarker = true
                             }
                         }
@@ -546,10 +560,11 @@ class MapFragment : Fragment(), LocationListener {
     }
 
     private fun compareShoppingService(){
+        markerList.clear()
         dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
         dbref.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                markerList.clear()
+
                 if(snapshot.exists()){
                     for(facilitySnapshot in snapshot.children){
                         for(child in facilitySnapshot.child("serviceList").children){
@@ -566,15 +581,27 @@ class MapFragment : Fragment(), LocationListener {
                                 serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
                                 serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
                                 var serviceLocation = LatLng(serviceLat, serviceLng)
-                                markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title("$pID"))
+                                markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).title("$pID"))
                                 markerList.groupBy { it.title }
-                                for(i in 0 until markerList.size - 1){
+                                /*for(i in 0 until markerList.size - 1){
                                     if(markerList[i].title.toString() == pID){
                                         markerList.removeAt(i)
                                     }
                                     mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                                     mMap.addMarker(markerList[i])
+                                }*/
+                                markerList.distinct()
+                                placeList.distinct()
+                                for(i in 0 until markerList.size){
+                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                    mMap.addMarker(markerList[i])
                                 }
+
+                                /*for(i in 0 until placeList.size - 1){
+                                    if(placeList[i].id == pID){
+                                        placeList.removeAt(i)
+                                    }
+                                }*/
                                 hasMarker = true
                             }
                         }
@@ -593,10 +620,11 @@ class MapFragment : Fragment(), LocationListener {
     }
 
     private fun compareTourismService(){
+        markerList.clear()
         dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
         dbref.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                markerList.clear()
+
                 if(snapshot.exists()){
                     for(facilitySnapshot in snapshot.children){
                         for(child in facilitySnapshot.child("serviceList").children){
@@ -611,8 +639,15 @@ class MapFragment : Fragment(), LocationListener {
                                 serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
                                 serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
                                 var serviceLocation = LatLng(serviceLat, serviceLng)
-                                markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title("$pID"))
-                                markerList.groupBy { it.title }
+                                markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)).title("$pID"))
+
+                                markerList.distinct()
+                                placeList.distinct()
+                                for(i in 0 until markerList.size){
+                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                    mMap.addMarker(markerList[i])
+                                }
+                                /*markerList.groupBy { it.title }
                                 for(i in 0 until markerList.size - 1){
                                     if(markerList[i].title.toString() == pID){
                                         markerList.removeAt(i)
@@ -620,6 +655,12 @@ class MapFragment : Fragment(), LocationListener {
                                     mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                                     mMap.addMarker(markerList[i])
                                 }
+
+                                for(i in 0 until placeList.size - 1){
+                                    if(placeList[i].id == pID){
+                                        placeList.removeAt(i)
+                                    }
+                                }*/
 
                                 hasMarker = true
                             }
@@ -639,10 +680,11 @@ class MapFragment : Fragment(), LocationListener {
     }
 
     private fun compareEducationService(){
+        markerList.clear()
         dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
         dbref.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                markerList.clear()
+
                 if(snapshot.exists()){
                     for(facilitySnapshot in snapshot.children){
                         for(child in facilitySnapshot.child("serviceList").children){
@@ -656,8 +698,15 @@ class MapFragment : Fragment(), LocationListener {
                                 serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
                                 serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
                                 var serviceLocation = LatLng(serviceLat, serviceLng)
-                                markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title("$pID"))
-                                markerList.groupBy { it.title }
+                                markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title("$pID"))
+
+                                markerList.distinct()
+                                placeList.distinct()
+                                for(i in 0 until markerList.size){
+                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                    mMap.addMarker(markerList[i])
+                                }
+                                /*markerList.groupBy { it.title }
                                 for(i in 0 until markerList.size - 1){
                                     if(markerList[i].title.toString() == pID){
                                         markerList.removeAt(i)
@@ -665,6 +714,13 @@ class MapFragment : Fragment(), LocationListener {
                                     mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                                     mMap.addMarker(markerList[i])
                                 }
+
+                                for(i in 0 until placeList.size - 1){
+                                    if(placeList[i].id == pID){
+                                        placeList.removeAt(i)
+                                    }
+                                }*/
+
                                 hasMarker = true
                             }
                         }
@@ -683,10 +739,11 @@ class MapFragment : Fragment(), LocationListener {
     }
 
     private fun compareHealthService(){
+        markerList.clear()
         dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
         dbref.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                markerList.clear()
+
                 if(snapshot.exists()){
                     for(facilitySnapshot in snapshot.children){
                         for(child in facilitySnapshot.child("serviceList").children){
@@ -701,8 +758,15 @@ class MapFragment : Fragment(), LocationListener {
                                 serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
                                 serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
                                 var serviceLocation = LatLng(serviceLat, serviceLng)
-                                markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title("$pID"))
-                                markerList.groupBy { it.title }
+                                markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)).title("$pID"))
+
+                                markerList.distinct()
+                                placeList.distinct()
+                                for(i in 0 until markerList.size){
+                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                    mMap.addMarker(markerList[i])
+                                }
+                                /*markerList.groupBy { it.title }
                                 for(i in 0 until markerList.size - 1){
                                     if(markerList[i].title.toString() == pID){
                                         markerList.removeAt(i)
@@ -710,6 +774,13 @@ class MapFragment : Fragment(), LocationListener {
                                     mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                                     mMap.addMarker(markerList[i])
                                 }
+
+                                for(i in 0 until placeList.size - 1){
+                                    if(placeList[i].id == pID){
+                                        placeList.removeAt(i)
+                                    }
+                                }*/
+
                                 hasMarker = true
                             }
                         }
