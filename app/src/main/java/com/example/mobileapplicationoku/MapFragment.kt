@@ -81,7 +81,7 @@ class MapFragment : Fragment(), LocationListener {
     private lateinit var srref : StorageReference
     private var v_binding: FragmentMapBinding? = null
     private val binding get() = v_binding!!
-    var position: LatLng? = null
+    var category = 0
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -280,39 +280,44 @@ class MapFragment : Fragment(), LocationListener {
 
         binding.cvRest.setOnClickListener(){
             mMap.clear()
-            hasMarker = false
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            compareFBService()
+            category = 1
+            compareService()
         }
 
         binding.cvTransport.setOnClickListener(){
             mMap.clear()
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            compareTransportService()
+            category = 2
+            compareService()
         }
 
         binding.cvShopping.setOnClickListener(){
             mMap.clear()
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            compareShoppingService()
+            category = 3
+            compareService()
         }
 
         binding.cvTourism.setOnClickListener(){
             mMap.clear()
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            compareTourismService()
+            category = 4
+            compareService()
         }
 
         binding.cvEducation.setOnClickListener(){
             mMap.clear()
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            compareEducationService()
+            category = 5
+            compareService()
         }
 
         binding.cvHealth.setOnClickListener(){
             mMap.clear()
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            compareHealthService()
+            category = 6
+            compareService()
         }
 
         return binding.root
@@ -441,7 +446,7 @@ class MapFragment : Fragment(), LocationListener {
         v_binding = null
     }
 
-    private fun compareFBService(){
+    private fun compareService(){
         markerList.clear()
         dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
         dbref.addValueEventListener(object: ValueEventListener{
@@ -449,39 +454,240 @@ class MapFragment : Fragment(), LocationListener {
                 if(snapshot.exists()){
                     for(facilitySnapshot in snapshot.children){
                         for(child in facilitySnapshot.child("serviceList").children){
-                            if(child.value.toString().uppercase() == "RESTAURANT" || child.value.toString().uppercase() == "CAFE" || child.value.toString().uppercase() == "FOOD" ||
-                                child.value.toString().uppercase() == "BAKERY" || child.value.toString().uppercase() == "MEAL_DELIVERY" || child.value.toString().uppercase() == "MEAL_TAKEAWAY"){ // need to categorize the category
+                            if(category == 1){
+                                if(child.value.toString().uppercase() == "RESTAURANT" || child.value.toString().uppercase() == "CAFE" || child.value.toString().uppercase() == "FOOD" ||
+                                    child.value.toString().uppercase() == "BAKERY" || child.value.toString().uppercase() == "MEAL_DELIVERY" || child.value.toString().uppercase() == "MEAL_TAKEAWAY"){ // need to categorize the category
 
-                                pID = facilitySnapshot.child("id").value.toString()
-                                placeList.add(facilitySnapshot.getValue(AppFacilities::class.java)!!)
-                                binding.include.tvPlaceName.text = facilitySnapshot.child("locationName").value.toString()
-                                binding.include.tvService.text = facilitySnapshot.child("serviceList").child("0").value.toString()
-                                serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
-                                serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
-                                var serviceLocation = LatLng(serviceLat, serviceLng)
-                                markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title("$pID"))
+                                    pID = facilitySnapshot.child("id").value.toString()
+                                    placeList.add(facilitySnapshot.getValue(AppFacilities::class.java)!!)
+                                    binding.include.tvPlaceName.text = facilitySnapshot.child("locationName").value.toString()
+                                    binding.include.tvService.text = facilitySnapshot.child("serviceList").child("0").value.toString()
+                                    serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
+                                    serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
+                                    var serviceLocation = LatLng(serviceLat, serviceLng)
+                                    markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title("$pID"))
 
-                                markerList.distinct()
-                                placeList.distinct()
-                                for(i in 0 until markerList.size){
-                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                    mMap.addMarker(markerList[i])
-                                }
-                                /*markerList.groupBy { it.title }
-                                for(i in 0 until markerList.size - 1){
-                                    if(markerList[i].title.toString() == pID){
-                                        markerList.removeAt(i)
+                                    markerList.distinct()
+                                    placeList.distinct()
+                                    for(i in 0 until markerList.size){
+                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                        mMap.addMarker(markerList[i])
                                     }
-                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                    mMap.addMarker(markerList[i])
-                                }
-
-                                for(i in 0 until placeList.size - 1){
-                                    if(placeList[i].id == pID){
-                                        placeList.removeAt(i)
+                                    /*markerList.groupBy { it.title }
+                                    for(i in 0 until markerList.size - 1){
+                                        if(markerList[i].title.toString() == pID){
+                                            markerList.removeAt(i)
+                                        }
+                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                        mMap.addMarker(markerList[i])
                                     }
-                                }*/
-                                hasMarker = true
+
+                                    for(i in 0 until placeList.size - 1){
+                                        if(placeList[i].id == pID){
+                                            placeList.removeAt(i)
+                                        }
+                                    }*/
+                                    hasMarker = true
+                                }
+                            }
+
+                            else if(category == 2){
+                                if(child.value.toString().uppercase() == "BUS_STATION" || child.value.toString().uppercase() == "TRAIN_STATION" || child.value.toString().uppercase() == "TRANSIT_STATION" ||
+                                    child.value.toString().uppercase() == "TAXI_STAND" || child.value.toString().uppercase() == "SUBWAY_STATION" || child.value.toString().uppercase() == "GAS_STATION" ||
+                                    child.value.toString().uppercase() == "AIRPORT" || child.value.toString().uppercase() == "PARKING" || child.value.toString().uppercase() == "GAS_STATION"){ // need to categorize the category
+
+                                    pID = facilitySnapshot.child("id").value.toString()
+                                    placeList.add(facilitySnapshot.getValue(AppFacilities::class.java)!!)
+                                    binding.include.tvPlaceName.text = facilitySnapshot.child("locationName").value.toString()
+                                    binding.include.tvService.text = facilitySnapshot.child("serviceList").child("0").value.toString()
+                                    serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
+                                    serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
+                                    var serviceLocation = LatLng(serviceLat, serviceLng)
+                                    markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).title("$pID"))
+
+                                    markerList.distinct()
+                                    placeList.distinct()
+                                    for(i in 0 until markerList.size){
+                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                        mMap.addMarker(markerList[i])
+                                    }
+                                    /*for(i in 0 until markerList.size - 1){
+                                        if(markerList[i].title.toString() == pID){
+                                            markerList.removeAt(i)
+                                        }
+                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                        mMap.addMarker(markerList[i])
+
+                                    }
+
+                                    for(i in 0 until placeList.size - 1){
+                                        if(placeList[i].id == pID){
+                                            placeList.removeAt(i)
+                                        }
+                                    }*/
+
+                                    hasMarker = true
+                                }
+                            }
+
+                            else if(category == 3){
+                                if(child.value.toString().uppercase() == "CLOTHING_STORE" || child.value.toString().uppercase() == "CONVENIENCE_STORE" || child.value.toString().uppercase() == "DEPARTMENT_STORE" ||
+                                    child.value.toString().uppercase() == "ELECTRONIC_STORE" || child.value.toString().uppercase() == "FURNITURE_STORE" || child.value.toString().uppercase() == "HARDWARE_STORE" ||
+                                    child.value.toString().uppercase() == "HOME_GOODS_STORE" || child.value.toString().uppercase() == "JEWELRY_STORE" || child.value.toString().uppercase() == "LIQUOR_STORE" ||
+                                    child.value.toString().uppercase() == "PET_STORE" || child.value.toString().uppercase() == "SHOE_STORE" || child.value.toString().uppercase() == "SHOPPING_MALL" ||
+                                    child.value.toString().uppercase() == "STORE" || child.value.toString().uppercase() == "SUPERMARKET"){ // need to categorize the category
+
+                                    pID = facilitySnapshot.child("id").value.toString()
+                                    placeList.add(facilitySnapshot.getValue(AppFacilities::class.java)!!)
+                                    binding.include.tvPlaceName.text = facilitySnapshot.child("locationName").value.toString()
+                                    binding.include.tvService.text = facilitySnapshot.child("serviceList").child("0").value.toString()
+                                    serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
+                                    serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
+                                    var serviceLocation = LatLng(serviceLat, serviceLng)
+                                    markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).title("$pID"))
+                                    markerList.groupBy { it.title }
+                                    /*for(i in 0 until markerList.size - 1){
+                                        if(markerList[i].title.toString() == pID){
+                                            markerList.removeAt(i)
+                                        }
+                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                        mMap.addMarker(markerList[i])
+                                    }*/
+                                    markerList.distinct()
+                                    placeList.distinct()
+                                    for(i in 0 until markerList.size){
+                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                        mMap.addMarker(markerList[i])
+                                    }
+
+                                    /*for(i in 0 until placeList.size - 1){
+                                        if(placeList[i].id == pID){
+                                            placeList.removeAt(i)
+                                        }
+                                    }*/
+                                    hasMarker = true
+                                }
+                            }
+
+                            else if(category == 4){
+                                if(child.value.toString().uppercase() == "AIRPORT" || child.value.toString().uppercase() == "AMUSEMENT_PARK" || child.value.toString().uppercase() == "AQUARIUM" ||
+                                    child.value.toString().uppercase() == "ART_GALLERY" || child.value.toString().uppercase() == "LODGING" || child.value.toString().uppercase() == "MUSEUM" ||
+                                    child.value.toString().uppercase() == "TOURIST_ATTRACTION" || child.value.toString().uppercase() == "TRAVEL_AGENCY" || child.value.toString().uppercase() == "ZOO"){ // need to categorize the category
+
+                                    pID = facilitySnapshot.child("id").value.toString()
+                                    placeList.add(facilitySnapshot.getValue(AppFacilities::class.java)!!)
+                                    binding.include.tvPlaceName.text = facilitySnapshot.child("locationName").value.toString()
+                                    binding.include.tvService.text = facilitySnapshot.child("serviceList").child("0").value.toString()
+                                    serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
+                                    serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
+                                    var serviceLocation = LatLng(serviceLat, serviceLng)
+                                    markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)).title("$pID"))
+
+                                    markerList.distinct()
+                                    placeList.distinct()
+                                    for(i in 0 until markerList.size){
+                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                        mMap.addMarker(markerList[i])
+                                    }
+                                    /*markerList.groupBy { it.title }
+                                    for(i in 0 until markerList.size - 1){
+                                        if(markerList[i].title.toString() == pID){
+                                            markerList.removeAt(i)
+                                        }
+                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                        mMap.addMarker(markerList[i])
+                                    }
+
+                                    for(i in 0 until placeList.size - 1){
+                                        if(placeList[i].id == pID){
+                                            placeList.removeAt(i)
+                                        }
+                                    }*/
+
+                                    hasMarker = true
+                                }
+                            }
+
+                            else if(category == 5){
+                                if(child.value.toString().uppercase() == "BOOK_STORE" || child.value.toString().uppercase() == "LIBRARY" || child.value.toString().uppercase() == "PRIMARY_SCHOOL" ||
+                                    child.value.toString().uppercase() == "SECONDARY_SCHOOL" || child.value.toString().uppercase() == "SCHOOL" || child.value.toString().uppercase() == "UNIVERSITY"){ // need to categorize the category
+
+                                    pID = facilitySnapshot.child("id").value.toString()
+                                    placeList.add(facilitySnapshot.getValue(AppFacilities::class.java)!!)
+                                    binding.include.tvPlaceName.text = facilitySnapshot.child("locationName").value.toString()
+                                    binding.include.tvService.text = facilitySnapshot.child("serviceList").child("0").value.toString()
+                                    serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
+                                    serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
+                                    var serviceLocation = LatLng(serviceLat, serviceLng)
+                                    markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title("$pID"))
+
+                                    markerList.distinct()
+                                    placeList.distinct()
+                                    for(i in 0 until markerList.size){
+                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                        mMap.addMarker(markerList[i])
+                                    }
+                                    /*markerList.groupBy { it.title }
+                                    for(i in 0 until markerList.size - 1){
+                                        if(markerList[i].title.toString() == pID){
+                                            markerList.removeAt(i)
+                                        }
+                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                        mMap.addMarker(markerList[i])
+                                    }
+
+                                    for(i in 0 until placeList.size - 1){
+                                        if(placeList[i].id == pID){
+                                            placeList.removeAt(i)
+                                        }
+                                    }*/
+
+                                    hasMarker = true
+                                }
+                            }
+
+                            else if(category == 6){
+                                if(child.value.toString().uppercase() == "DENTIST" || child.value.toString().uppercase() == "DRUGSTORE" || child.value.toString().uppercase() == "HOSPITAL" ||
+                                    child.value.toString().uppercase() == "PHARMACY" || child.value.toString().uppercase() == "PHYSIOTHERAPIST" || child.value.toString().uppercase() == "VETERINARY_CARE" ||
+                                    child.value.toString().uppercase() == "HEALTH"){ // need to categorize the category
+
+                                    pID = facilitySnapshot.child("id").value.toString()
+                                    placeList.add(facilitySnapshot.getValue(AppFacilities::class.java)!!)
+                                    binding.include.tvPlaceName.text = facilitySnapshot.child("locationName").value.toString()
+                                    binding.include.tvService.text = facilitySnapshot.child("serviceList").child("0").value.toString()
+                                    serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
+                                    serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
+                                    var serviceLocation = LatLng(serviceLat, serviceLng)
+                                    markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)).title("$pID"))
+
+                                    markerList.distinct()
+                                    placeList.distinct()
+                                    for(i in 0 until markerList.size){
+                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                        mMap.addMarker(markerList[i])
+                                    }
+                                    /*markerList.groupBy { it.title }
+                                    for(i in 0 until markerList.size - 1){
+                                        if(markerList[i].title.toString() == pID){
+                                            markerList.removeAt(i)
+                                        }
+                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
+                                        mMap.addMarker(markerList[i])
+                                    }
+
+                                    for(i in 0 until placeList.size - 1){
+                                        if(placeList[i].id == pID){
+                                            placeList.removeAt(i)
+                                        }
+                                    }*/
+
+                                    hasMarker = true
+                                }
+                            }
+
+                            else{
+                                hasMarker = false
+                                Toast.makeText(context, "Nothing", Toast.LENGTH_LONG).show()
                             }
                         }
                     }
@@ -499,7 +705,7 @@ class MapFragment : Fragment(), LocationListener {
         })
     }
 
-    private fun compareTransportService(){
+    /*private fun compareTransportService(){
         markerList.clear()
         dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
         dbref.addValueEventListener(object: ValueEventListener{
@@ -527,7 +733,7 @@ class MapFragment : Fragment(), LocationListener {
                                     mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                                     mMap.addMarker(markerList[i])
                                 }
-                                /*for(i in 0 until markerList.size - 1){
+                                *//*for(i in 0 until markerList.size - 1){
                                     if(markerList[i].title.toString() == pID){
                                         markerList.removeAt(i)
                                     }
@@ -540,7 +746,7 @@ class MapFragment : Fragment(), LocationListener {
                                     if(placeList[i].id == pID){
                                         placeList.removeAt(i)
                                     }
-                                }*/
+                                }*//*
 
                                 hasMarker = true
                             }
@@ -583,13 +789,13 @@ class MapFragment : Fragment(), LocationListener {
                                 var serviceLocation = LatLng(serviceLat, serviceLng)
                                 markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).title("$pID"))
                                 markerList.groupBy { it.title }
-                                /*for(i in 0 until markerList.size - 1){
+                                *//*for(i in 0 until markerList.size - 1){
                                     if(markerList[i].title.toString() == pID){
                                         markerList.removeAt(i)
                                     }
                                     mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                                     mMap.addMarker(markerList[i])
-                                }*/
+                                }*//*
                                 markerList.distinct()
                                 placeList.distinct()
                                 for(i in 0 until markerList.size){
@@ -597,11 +803,11 @@ class MapFragment : Fragment(), LocationListener {
                                     mMap.addMarker(markerList[i])
                                 }
 
-                                /*for(i in 0 until placeList.size - 1){
+                                *//*for(i in 0 until placeList.size - 1){
                                     if(placeList[i].id == pID){
                                         placeList.removeAt(i)
                                     }
-                                }*/
+                                }*//*
                                 hasMarker = true
                             }
                         }
@@ -647,7 +853,7 @@ class MapFragment : Fragment(), LocationListener {
                                     mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                                     mMap.addMarker(markerList[i])
                                 }
-                                /*markerList.groupBy { it.title }
+                                *//*markerList.groupBy { it.title }
                                 for(i in 0 until markerList.size - 1){
                                     if(markerList[i].title.toString() == pID){
                                         markerList.removeAt(i)
@@ -660,7 +866,7 @@ class MapFragment : Fragment(), LocationListener {
                                     if(placeList[i].id == pID){
                                         placeList.removeAt(i)
                                     }
-                                }*/
+                                }*//*
 
                                 hasMarker = true
                             }
@@ -706,7 +912,7 @@ class MapFragment : Fragment(), LocationListener {
                                     mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                                     mMap.addMarker(markerList[i])
                                 }
-                                /*markerList.groupBy { it.title }
+                                *//*markerList.groupBy { it.title }
                                 for(i in 0 until markerList.size - 1){
                                     if(markerList[i].title.toString() == pID){
                                         markerList.removeAt(i)
@@ -719,7 +925,7 @@ class MapFragment : Fragment(), LocationListener {
                                     if(placeList[i].id == pID){
                                         placeList.removeAt(i)
                                     }
-                                }*/
+                                }*//*
 
                                 hasMarker = true
                             }
@@ -766,7 +972,7 @@ class MapFragment : Fragment(), LocationListener {
                                     mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                                     mMap.addMarker(markerList[i])
                                 }
-                                /*markerList.groupBy { it.title }
+                                *//*markerList.groupBy { it.title }
                                 for(i in 0 until markerList.size - 1){
                                     if(markerList[i].title.toString() == pID){
                                         markerList.removeAt(i)
@@ -779,7 +985,7 @@ class MapFragment : Fragment(), LocationListener {
                                     if(placeList[i].id == pID){
                                         placeList.removeAt(i)
                                     }
-                                }*/
+                                }*//*
 
                                 hasMarker = true
                             }
@@ -796,7 +1002,7 @@ class MapFragment : Fragment(), LocationListener {
                 TODO("Not yet implemented")
             }
         })
-    }
+    }*/
 
     override fun onLocationChanged(location: Location) {
 
