@@ -122,6 +122,8 @@ class MessageFragment : Fragment() {
                     }else{
                         if(status == "rejected" || status == "accepted"){
                             messageList.add(CaregiverApply(messageID,careUserID,applierUserID,name,status,date))
+                            messageList = messageList.filter { r -> r.applierUserID == userID } as ArrayList<CaregiverApply>
+
                             if (messageList.size == 0) {
                                 val builder = AlertDialog.Builder(context)
                                 builder.setTitle("No data found")

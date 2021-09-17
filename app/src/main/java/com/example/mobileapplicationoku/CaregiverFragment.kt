@@ -168,7 +168,7 @@ class CaregiverFragment :Fragment() {
                                 })
                                 progressDialog.dismiss()
                             }
-                        }/*else{
+                        }else{
                             if(caregiverList.size==0){
                                 val builder = AlertDialog.Builder(context)
                                 builder.setTitle("No data found")
@@ -176,7 +176,7 @@ class CaregiverFragment :Fragment() {
                                 builder.show()
                                 progressDialog.dismiss()
                             }
-                        }*/
+                        }
                     }.addOnFailureListener(){
 /*                        Toast.makeText(context,"Failed to retrieve list", Toast.LENGTH_LONG).show()*/
                     }
