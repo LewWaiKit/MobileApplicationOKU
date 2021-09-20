@@ -213,8 +213,6 @@ class MapFragment : Fragment(), LocationListener {
         val cvNo = binding.include.cvNo
 
 
-
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
         bottomSheetBehavior = BottomSheetBehavior.from(btmSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN

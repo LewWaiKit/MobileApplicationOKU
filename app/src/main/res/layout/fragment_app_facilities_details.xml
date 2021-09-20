@@ -55,6 +55,8 @@
             android:layout_marginStart="90dp"
             android:layout_marginTop="100dp"
             android:text="Facility ID: "
+            android:textStyle="bold"
+            android:textColor="#060606"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,6 +64,8 @@
             android:id="@+id/tvFacilityID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#060606"
             app:layout_constraintBottom_toBottomOf="@+id/textView4"
             app:layout_constraintStart_toEndOf="@+id/textView4"
             app:layout_constraintTop_toTopOf="@+id/textView4" />
@@ -72,6 +76,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Location Name: "
+            android:textStyle="bold"
+            android:textColor="#060606"
             app:layout_constraintEnd_toEndOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -81,6 +87,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="Service List: "
+            android:textStyle="bold"
+            android:textColor="#060606"
             app:layout_constraintEnd_toStartOf="@+id/tvLocationName"
             app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
@@ -88,6 +96,8 @@
             android:id="@+id/tvLocationName"
             android:layout_width="210dp"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#060606"
             app:layout_constraintBottom_toBottomOf="@+id/textView12"
             app:layout_constraintStart_toEndOf="@+id/textView12"
             app:layout_constraintTop_toTopOf="@+id/textView12" />
@@ -96,6 +106,8 @@
             android:id="@+id/tvServiceList"
             android:layout_width="210dp"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#060606"
             app:layout_constraintBottom_toBottomOf="@+id/textView14"
             app:layout_constraintStart_toEndOf="@+id/textView14"
             app:layout_constraintTop_toTopOf="@+id/textView14" />
@@ -106,6 +118,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="Description: "
+            android:textStyle="bold"
+            android:textColor="#060606"
             app:layout_constraintEnd_toEndOf="@+id/textView14"
             app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
@@ -113,6 +127,8 @@
             android:id="@+id/tvDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#060606"
             app:layout_constraintBottom_toBottomOf="@+id/textView16"
             app:layout_constraintStart_toEndOf="@+id/textView16"
             app:layout_constraintTop_toTopOf="@+id/textView16" />
@@ -123,6 +139,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Latitude: "
+            android:textStyle="bold"
+            android:textColor="#060606"
             app:layout_constraintEnd_toEndOf="@+id/textView16"
             app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
@@ -130,6 +148,8 @@
             android:id="@+id/tvLat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#060606"
             app:layout_constraintBottom_toBottomOf="@+id/textView18"
             app:layout_constraintStart_toEndOf="@+id/textView18"
             app:layout_constraintTop_toTopOf="@+id/textView18" />
@@ -140,6 +160,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Longitude: "
+            android:textStyle="bold"
+            android:textColor="#060606"
             app:layout_constraintEnd_toEndOf="@+id/textView18"
             app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
@@ -147,6 +169,8 @@
             android:id="@+id/tvLong"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#060606"
             app:layout_constraintBottom_toBottomOf="@+id/textView20"
             app:layout_constraintStart_toEndOf="@+id/textView20"
             app:layout_constraintTop_toTopOf="@+id/textView20" />
