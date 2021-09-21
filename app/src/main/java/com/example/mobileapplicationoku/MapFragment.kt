@@ -145,15 +145,51 @@ class MapFragment : Fragment(), LocationListener {
         mMap.setOnMarkerClickListener {marker ->
             if(hasMarker){
                 dbref2 = FirebaseDatabase.getInstance().getReference("AppFacilities")
-                dbref2.child(placeID).get().addOnSuccessListener {
-                    if(it.exists())
-                    binding.include.btnSubmit.text = "Update"
+                /*dbref2.child(placeID).get().addOnSuccessListener {
+                    if(it.exists()){
+                        binding.include.btnSubmit.text = "Update"
+
+                    }
+
                     else
                     binding.include.btnSubmit.text = "Submit"
                 }
                 .addOnFailureListener(){
 
-                }
+                }*/
+
+                dbref2.addValueEventListener(object: ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if(snapshot.exists()){
+                            for(appFac in snapshot.children){
+                                if(placeID == appFac.child("id").value.toString()){
+                                    binding.include.tvPlaceName.text = appFac.child("locationName").value.toString()
+                                    binding.include.tvService.text = appFac.child("serviceList").child("0").value.toString()
+
+                                    binding.include.textView2.textSize = 17f
+                                    binding.include.textView2.text = "The wheelchair accessible in this place is " + appFac.child("description").value.toString()
+
+                                    binding.include.btnSubmit.text = "Update"
+                                    srref = FirebaseStorage.getInstance().reference.child("FacilitiesImg/AppFacilities/" + appFac.child("id").value.toString())
+                                    val localfile = File.createTempFile("tempImg", "gif")
+                                    srref.getFile(localfile).addOnSuccessListener {
+                                        val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+                                        binding.include.showImg.setImageBitmap(bitmap)
+
+                                    }.addOnFailureListener(){
+                                        binding.include.btnSubmit.text = "Submit"
+                                        viewVisible()
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+
+                    }
+
+                })
                 for(i in 0 until markerList.size){
                     mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                 }
@@ -173,7 +209,7 @@ class MapFragment : Fragment(), LocationListener {
 
                         binding.include.tvPlaceName.text = placeList[i].locationName.toString()
                         binding.include.tvService.text = placeList[i].serviceList?.get(0).toString()
-                        binding.include.cvFull.setVisibility(View.GONE)
+                        binding.include.cvFull.visibility = View.GONE
                         binding.include.cvPartial.visibility = View.GONE
                         binding.include.cvNo.visibility = View.GONE
                         binding.include.textView2.textSize = 17f
