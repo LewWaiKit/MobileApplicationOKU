@@ -82,37 +82,60 @@ class ApplyFragment : Fragment() {
 
             dbref = FirebaseDatabase.getInstance().getReference("Parttime")
             dbref.child(userID).get().addOnSuccessListener {
-                if (care == ""){
-                    if(it.child("status").value.toString() != "cancel" || it.child("status").value.toString() != "expired"){
-                        view.findViewById<Button>(R.id.btnProApply).visibility = View.GONE
-                        view.findViewById<Button>(R.id.btnProRemove).visibility = View.VISIBLE
+                if(it.exists()){
+                    if (care == ""){
+                        if(it.child("status").value.toString() != "cancel" && it.child("status").value.toString() != "expired"){
+                            view.findViewById<Button>(R.id.btnProApply).visibility = View.GONE
+                            view.findViewById<Button>(R.id.btnProRemove).visibility = View.VISIBLE
 
-                        view.findViewById<TextView>(R.id.tvProDesc).text = it.child("desc").value.toString()
-                        view.findViewById<TextView>(R.id.tvProDate).text = it.child("date").value.toString()
-                    }else{
-                        view.findViewById<Button>(R.id.btnProApply).visibility = View.VISIBLE
-                        view.findViewById<Button>(R.id.btnProRemove).visibility = View.GONE
+                            view.findViewById<TextView>(R.id.tvProDesc).text = it.child("desc").value.toString()
+                            view.findViewById<TextView>(R.id.tvProDate).text = it.child("date").value.toString()
+                        }else{
+                            view.findViewById<Button>(R.id.btnProApply).visibility = View.VISIBLE
+                            view.findViewById<Button>(R.id.btnProRemove).visibility = View.GONE
 
-                        view.findViewById<Button>(R.id.btnProApply).setOnClickListener {
-                            val name = view.findViewById<TextView>(R.id.tvProName).text.toString()
-                            val date_ = view.findViewById<TextView>(R.id.tvProDate).text.toString()
-                            val loc = view.findViewById<TextView>(R.id.tvProLocation).text.toString()
-                            val desc = view.findViewById<TextView>(R.id.tvProDesc).text.toString()
+                            view.findViewById<Button>(R.id.btnProApply).setOnClickListener {
+                                val name = view.findViewById<TextView>(R.id.tvProName).text.toString()
+                                val date_ = view.findViewById<TextView>(R.id.tvProDate).text.toString()
+                                val loc = view.findViewById<TextView>(R.id.tvProLocation).text.toString()
+                                val desc = view.findViewById<TextView>(R.id.tvProDesc).text.toString()
 
-                            if (date_.compareTo(today) < 0){
-                                Toast.makeText(context,"Date invalid",Toast.LENGTH_SHORT).show()
-                            }else{
-                                val c = CaregiverSave(name,desc,loc,date_,userID,contact,"pending",gender)
-                                dbref.child(userID).setValue(c)
-                                Toast.makeText(context,"Apply Success",Toast.LENGTH_SHORT).show()
+                                if (date_.compareTo(today) < 0){
+                                    Toast.makeText(context,"Date invalid",Toast.LENGTH_SHORT).show()
+                                }else{
+                                    val c = CaregiverSave(name,desc,loc,date_,userID,contact,"pending",gender)
+                                    dbref.child(userID).setValue(c)
+                                    Toast.makeText(context,"Apply Success",Toast.LENGTH_SHORT).show()
+                                }
+
+
                             }
-
-
                         }
+                    }else{
+                        Toast.makeText(context,"You cannot apply as part-timer while you have the care person",Toast.LENGTH_SHORT).show()
                     }
                 }else{
-                    Toast.makeText(context,"You cannot apply as part-timer while you have the care person",Toast.LENGTH_SHORT).show()
+                    view.findViewById<Button>(R.id.btnProApply).visibility = View.VISIBLE
+                    view.findViewById<Button>(R.id.btnProRemove).visibility = View.GONE
+
+                    view.findViewById<Button>(R.id.btnProApply).setOnClickListener {
+                        val name = view.findViewById<TextView>(R.id.tvProName).text.toString()
+                        val date_ = view.findViewById<TextView>(R.id.tvProDate).text.toString()
+                        val loc = view.findViewById<TextView>(R.id.tvProLocation).text.toString()
+                        val desc = view.findViewById<TextView>(R.id.tvProDesc).text.toString()
+
+                        if (date_.compareTo(today) < 0){
+                            Toast.makeText(context,"Date invalid",Toast.LENGTH_SHORT).show()
+                        }else{
+                            val c = CaregiverSave(name,desc,loc,date_,userID,contact,"pending",gender)
+                            dbref.child(userID).setValue(c)
+                            Toast.makeText(context,"Apply Success",Toast.LENGTH_SHORT).show()
+                        }
+
+
+                    }
                 }
+
 
 
             }

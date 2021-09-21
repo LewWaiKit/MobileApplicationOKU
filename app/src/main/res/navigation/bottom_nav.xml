@@ -108,6 +108,9 @@
         <action
             android:id="@+id/action_serviceHomeFragment_to_caregiverFragment"
             app:destination="@id/caregiverFragment" />
+        <action
+            android:id="@+id/action_serviceHomeFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
     <fragment
         android:id="@+id/handsignFragment"
@@ -160,14 +163,7 @@
     </fragment>
     <fragment
         android:id="@+id/transportFrangment"
-        android:name="com.example.mobileapplicationoku.TransportFrangment"
+        android:name="com.example.mobileapplicationoku.BookTransportFragment"
         android:label="Transport"
-        tools:layout="@layout/fragment_transport_frangment">
-        <argument
-            android:name="lartitude"
-            app:argType="float" />
-        <argument
-            android:name="longtitude"
-            app:argType="float"/>
-    </fragment>
+        tools:layout="@layout/fragment_book"/>
 </navigation>

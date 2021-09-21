@@ -47,8 +47,8 @@ class MessageAdapter (private val message: List<CaregiverApply>, val clickListen
     override fun onBindViewHolder(holder: myViewHolder, position: Int) {
         val currentMessage= message [position]
 
-        holder.messageTitle.text = currentMessage.date
-        holder.messageContain.text = currentMessage.applierName
+        holder.messageTitle.text = currentMessage.applierName
+        holder.messageContain.text = "Request for "+currentMessage.type +" on " +currentMessage.date
         holder.bind(currentMessage!!, clickListener)
     }
 

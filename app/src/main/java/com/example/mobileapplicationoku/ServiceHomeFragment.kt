@@ -24,8 +24,7 @@ class ServiceHomeFragment : Fragment() {
         val imgButton5 :ImageButton = view.findViewById(R.id.imageButton5)
 
         imgButton1.setOnClickListener{
-/*            val intent = Intent(requireContext(), eventTest::class.java)
-            startActivity(intent)*/
+            Navigation.findNavController(it).navigate(ServiceHomeFragmentDirections.actionServiceHomeFragmentToMapFragment())
         }
         imgButton2.setOnClickListener{
             val openURL = Intent(Intent.ACTION_VIEW)
@@ -40,10 +39,10 @@ class ServiceHomeFragment : Fragment() {
             startActivity(openURL2)
         }
         imgButton4.setOnClickListener{
-            Navigation.findNavController(view).navigate(ServiceHomeFragmentDirections.actionServiceHomeFragmentToCaregiverFragment())
+            Navigation.findNavController(it).navigate(ServiceHomeFragmentDirections.actionServiceHomeFragmentToCaregiverFragment())
         }
         imgButton5.setOnClickListener{
-            Navigation.findNavController(view).navigate(ServiceHomeFragmentDirections.actionServiceHomeFragmentToHandsignFragment())
+            Navigation.findNavController(it).navigate(ServiceHomeFragmentDirections.actionServiceHomeFragmentToHandsignFragment())
         }
 
         return view

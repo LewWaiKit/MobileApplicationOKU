@@ -21,12 +21,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.example.mobileapplicationoku.dataClass.AppFacilities
 import com.example.mobileapplicationoku.dataClass.Facilities
 import com.example.mobileapplicationoku.databinding.FragmentMapBinding
@@ -243,6 +245,7 @@ class MapFragment : Fragment(), LocationListener {
         val btmSheet = binding.include.bottomSheet
         val btnAddImg = binding.include.btnAddImg
         val btnSubmit = binding.include.btnSubmit
+        val btnBook = binding.include.btnTransport
         val showImg = binding.include.showImg
         val cvFull = binding.include.cvFull
         val cvPartial = binding.include.cvPartial
@@ -310,6 +313,10 @@ class MapFragment : Fragment(), LocationListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             showImg.setImageResource(0)
             hasMarker = false
+        }
+
+        btnBook.setOnClickListener {
+            Navigation.findNavController(it).navigate(MapFragmentDirections.actionMapFragmentToTransportFrangment())
         }
 
         binding.cvRest.setOnClickListener(){

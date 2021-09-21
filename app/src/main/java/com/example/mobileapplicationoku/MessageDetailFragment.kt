@@ -72,7 +72,7 @@ class MessageDetailFragment : Fragment() {
 
                             view.findViewById<TextView>(R.id.tvMessContain).text = appliername + " would like to hire you as their part-time caregiver on " + jobDate
                         }.addOnFailureListener {
-                            Toast.makeText(context,"Failed to retrieve details", Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(),"Failed to retrieve details", Toast.LENGTH_LONG).show()
                         }
 
                         dbref = FirebaseDatabase.getInstance().getReference("Message")
@@ -80,7 +80,7 @@ class MessageDetailFragment : Fragment() {
                             if(status_ != "booked"){
                                 val stat = mapOf<String,String>("status" to "accepted")
                                 dbref.child(messageID).updateChildren(stat).addOnSuccessListener {
-                                    Toast.makeText(context,"Accepted", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(requireContext(),"Accepted", Toast.LENGTH_SHORT).show()
                                     dbref = FirebaseDatabase.getInstance().getReference("Parttime")
                                     val stat = mapOf<String,String>("status" to "booked")
                                     dbref.child(userID).updateChildren(stat).addOnSuccessListener {
@@ -88,7 +88,7 @@ class MessageDetailFragment : Fragment() {
                                     }
                                 }
                             }else{
-                                Toast.makeText(context,"You can only accept 1 request at a time", Toast.LENGTH_LONG).show()
+                                Toast.makeText(requireContext(),"You can only accept 1 request at a time", Toast.LENGTH_LONG).show()
                             }
 
                         }
@@ -96,7 +96,7 @@ class MessageDetailFragment : Fragment() {
                         view.findViewById<Button>(R.id.btnMessReject).setOnClickListener {
                             val stat = mapOf<String,String>("status" to "rejected")
                             dbref.child(messageID).updateChildren(stat).addOnSuccessListener {
-                                Toast.makeText(context,"Rejected", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(requireContext(),"Rejected", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -114,7 +114,7 @@ class MessageDetailFragment : Fragment() {
 
                         view.findViewById<TextView>(R.id.tvMessContain).text = name + " has " + status + " your request on "+jobDate
                     }.addOnFailureListener {
-                        Toast.makeText(context,"Failed to retrieve details", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(),"Failed to retrieve details", Toast.LENGTH_LONG).show()
                     }
 
                     srref = FirebaseStorage.getInstance().reference.child("UserProfilePic/"+careID)
@@ -131,7 +131,7 @@ class MessageDetailFragment : Fragment() {
 
 
         }.addOnFailureListener {
-                Toast.makeText(context,"Failed to retrieve details", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(),"Failed to retrieve details", Toast.LENGTH_LONG).show()
             }
 
     }

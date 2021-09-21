@@ -56,31 +56,87 @@ class ParttimeDetailsFragment : Fragment() {
                 care = it.child("care").value.toString()
 
             }.addOnFailureListener {
-                Toast.makeText(context,"Error", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(),"Error", Toast.LENGTH_LONG).show()
             }
 
         }
         view.findViewById<Button>(R.id.btnDetApply).setOnClickListener() {
             var newID = ""
             var status = ""
+            var type = ""
             var applierID = ""
-            var temp = 0
-            val today = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+            val date = view.findViewById<TextView>(R.id.tvDetDate).text.toString()
+            var temp = false
+/*            val today = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())*/
 
             dbref = FirebaseDatabase.getInstance().getReference("Message")
             dbref.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for(dataSnapshot : DataSnapshot in snapshot.children){
                         status = dataSnapshot.child("status").getValue().toString()
-                        applierID = dataSnapshot.child("applierID").getValue().toString()
+                        applierID = dataSnapshot.child("applierUserID").getValue().toString()
+                        type = dataSnapshot.child("type").getValue().toString()
 
-                        if(applierID == userID){
-                            if(status == "pending"){
-                                temp + 1
+                        if(dataSnapshot.exists()){
+                            if(applierID == userID){
+                                if(type == "parttime"){
+                                    if(status == "pending"){
+                                        temp = true
+                                    }
+                                }
+
                             }
                         }
 
+                    }
+                    if(temp == false){
+                        if(userType == "Caregiver"){
+                            if(care != ""){
+                                dbref = FirebaseDatabase.getInstance().getReference("Message")
+                                dbref.addListenerForSingleValueEvent(object: ValueEventListener {
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        if(snapshot.exists()){
+                                            newID="C"+ "%04d".format(snapshot.childrenCount + 1)
+                                        }else{
+                                            newID="C0001"
+                                        }
+                                        val save = CaregiverApply(newID,careID,userID,username,"pending",date,"","parttime","","")
+                                        dbref.child(newID).setValue(save).addOnSuccessListener() {
+                                            Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
+                                        }.addOnFailureListener {
+                                            Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                    override fun onCancelled(error: DatabaseError) {
+                                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                                    }
+                                })
+                            }else{
+                                Toast.makeText(requireContext(),"You must have care people inserted", Toast.LENGTH_LONG).show()
+                            }
+                        }else{
+                            dbref = FirebaseDatabase.getInstance().getReference("Message")
+                            dbref.addListenerForSingleValueEvent(object: ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    if(snapshot.exists()){
+                                        newID="C"+ "%04d".format(snapshot.childrenCount + 1)
+                                    }else{
+                                        newID="C0001"
+                                    }
+                                    val save = CaregiverApply(newID,careID,userID,username,"pending",date,"","parttime","","")
+                                    dbref.child(newID).setValue(save).addOnSuccessListener() {
+                                        Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
+                                    }.addOnFailureListener {
+                                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                                override fun onCancelled(error: DatabaseError) {
+                                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                                }
+                            })
 
+
+                        }
                     }
                 }
 
@@ -89,55 +145,8 @@ class ParttimeDetailsFragment : Fragment() {
 
             })
 
-            if(userType == "Caregiver"){
-                if(care != ""){
-                    if(temp == 0){
-                        dbref = FirebaseDatabase.getInstance().getReference("Message")
-                        dbref.addListenerForSingleValueEvent(object: ValueEventListener {
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                if(snapshot.exists()){
-                                    newID="C"+ "%04d".format(snapshot.childrenCount + 1)
-                                }else{
-                                    newID="C0001"
-                                }
-                                val save = CaregiverApply(newID,careID,userID,username,"pending",today)
-                                dbref.child(newID).setValue(save).addOnSuccessListener() {
-                                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
-                                }.addOnFailureListener {
-                                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                            override fun onCancelled(error: DatabaseError) {
-                                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-                            }
-                        })
-                    }else{
-                        Toast.makeText(context,"You can only apply to a part-time caregiver", Toast.LENGTH_LONG).show()
-                    }
-                }else{
-                    Toast.makeText(context,"You must have care people inserted", Toast.LENGTH_LONG).show()
-                }
-            }else{
-                dbref = FirebaseDatabase.getInstance().getReference("Message")
-                dbref.addListenerForSingleValueEvent(object: ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if(snapshot.exists()){
-                            newID="C"+ "%04d".format(snapshot.childrenCount + 1)
-                        }else{
-                            newID="C0001"
-                        }
-                        val save = CaregiverApply(newID,careID,userID,username,"pending",today)
-                        dbref.child(newID).setValue(save).addOnSuccessListener() {
-                            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
-                        }.addOnFailureListener {
-                            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    override fun onCancelled(error: DatabaseError) {
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-                    }
-                })
-            }
+
+
         }
 
         return view
