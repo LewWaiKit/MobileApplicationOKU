@@ -22,7 +22,7 @@ class BottomNavActivity : AppCompatActivity() {
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val navController = findNavController(R.id.fragment)
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment,R.id.mapFragment,R.id.profileFragment,R.id.changePasswordFragment,R.id.serviceHomeFragment))
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment,R.id.mapFragment,R.id.profileFragment,R.id.changePasswordFragment,R.id.serviceHomeFragment, R.id.handsignFragment, R.id.parttimeDetailsFragment,R.id.messageDetailFragment,R.id.messageFragment,R.id.appFacilitiesDetailsFragment,R.id.applyFragment,R.id.caregiverFragment))
         setupActionBarWithNavController(navController,appBarConfiguration)
 
         bottomNavigationView.setupWithNavController(navController)

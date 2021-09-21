@@ -35,7 +35,6 @@ class SignAdapter(private val sign: List<Handsign>) :RecyclerView.Adapter<SignAd
 
     override fun getItemCount(): Int {
         return sign.size
-
     }
 
 

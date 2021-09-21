@@ -22,7 +22,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.File
 
-
 class AppFacilitiesDetailsFragment : Fragment() {
 
     private var v_binding: FragmentAppFacilitiesDetailsBinding? = null

@@ -62,32 +62,38 @@ class ChangePasswordFragment : Fragment() {
     }
 
     private fun changePassword() {
+        val currentPass = binding.etCurrentPass.text.toString().trim()
         val newPass = binding.etNewPass.text.toString().trim()
         val confirmPass = binding.etConfirmPass.text.toString().trim()
         if(newPass.isEmpty()){
             binding.etNewPass.error = "Please fill in new password"
             binding.etNewPass.requestFocus()
         }else{
-            if(!PASSWORD_PATTERN.matcher(newPass).matches()) {
-                binding.etNewPass.error = "Password too weak"
+            if(newPass == currentPass){
+                binding.etNewPass.error = "Must not same with current password"
                 binding.etNewPass.requestFocus()
             }else{
-                if(confirmPass.isEmpty()){
-                    binding.etConfirmPass.error = "Please fill in confirm password"
-                    binding.etConfirmPass.requestFocus()
+                if(!PASSWORD_PATTERN.matcher(newPass).matches()) {
+                    binding.etNewPass.error = "Password too weak"
+                    binding.etNewPass.requestFocus()
                 }else{
-                    if(newPass!=confirmPass){
-                        binding.etConfirmPass.error = "Must match with new password"
+                    if(confirmPass.isEmpty()){
+                        binding.etConfirmPass.error = "Please fill in confirm password"
                         binding.etConfirmPass.requestFocus()
                     }else{
-                        val user: FirebaseUser? = auth.currentUser
-                        user?.updatePassword(newPass)?.addOnCompleteListener { task ->
-                            if(task.isSuccessful){
-                                Toast.makeText(context, "Password changed successfully, please login again",
-                                    Toast.LENGTH_SHORT).show()
-                                auth.signOut()
-                                findNavController().navigate(R.id.action_changePasswordFragment_to_mainActivity)
-                                getActivity()?.finish()
+                        if(newPass!=confirmPass){
+                            binding.etConfirmPass.error = "Must match with new password"
+                            binding.etConfirmPass.requestFocus()
+                        }else{
+                            val user: FirebaseUser? = auth.currentUser
+                            user?.updatePassword(newPass)?.addOnCompleteListener { task ->
+                                if(task.isSuccessful){
+                                    Toast.makeText(context, "Password changed successfully, please login again",
+                                        Toast.LENGTH_SHORT).show()
+                                    auth.signOut()
+                                    findNavController().navigate(R.id.action_changePasswordFragment_to_mainActivity)
+                                    getActivity()?.finish()
+                                }
                             }
                         }
                     }

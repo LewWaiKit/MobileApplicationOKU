@@ -62,8 +62,12 @@
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.mobileapplicationoku.MapFragment"
-        android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        android:label="Maps"
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_transportFrangment"
+            app:destination="@id/transportFrangment" />
+    </fragment>
     <activity
         android:id="@+id/mainActivity"
         android:name="com.example.mobileapplicationoku.MainActivity"
@@ -84,7 +88,7 @@
     <fragment
         android:id="@+id/appFacilitiesDetailsFragment"
         android:name="com.example.mobileapplicationoku.AppFacilitiesDetailsFragment"
-        android:label="fragment_app_facilities_details"
+        android:label="Facilities details"
         tools:layout="@layout/fragment_app_facilities_details" >
         <argument
             android:name="facilityID"
@@ -96,7 +100,7 @@
     <fragment
         android:id="@+id/serviceHomeFragment"
         android:name="com.example.mobileapplicationoku.ServiceHomeFragment"
-        android:label="ServiceHomeFragment"
+        android:label="Service list"
         tools:layout="@layout/fragment_service_home">
         <action
             android:id="@+id/action_serviceHomeFragment_to_handsignFragment"
@@ -108,12 +112,12 @@
     <fragment
         android:id="@+id/handsignFragment"
         android:name="com.example.mobileapplicationoku.HandsignFragment"
-        android:label="HandsignFragment"
+        android:label="Handsign"
         tools:layout="@layout/fragment_handsign"/>
     <fragment
         android:id="@+id/caregiverFragment"
         android:name="com.example.mobileapplicationoku.CaregiverFragment"
-        android:label="CaregiverFragment"
+        android:label="Caregiver list"
         tools:layout="@layout/fragment_caregiver" >
         <action
             android:id="@+id/action_caregiverFragment_to_parttimeDetailsFragment"
@@ -125,7 +129,7 @@
     <fragment
         android:id="@+id/parttimeDetailsFragment"
         android:name="com.example.mobileapplicationoku.ParttimeDetailsFragment"
-        android:label="ParttimeDetailsFragment"
+        android:label="Part time caregiver details"
         tools:layout="@layout/fragment_parttime_details" >
     <argument
         android:name="userID"
@@ -134,12 +138,12 @@
     <fragment
         android:id="@+id/applyFragment"
         android:name="com.example.mobileapplicationoku.ApplyFragment"
-        android:label="ApplyFragment"
+        android:label="Apply"
         tools:layout="@layout/fragment_apply_parttime" />
     <fragment
         android:id="@+id/messageFragment"
         android:name="com.example.mobileapplicationoku.MessageFragment"
-        android:label="MessageFragment"
+        android:label="Message"
         tools:layout="@layout/fragment_notification_message">
         <action
             android:id="@+id/action_messageFragment_to_messageDetailFragment"
@@ -148,10 +152,22 @@
     <fragment
         android:id="@+id/messageDetailFragment"
         android:name="com.example.mobileapplicationoku.MessageDetailFragment"
-        android:label="MessageDetailFragment"
+        android:label="Message detail"
         tools:layout="@layout/fragment_message_details">
         <argument
             android:name="messageID"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/transportFrangment"
+        android:name="com.example.mobileapplicationoku.TransportFrangment"
+        android:label="Transport"
+        tools:layout="@layout/fragment_transport_frangment">
+        <argument
+            android:name="lartitude"
+            app:argType="float" />
+        <argument
+            android:name="longtitude"
+            app:argType="float"/>
     </fragment>
 </navigation>

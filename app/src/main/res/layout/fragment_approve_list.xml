@@ -3,13 +3,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/tvApproveTitle"
@@ -44,27 +41,21 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvApproveList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="440dp"
             android:layout_margin="16dp"
+            android:background="@drawable/box1"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/approve_item"
-            android:background="@drawable/search_view_background" />
+            tools:listitem="@layout/approve_item" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAppFacilitiesList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="440dp"
             android:layout_margin="16dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:background="@drawable/box1"
             android:visibility="gone"
-            tools:listitem="@layout/facilities_item"
-            android:background="@drawable/search_view_background" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/facilities_item" />
 
-        <TextView
-            android:id="@+id/Empty1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp" />
-</LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 </layout>
