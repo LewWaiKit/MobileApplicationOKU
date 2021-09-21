@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.Navigation
 import com.example.mobileapplicationoku.dataClass.CaregiverSave
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -107,7 +108,7 @@ class ApplyFragment : Fragment() {
                                     dbref.child(userID).setValue(c)
                                     Toast.makeText(context,"Apply Success",Toast.LENGTH_SHORT).show()
                                 }
-
+                                Navigation.findNavController(it).navigate(ApplyFragmentDirections.actionApplyFragmentToCaregiverFragment())
 
                             }
                         }
@@ -131,7 +132,7 @@ class ApplyFragment : Fragment() {
                             dbref.child(userID).setValue(c)
                             Toast.makeText(context,"Apply Success",Toast.LENGTH_SHORT).show()
                         }
-
+                        Navigation.findNavController(it).navigate(ApplyFragmentDirections.actionApplyFragmentToCaregiverFragment())
 
                     }
                 }
@@ -145,7 +146,7 @@ class ApplyFragment : Fragment() {
                 dbref.child(userID).updateChildren(stat).addOnSuccessListener {
                 }
                 Toast.makeText(context,"Remove Success",Toast.LENGTH_SHORT).show()
-
+                Navigation.findNavController(it).navigate(ApplyFragmentDirections.actionApplyFragmentToCaregiverFragment())
                 }
 
 

@@ -137,12 +137,19 @@
     <argument
         android:name="userID"
         app:argType="string" />
+        <action
+            android:id="@+id/action_parttimeDetailsFragment_to_caregiverFragment"
+            app:destination="@id/caregiverFragment" />
     </fragment>
     <fragment
         android:id="@+id/applyFragment"
         android:name="com.example.mobileapplicationoku.ApplyFragment"
         android:label="Apply"
-        tools:layout="@layout/fragment_apply_parttime" />
+        tools:layout="@layout/fragment_apply_parttime" >
+        <action
+            android:id="@+id/action_applyFragment_to_caregiverFragment"
+            app:destination="@id/caregiverFragment" />
+    </fragment>
     <fragment
         android:id="@+id/messageFragment"
         android:name="com.example.mobileapplicationoku.MessageFragment"
@@ -160,10 +167,23 @@
         <argument
             android:name="messageID"
             app:argType="string" />
+        <action
+            android:id="@+id/action_messageDetailFragment_to_messageFragment"
+            app:destination="@id/messageFragment" />
     </fragment>
     <fragment
         android:id="@+id/transportFrangment"
         android:name="com.example.mobileapplicationoku.BookTransportFragment"
         android:label="Transport"
-        tools:layout="@layout/fragment_book"/>
+        tools:layout="@layout/fragment_book">
+        <argument
+            android:name="from"
+            app:argType="string" />
+        <argument
+            android:name="to"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_transportFrangment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
 </navigation>

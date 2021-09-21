@@ -5,26 +5,23 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
-import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -51,6 +48,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MapFragment : Fragment(), LocationListener {
@@ -84,6 +83,9 @@ class MapFragment : Fragment(), LocationListener {
     private var v_binding: FragmentMapBinding? = null
     private val binding get() = v_binding!!
     var category = 0
+
+    private var from = ""
+    private var to = ""
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -124,6 +126,9 @@ class MapFragment : Fragment(), LocationListener {
                 serviceList = place.types
                 binding.include.tvPlaceName.text = name
                 binding.include.tvService.text = service
+
+                to = place.address.toString()
+
 
                 latilongi = LatLng(latitude, longitude)
                 if(latilongi != null){
@@ -316,7 +321,7 @@ class MapFragment : Fragment(), LocationListener {
         }
 
         btnBook.setOnClickListener {
-            Navigation.findNavController(it).navigate(MapFragmentDirections.actionMapFragmentToTransportFrangment())
+            Navigation.findNavController(it).navigate(MapFragmentDirections.actionMapFragmentToTransportFrangment(from,to))
         }
 
         binding.cvRest.setOnClickListener(){
@@ -460,8 +465,16 @@ class MapFragment : Fragment(), LocationListener {
         }
         task.addOnSuccessListener {
             if(it != null){
+
                 latitude = it.latitude
                 longitude = it.longitude
+
+                val gcd = Geocoder(context, Locale.getDefault())
+                val addresses: List<Address> = gcd.getFromLocation(latitude, longitude, 1)
+                if (addresses.size > 0) {
+                    from = addresses[0].getAddressLine(0).toString()
+                }
+
                 latilongi = LatLng(latitude, longitude)
                 if(hasMarker){
                     mMap.clear()
@@ -473,6 +486,7 @@ class MapFragment : Fragment(), LocationListener {
 
             }
         }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

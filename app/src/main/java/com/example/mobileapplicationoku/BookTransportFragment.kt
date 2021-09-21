@@ -10,6 +10,8 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.example.mobileapplicationoku.dataClass.CaregiverApply
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -47,6 +49,10 @@ class BookTransportFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_book, container, false)
 
+        val args = BookTransportFragmentArgs.fromBundle(requireArguments())
+        val to = args.to
+        val from = args.from
+
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
@@ -55,6 +61,8 @@ class BookTransportFragment : Fragment() {
         val min = c.get(Calendar.MINUTE)
         val date = view.findViewById<TextView>(R.id.tvTransDate)
         val time = view.findViewById<TextView>(R.id.tvTransTime)
+
+        getID()
 
         date.setText(todayDate)
         time.setText(todayTime)
@@ -126,12 +134,13 @@ class BookTransportFragment : Fragment() {
             tpd.show()
         }
 
-        val from = view.findViewById<TextView>(R.id.tvTransFrom).text.toString()
-        val to = view.findViewById<TextView>(R.id.tvTransTo).text.toString()
+        view.findViewById<TextView>(R.id.tvTransFrom).text = from
+        view.findViewById<TextView>(R.id.tvTransTo).text = to
 
         view.findViewById<Button>(R.id.btnTransConfirm).setOnClickListener {
 
             book(date.text.toString(),time.text.toString(),from,to)
+            Navigation.findNavController(it).navigate(BookTransportFragmentDirections.actionTransportFrangmentToMapFragment())
         }
 
 
@@ -165,78 +174,13 @@ class BookTransportFragment : Fragment() {
                     if(temp<=tempList.size){
                         if(userType == "Caregiver"){
                             if(care != ""){
-                                for(i in 0..tempList.size-1){
-                                    dbref = FirebaseDatabase.getInstance().getReference("Message")
-                                    dbref.addListenerForSingleValueEvent(object:
-                                        ValueEventListener {
-                                        override fun onDataChange(snapshot: DataSnapshot) {
-                                            if(snapshot.exists()){
-                                                newID="C"+ "%04d".format(snapshot.childrenCount + 1)
-                                            }else{
-                                                newID="C0001"
-                                            }
-                                            val save = CaregiverApply(newID,tempList[i],userID,username,"pending",date,time,"transport",from,to)
-                                            dbref.child(newID).setValue(save).addOnSuccessListener() {
-                                                Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
-                                            }.addOnFailureListener {
-                                                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
-                                            }
-                                        }
-                                        override fun onCancelled(error: DatabaseError) {
-                                            Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
-                                        }
-                                    })
-                                }
+                                save(date,time,from,to)
 
                             }else{
                                 Toast.makeText(requireContext(),"You must have care people inserted", Toast.LENGTH_LONG).show()
                             }
                         }else{
-
-                                dbref = FirebaseDatabase.getInstance().getReference("Message")
-                                dbref.addListenerForSingleValueEvent(object: ValueEventListener {
-                                    override fun onDataChange(snapshot: DataSnapshot) {
-                                        if(snapshot.exists()){
-                                            newID="C"+ "%04d".format(snapshot.childrenCount + 1)
-                                        }else{
-                                            newID="C0001"
-                                        }
-                                        for(i in 0..tempList.size-1) {
-                                            val save = CaregiverApply(
-                                                newID,
-                                                tempList[i],
-                                                userID,
-                                                username,
-                                                "pending",
-                                                date,
-                                                time,
-                                                "transport",
-                                                from,
-                                                to
-                                            )
-                                            dbref.child(newID).setValue(save)
-                                                .addOnSuccessListener() {
-                                                    Toast.makeText(
-                                                        requireContext(),
-                                                        "Success",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                }.addOnFailureListener {
-                                                Toast.makeText(
-                                                    requireContext(),
-                                                    "Error",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
-                                            }
-                                        }
-                                    }
-                                    override fun onCancelled(error: DatabaseError) {
-                                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
-                                    }
-                                })
-
-
-
+                            save(date,time,from,to)
 
                         }
                     }
@@ -255,5 +199,60 @@ class BookTransportFragment : Fragment() {
         }
 
 
+    }
+
+    private fun save(date: String,time: String,from: String,to: String){
+        var save = CaregiverApply()
+        var int = 0
+        var tempID = ""
+        for(i in 0..tempList.size-1) {
+            int = Integer.valueOf(newID)+ (i+1)
+            tempID="C"+ "%04d".format(int)
+            save = CaregiverApply(
+                tempID,
+                tempList[i],
+                userID,
+                username,
+                "pending",
+                date,
+                time,
+                "transport",
+                from,
+                to
+            )
+            dbref.child(tempID).setValue(save)
+                .addOnSuccessListener() {
+                    Toast.makeText(
+                        requireContext(),
+                        "Success",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }.addOnFailureListener {
+                    Toast.makeText(
+                        requireContext(),
+                        "Error",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        }
+    }
+
+    private fun getID(){
+        dbref = FirebaseDatabase.getInstance().getReference("Message")
+        dbref.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    /*newID="C"+ "%04d".format(snapshot.childrenCount + 1)*/
+                    newID = snapshot.childrenCount.toString()
+                }else{
+                    newID="0"
+                }
+
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

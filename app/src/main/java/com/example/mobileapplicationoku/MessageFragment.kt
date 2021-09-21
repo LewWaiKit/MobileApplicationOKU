@@ -97,7 +97,7 @@ class MessageFragment : Fragment() {
                     var from = dataSnapshot.child("from").getValue().toString()
                     var to = dataSnapshot.child("to").getValue().toString()
 
-                    if(type == "parttime"){
+
                         if(str == "Parttimer"){
                             if (status == "pending") {
                                 if (date.compareTo(parttimeDate) < 0) {
@@ -120,12 +120,12 @@ class MessageFragment : Fragment() {
                                         }
                                     })
                             }
-                            if (messageList.size == 0) {
+                            /*if (messageList.size == 0) {
                                 val builder = AlertDialog.Builder(context)
                                 builder.setTitle("No data found")
                                 builder.setMessage("It seems like there are currently no message here")
                                 builder.show()
-                            }
+                            }*/
                         }else{
                             if(status == "rejected" || status == "accepted"){
                                 messageList.add(CaregiverApply(messageID,careUserID,applierUserID,name,status,date,time,type,from,to))
@@ -151,30 +151,6 @@ class MessageFragment : Fragment() {
 
                             }
                         }
-                    }else if(type == "transport"){
-                        if (status == "pending") {
-                            if (date.compareTo(today) < 0) {
-                                val stat = mapOf<String, String>("status" to "expired")
-                                dbref.child(messageID).updateChildren(stat).addOnSuccessListener {
-
-                                }
-                            }
-                            messageList.add(CaregiverApply(messageID,careUserID,applierUserID,name,status,date,time,type,from,to))
-
-                            messageList = messageList.filter { r -> r.careUserID == userID } as ArrayList<CaregiverApply>
-                            recyclerView.layoutManager = linearLayoutManager
-                            recyclerView.adapter = MessageAdapter(messageList,
-                                MessageAdapter.ViewListener { messageID ->
-                                    val it = view
-                                    if (it != null) {
-                                        Navigation.findNavController(it).navigate(
-                                            MessageFragmentDirections.actionMessageFragmentToMessageDetailFragment(messageID)
-                                        )
-                                    }
-                                })
-                        }
-                    }
-
 
                 }
             }

@@ -10,14 +10,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
+import com.example.mobileapplicationoku.adapter.MessageAdapter
+import com.example.mobileapplicationoku.dataClass.Approve
+import com.example.mobileapplicationoku.dataClass.CaregiverApply
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.File
+import java.util.ArrayList
 
 class MessageDetailFragment : Fragment() {
     private lateinit var srref : StorageReference
@@ -36,6 +40,7 @@ class MessageDetailFragment : Fragment() {
         var careID = ""
         var status = ""
         var status_ = ""
+        var type = ""
 
         val auth = FirebaseAuth.getInstance()
         val currentUser: FirebaseUser = auth.getCurrentUser() as FirebaseUser
@@ -51,83 +56,175 @@ class MessageDetailFragment : Fragment() {
                 appliername = it.child("applierName").value.toString()
                 careID = it.child("careUserID").value.toString()
                 status = it.child("status").value.toString()
+                type = it.child("type").value.toString()
 
 
-                if(status == "pending"){
-                    view.findViewById<Button>(R.id.btnMessAccept).visibility = View.VISIBLE
-                    view.findViewById<Button>(R.id.btnMessReject).visibility = View.VISIBLE
+                if(type == "parttime"){
+                    if(status == "pending"){
+                        view.findViewById<Button>(R.id.btnMessAccept).visibility = View.VISIBLE
+                        view.findViewById<Button>(R.id.btnMessReject).visibility = View.VISIBLE
 
-                    srref = FirebaseStorage.getInstance().reference.child("UserProfilePic/"+applierID)
-                    var localfile = File.createTempFile("tempImage","jpg")
-                    srref.getFile(localfile).addOnSuccessListener {
-                        var bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+                        srref = FirebaseStorage.getInstance().reference.child("UserProfilePic/"+applierID)
+                        var localfile = File.createTempFile("tempImage","jpg")
+                        srref.getFile(localfile).addOnSuccessListener {
+                            var bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
 
-                        view.findViewById<ImageView>(R.id.imgMessProfile).setImageBitmap(bitmap)
-                        view.findViewById<TextView>(R.id.tvMessTitle).text = appliername
+                            view.findViewById<ImageView>(R.id.imgMessProfile).setImageBitmap(bitmap)
+                            view.findViewById<TextView>(R.id.tvMessTitle).text = appliername
+
+                            dbref = FirebaseDatabase.getInstance().getReference("Parttime")
+                            dbref.child(userID).get().addOnSuccessListener {
+                                val jobDate = it.child("date").value.toString()
+                                status_ = it.child("status").value.toString()
+
+                                view.findViewById<TextView>(R.id.tvMessContain).text = appliername + " would like to hire you as their part-time caregiver on " + jobDate
+                            }.addOnFailureListener {
+                                Toast.makeText(requireContext(),"Failed to retrieve details", Toast.LENGTH_LONG).show()
+                            }
+
+                            dbref = FirebaseDatabase.getInstance().getReference("Message")
+                            view.findViewById<Button>(R.id.btnMessAccept).setOnClickListener {
+                                if(status_ != "booked"){
+                                    val stat = mapOf<String,String>("status" to "accepted")
+                                    dbref.child(messageID).updateChildren(stat).addOnSuccessListener {
+                                        Toast.makeText(requireContext(),"Accepted", Toast.LENGTH_SHORT).show()
+                                        dbref = FirebaseDatabase.getInstance().getReference("Parttime")
+                                        val stat = mapOf<String,String>("status" to "booked")
+                                        dbref.child(userID).updateChildren(stat).addOnSuccessListener {
+
+                                        }
+                                    }
+                                    Navigation.findNavController(it).navigate(MessageDetailFragmentDirections.actionMessageDetailFragmentToMessageFragment())
+                                }else{
+                                    Toast.makeText(requireContext(),"You can only accept 1 request at a time", Toast.LENGTH_LONG).show()
+                                }
+
+                            }
+
+                            view.findViewById<Button>(R.id.btnMessReject).setOnClickListener {
+                                val stat = mapOf<String,String>("status" to "rejected")
+                                dbref.child(messageID).updateChildren(stat).addOnSuccessListener {
+                                    Toast.makeText(requireContext(),"Rejected", Toast.LENGTH_SHORT).show()
+                                }
+                                Navigation.findNavController(it).navigate(MessageDetailFragmentDirections.actionMessageDetailFragmentToMessageFragment())
+                            }
+                        }
+                    }else{
+                        view.findViewById<Button>(R.id.btnMessAccept).visibility = View.GONE
+                        view.findViewById<Button>(R.id.btnMessReject).visibility = View.GONE
+
+                        var name = ""
+                        var jobDate = ""
 
                         dbref = FirebaseDatabase.getInstance().getReference("Parttime")
-                        dbref.child(userID).get().addOnSuccessListener {
-                            val jobDate = it.child("date").value.toString()
-                            status_ = it.child("status").value.toString()
+                        dbref.child(careID).get().addOnSuccessListener {
+                            jobDate = it.child("date").value.toString()
+                            name = it.child("fullName").value.toString()
 
-                            view.findViewById<TextView>(R.id.tvMessContain).text = appliername + " would like to hire you as their part-time caregiver on " + jobDate
+                            view.findViewById<TextView>(R.id.tvMessContain).text = name + " has " + status + " your request on "+jobDate
                         }.addOnFailureListener {
                             Toast.makeText(requireContext(),"Failed to retrieve details", Toast.LENGTH_LONG).show()
                         }
 
-                        dbref = FirebaseDatabase.getInstance().getReference("Message")
-                        view.findViewById<Button>(R.id.btnMessAccept).setOnClickListener {
-                            if(status_ != "booked"){
-                                val stat = mapOf<String,String>("status" to "accepted")
-                                dbref.child(messageID).updateChildren(stat).addOnSuccessListener {
-                                    Toast.makeText(requireContext(),"Accepted", Toast.LENGTH_SHORT).show()
-                                    dbref = FirebaseDatabase.getInstance().getReference("Parttime")
-                                    val stat = mapOf<String,String>("status" to "booked")
-                                    dbref.child(userID).updateChildren(stat).addOnSuccessListener {
+                        srref = FirebaseStorage.getInstance().reference.child("UserProfilePic/"+careID)
+                        var localfile = File.createTempFile("tempImage","jpg")
+                        srref.getFile(localfile).addOnSuccessListener {
+                            var bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
 
-                                    }
-                                }
-                            }else{
-                                Toast.makeText(requireContext(),"You can only accept 1 request at a time", Toast.LENGTH_LONG).show()
-                            }
+                            view.findViewById<ImageView>(R.id.imgMessProfile).setImageBitmap(bitmap)
+                            view.findViewById<TextView>(R.id.tvMessTitle).text = name
 
                         }
 
-                        view.findViewById<Button>(R.id.btnMessReject).setOnClickListener {
-                            val stat = mapOf<String,String>("status" to "rejected")
-                            dbref.child(messageID).updateChildren(stat).addOnSuccessListener {
-                                Toast.makeText(requireContext(),"Rejected", Toast.LENGTH_SHORT).show()
-                            }
-                        }
                     }
                 }else{
-                    view.findViewById<Button>(R.id.btnMessAccept).visibility = View.GONE
-                    view.findViewById<Button>(R.id.btnMessReject).visibility = View.GONE
+                    if(status == "pending"){
+                        view.findViewById<Button>(R.id.btnMessAccept).visibility = View.VISIBLE
+                        view.findViewById<Button>(R.id.btnMessReject).visibility = View.VISIBLE
 
-                    var name = ""
-                    var jobDate = ""
+                        srref = FirebaseStorage.getInstance().reference.child("UserProfilePic/"+applierID)
+                        var localfile = File.createTempFile("tempImage","jpg")
+                        srref.getFile(localfile).addOnSuccessListener {
+                            var bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
 
-                    dbref = FirebaseDatabase.getInstance().getReference("Parttime")
-                    dbref.child(careID).get().addOnSuccessListener {
-                        jobDate = it.child("date").value.toString()
-                        name = it.child("fullName").value.toString()
+                            view.findViewById<ImageView>(R.id.imgMessProfile).setImageBitmap(bitmap)
+                            view.findViewById<TextView>(R.id.tvMessTitle).text = appliername
 
-                        view.findViewById<TextView>(R.id.tvMessContain).text = name + " has " + status + " your request on "+jobDate
-                    }.addOnFailureListener {
-                        Toast.makeText(requireContext(),"Failed to retrieve details", Toast.LENGTH_LONG).show()
+                            view.findViewById<TextView>(R.id.tvMessContain).text = appliername + " would like to hire you for the transportation"
+
+                            dbref = FirebaseDatabase.getInstance().getReference("Message")
+                            view.findViewById<Button>(R.id.btnMessAccept).setOnClickListener {
+                                var tempList = ArrayList<CaregiverApply>()
+                                    val stat = mapOf<String,String>("status" to "accepted")
+                                    dbref.child(messageID).updateChildren(stat).addOnSuccessListener {
+                                        Toast.makeText(requireContext(),"Accepted", Toast.LENGTH_SHORT).show()
+
+                                        dbref = FirebaseDatabase.getInstance().getReference("Message")
+                                        dbref.addValueEventListener(object : ValueEventListener {
+                                            override fun onDataChange(snapshot: DataSnapshot) {
+                                                for (dataSnapshot: DataSnapshot in snapshot.children) {
+                                                    var message = dataSnapshot.getValue(CaregiverApply::class.java)
+
+                                                    if(message?.type == "transport"){
+                                                        tempList.add(message!!)
+                                                        tempList= tempList.filter{ r -> r.applierUserID == applierID} as ArrayList<CaregiverApply>
+
+                                                    }
+                                                }
+                                                for(i in 0 until tempList.size){
+                                                    var temp = tempList[0].messageID.toString()
+                                                    val stat = mapOf<String,String>("status" to "expired")
+                                                    dbref.child(temp).updateChildren(stat).addOnSuccessListener {
+
+                                                    }
+                                                }
+                                            }
+
+                                            override fun onCancelled(error: DatabaseError) {
+
+                                            }
+                                        })
+                                    }
+                                Navigation.findNavController(it).navigate(MessageDetailFragmentDirections.actionMessageDetailFragmentToMessageFragment())
+
+                            }
+
+                            view.findViewById<Button>(R.id.btnMessReject).setOnClickListener {
+                                val stat = mapOf<String,String>("status" to "rejected")
+                                dbref.child(messageID).updateChildren(stat).addOnSuccessListener {
+                                    Toast.makeText(requireContext(),"Rejected", Toast.LENGTH_SHORT).show()
+                                }
+                                Navigation.findNavController(it).navigate(MessageDetailFragmentDirections.actionMessageDetailFragmentToMessageFragment())
+                            }
+                        }
+                    }else if (status == "accepted" || status == "rejected"){
+                        view.findViewById<Button>(R.id.btnMessAccept).visibility = View.GONE
+                        view.findViewById<Button>(R.id.btnMessReject).visibility = View.GONE
+
+                        var name = ""
+
+                        dbref = FirebaseDatabase.getInstance().getReference("Users")
+                        dbref.child(careID).get().addOnSuccessListener {
+                            name = it.child("fullName").value.toString()
+
+                            view.findViewById<TextView>(R.id.tvMessContain).text = name + " has " + status + " your transport request"
+                        }.addOnFailureListener {
+                            Toast.makeText(requireContext(),"Failed to retrieve details", Toast.LENGTH_LONG).show()
+                        }
+
+                        srref = FirebaseStorage.getInstance().reference.child("UserProfilePic/"+careID)
+                        var localfile = File.createTempFile("tempImage","jpg")
+                        srref.getFile(localfile).addOnSuccessListener {
+                            var bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+
+                            view.findViewById<ImageView>(R.id.imgMessProfile).setImageBitmap(bitmap)
+                            view.findViewById<TextView>(R.id.tvMessTitle).text = name
+
+                        }
+
                     }
-
-                    srref = FirebaseStorage.getInstance().reference.child("UserProfilePic/"+careID)
-                    var localfile = File.createTempFile("tempImage","jpg")
-                    srref.getFile(localfile).addOnSuccessListener {
-                        var bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
-
-                        view.findViewById<ImageView>(R.id.imgMessProfile).setImageBitmap(bitmap)
-                        view.findViewById<TextView>(R.id.tvMessTitle).text = name
-
                 }
 
-            }
 
 
         }.addOnFailureListener {

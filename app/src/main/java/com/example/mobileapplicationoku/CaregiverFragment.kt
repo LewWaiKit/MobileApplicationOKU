@@ -133,7 +133,7 @@ class CaregiverFragment :Fragment() {
 
 
                         if(status == "booked"){
-                            view?.findViewById<Button>(R.id.btnApply)?.visibility = View.GONE
+/*                            view?.findViewById<Button>(R.id.btnApply)?.visibility = View.GONE*/
                             if(date_.compareTo(today) < 0){
                                 myRef.child(userID).removeValue()
                             }

@@ -144,7 +144,7 @@ class ParttimeDetailsFragment : Fragment() {
                 }
 
             })
-
+            Navigation.findNavController(it).navigate(ParttimeDetailsFragmentDirections.actionParttimeDetailsFragmentToCaregiverFragment())
 
 
         }
