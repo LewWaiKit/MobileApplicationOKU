@@ -86,6 +86,8 @@ class NonGovEventDetail : Fragment() {
             }.addOnFailureListener {
                 Toast.makeText(context, "Fail to get the event details", Toast.LENGTH_LONG).show()
             }
+        }else {
+            Toast.makeText(context, "Error", Toast.LENGTH_LONG).show()
         }
     }
 
