@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_homeFragment_to_messageFragment"
             app:destination="@id/messageFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_event"
+            app:destination="@id/event" />
     </fragment>
 
     <fragment
@@ -185,5 +188,64 @@
         <action
             android:id="@+id/action_transportFrangment_to_mapFragment"
             app:destination="@id/mapFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/event"
+        android:name="com.example.mobileapplicationoku.event"
+        tools:layout="@layout/fragment_event"
+        android:label="fragment_event" >
+        <action
+            android:id="@+id/action_event_to_eventDetail"
+            app:destination="@id/eventDetail" />
+        <action
+            android:id="@+id/action_event_to_nonGovEvent"
+            app:destination="@id/nonGovEvent" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/eventDetail"
+        android:name="com.example.mobileapplicationoku.eventDetail"
+        tools:layout="@layout/fragment_event_detail"
+        android:label="eventDetail" >
+        <argument
+            android:name="ID"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_eventDetail_to_registerEvent"
+            app:destination="@id/registerEvent" />
+    </fragment>
+    <fragment
+        android:id="@+id/nonGovEventDetail"
+        android:name="com.example.mobileapplicationoku.NonGovEventDetail"
+        tools:layout="@layout/fragment_non_gov_event_detail"
+        android:label="NonGovEventDetail" >
+        <argument
+            android:name="ID"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_nonGovEventDetail_to_registerEvent"
+            app:destination="@id/registerEvent" />
+    </fragment>
+    <fragment
+        android:id="@+id/nonGovEvent"
+        android:name="com.example.mobileapplicationoku.NonGovEvent"
+        tools:layout="@layout/fragment_non_gov_event"
+        android:label="NonGovEvent" >
+        <action
+            android:id="@+id/action_nonGovEvent_to_nonGovEventDetail"
+            app:destination="@id/nonGovEventDetail" />
+        <action
+            android:id="@+id/action_nonGovEvent_to_event"
+            app:destination="@id/event" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerEvent"
+        android:name="com.example.mobileapplicationoku.RegisterEvent"
+        tools:layout="@layout/fragment_register_event"
+        android:label="RegisterEvent" >
+        <action
+            android:id="@+id/action_registerEvent_to_event"
+            app:destination="@id/event" />
     </fragment>
 </navigation>

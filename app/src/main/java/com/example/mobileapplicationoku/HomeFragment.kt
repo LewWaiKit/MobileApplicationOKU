@@ -21,7 +21,6 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
-
 class HomeFragment : Fragment() {
     private var backPressedTime = 0L
     private lateinit var auth: FirebaseAuth
@@ -73,6 +72,10 @@ class HomeFragment : Fragment() {
 
         binding.ivMessage.setOnClickListener {
             Navigation.findNavController(it).navigate(HomeFragmentDirections.actionHomeFragmentToMessageFragment())
+        }
+
+        binding.ivEvent.setOnClickListener{
+            Navigation.findNavController(it).navigate(HomeFragmentDirections.actionHomeFragmentToEvent())
         }
         return binding.root
     }
