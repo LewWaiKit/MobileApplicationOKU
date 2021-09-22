@@ -67,15 +67,27 @@ class HomeFragment : Fragment() {
         }
 
         binding.ivService.setOnClickListener {
-            Navigation.findNavController(it).navigate(HomeFragmentDirections.actionHomeFragmentToServiceHomeFragment())
+            if(user!=null){
+                Navigation.findNavController(it).navigate(HomeFragmentDirections.actionHomeFragmentToServiceHomeFragment())
+            }else{
+                Toast.makeText(context, "Admin cannot use this function", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.ivMessage.setOnClickListener {
-            Navigation.findNavController(it).navigate(HomeFragmentDirections.actionHomeFragmentToMessageFragment())
+            if(user!=null){
+                Navigation.findNavController(it).navigate(HomeFragmentDirections.actionHomeFragmentToMessageFragment())
+            }else{
+                Toast.makeText(context, "Admin cannot use this function", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.ivEvent.setOnClickListener{
-            Navigation.findNavController(it).navigate(HomeFragmentDirections.actionHomeFragmentToEvent())
+            if(user!=null){
+                Navigation.findNavController(it).navigate(HomeFragmentDirections.actionHomeFragmentToEvent())
+            }else{
+                Toast.makeText(context, "Admin cannot use this function", Toast.LENGTH_SHORT).show()
+            }
         }
         return binding.root
     }

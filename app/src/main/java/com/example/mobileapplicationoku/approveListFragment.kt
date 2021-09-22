@@ -43,10 +43,7 @@ class approveListFragment : Fragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,callback)
-
         v_binding= FragmentApproveListBinding.inflate(inflater,  container ,false)
-
-
 
         getAprroveData()
         search()

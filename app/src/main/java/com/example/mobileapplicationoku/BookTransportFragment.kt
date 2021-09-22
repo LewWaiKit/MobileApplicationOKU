@@ -151,53 +151,57 @@ class BookTransportFragment : Fragment() {
         if(tempList.size == 0){
             Toast.makeText(context,"There are currently no caregiver in your area",Toast.LENGTH_SHORT).show()
         }else{
-            dbref = FirebaseDatabase.getInstance().getReference("Message")
-            dbref.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for(dataSnapshot : DataSnapshot in snapshot.children){
+            if (date.compareTo(todayDate) < 0){
+                Toast.makeText(context,"Date invalid",Toast.LENGTH_SHORT).show()
+            }else{
+                dbref = FirebaseDatabase.getInstance().getReference("Message")
+                dbref.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        for(dataSnapshot : DataSnapshot in snapshot.children){
 
-                        if(dataSnapshot.exists()){
-                            status = dataSnapshot.child("status").getValue().toString()
-                            applierID = dataSnapshot.child("applierUserID").getValue().toString()
-                            type = dataSnapshot.child("type").getValue().toString()
-                            if(applierID == userID){
-                                if(type == "transport"){
-                                    if(status == "pending"){
-                                        temp = temp + 1
+                            if(dataSnapshot.exists()){
+                                status = dataSnapshot.child("status").getValue().toString()
+                                applierID = dataSnapshot.child("applierUserID").getValue().toString()
+                                type = dataSnapshot.child("type").getValue().toString()
+                                if(applierID == userID){
+                                    if(type == "transport"){
+                                        if(status == "pending"){
+                                            temp = temp + 1
+                                        }
                                     }
+
                                 }
-
                             }
-                        }
 
-                    }
-                    if(temp<=tempList.size){
-                        if(userType == "Caregiver"){
-                            if(care != ""){
+                        }
+                        if(temp<=tempList.size){
+                            if(userType == "Caregiver"){
+                                if(care != ""){
+                                    save(date,time,from,to)
+
+                                }else{
+                                    Toast.makeText(requireContext(),"You must have care people inserted", Toast.LENGTH_LONG).show()
+                                }
+                            }else{
                                 save(date,time,from,to)
 
-                            }else{
-                                Toast.makeText(requireContext(),"You must have care people inserted", Toast.LENGTH_LONG).show()
                             }
-                        }else{
-                            save(date,time,from,to)
-
                         }
-                    }
 
 /*                    if(temp > tempList.size){
                         Toast.makeText(requireContext(),"You can only apply to a booking at a time", Toast.LENGTH_LONG).show()
                     }*/
 
-                }
+                    }
 
-                override fun onCancelled(error: DatabaseError) {
-                }
+                    override fun onCancelled(error: DatabaseError) {
+                    }
 
-            })
+                })
+            }
+
 
         }
-
 
     }
 

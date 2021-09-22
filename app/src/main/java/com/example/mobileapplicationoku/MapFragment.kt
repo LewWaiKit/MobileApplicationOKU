@@ -43,6 +43,8 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -83,6 +85,7 @@ class MapFragment : Fragment(), LocationListener {
     private var v_binding: FragmentMapBinding? = null
     private val binding get() = v_binding!!
     var category = 0
+    private lateinit var auth: FirebaseAuth
 
     private var from = ""
     private var to = ""
@@ -255,8 +258,11 @@ class MapFragment : Fragment(), LocationListener {
         val cvFull = binding.include.cvFull
         val cvPartial = binding.include.cvPartial
         val cvNo = binding.include.cvNo
-
-
+        auth = FirebaseAuth.getInstance()
+        val user:FirebaseUser? = auth.currentUser
+        if(user==null){
+            btnBook.setVisibility(View.GONE)
+        }
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
         bottomSheetBehavior = BottomSheetBehavior.from(btmSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
