@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -72,7 +71,7 @@ class LoginFragment : Fragment() {
             val builder: AlertDialog.Builder = AlertDialog.Builder(context)
             builder.setTitle("Please enter email")
             val view = layoutInflater.inflate(R.layout.dialog_forgot_password,null)
-            val userEmail:EditText = view.findViewById<EditText>(R.id.et_Eamil)
+            val userEmail:EditText = view.findViewById<EditText>(R.id.et_Email)
             builder.setView(view)
             builder.setPositiveButton("Confirm",DialogInterface.OnClickListener { _, _ ->
                 forgotPassword(userEmail)

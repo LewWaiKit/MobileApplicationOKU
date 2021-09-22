@@ -3,6 +3,7 @@ package com.example.mobileapplicationoku
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -140,7 +141,7 @@ class MapFragment : Fragment(), LocationListener {
                 }
                 mMap.addMarker(MarkerOptions().position(latilongi).title("Marker in $name"))
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latilongi))
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(11f))
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(20f))
                 hasMarker = true
 
 
@@ -185,6 +186,7 @@ class MapFragment : Fragment(), LocationListener {
                                     srref.getFile(localfile).addOnSuccessListener {
                                         val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
                                         binding.include.showImg.setImageBitmap(bitmap)
+
 
                                     }.addOnFailureListener(){
                                         binding.include.btnSubmit.text = "Submit"
@@ -231,6 +233,7 @@ class MapFragment : Fragment(), LocationListener {
                     }
 
                 }
+
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                 binding.include.showImg.setImageResource(0)
                 return@setOnMarkerClickListener true
@@ -271,6 +274,7 @@ class MapFragment : Fragment(), LocationListener {
         fetchLocation()
         bottomBehavior()
         viewVisible()
+
         cvFull.setOnClickListener(){
             desc = binding.include.tvFull.text.toString()
         }
@@ -293,6 +297,7 @@ class MapFragment : Fragment(), LocationListener {
         }
 
         btnSubmit.setOnClickListener(){
+            progressDialog.show()
             dbref = FirebaseDatabase.getInstance().getReference("Facilities")
             dbref.addListenerForSingleValueEvent(object: ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -309,8 +314,10 @@ class MapFragment : Fragment(), LocationListener {
                     }
                     dbref.child(fID).setValue(facility).addOnSuccessListener() {
                         Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+                        progressDialog.dismiss()
                     }.addOnFailureListener(){
                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                        progressDialog.dismiss()
                     }
 
                 }
@@ -401,7 +408,9 @@ class MapFragment : Fragment(), LocationListener {
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
             }
-
+        val progressDialog = ProgressDialog(context)
+        progressDialog.setMessage("Loading...")
+        progressDialog.setCancelable(false)
 
         })
     }
@@ -453,6 +462,10 @@ class MapFragment : Fragment(), LocationListener {
     }
 
     private fun fetchLocation() {
+        val progressDialog = ProgressDialog(context)
+        progressDialog.setMessage("Loading...")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
         val task = fusedLocationProviderClient.lastLocation
         if (ActivityCompat.checkSelfPermission(
                 requireContext().applicationContext,
@@ -488,7 +501,8 @@ class MapFragment : Fragment(), LocationListener {
                 }
                 mMap.addMarker(MarkerOptions().position(latilongi).title("You are here"))
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latilongi))
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(8f))
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(20f))
+                progressDialog.dismiss()
 
             }
         }
@@ -509,6 +523,10 @@ class MapFragment : Fragment(), LocationListener {
 
     private fun compareService(){
         markerList.clear()
+        val progressDialog = ProgressDialog(context)
+        progressDialog.setMessage("Loading...")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
         dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
         dbref.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -533,6 +551,7 @@ class MapFragment : Fragment(), LocationListener {
                                     for(i in 0 until markerList.size){
                                         mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                                         mMap.addMarker(markerList[i])
+                                        mMap.animateCamera(CameraUpdateFactory.zoomTo(8f))
                                     }
                                     /*markerList.groupBy { it.title }
                                     for(i in 0 until markerList.size - 1){
@@ -549,6 +568,7 @@ class MapFragment : Fragment(), LocationListener {
                                         }
                                     }*/
                                     hasMarker = true
+                                    progressDialog.dismiss()
                                 }
                             }
 
@@ -571,6 +591,7 @@ class MapFragment : Fragment(), LocationListener {
                                     for(i in 0 until markerList.size){
                                         mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                                         mMap.addMarker(markerList[i])
+                                        mMap.animateCamera(CameraUpdateFactory.zoomTo(8f))
                                     }
                                     /*for(i in 0 until markerList.size - 1){
                                         if(markerList[i].title.toString() == pID){
@@ -588,6 +609,7 @@ class MapFragment : Fragment(), LocationListener {
                                     }*/
 
                                     hasMarker = true
+                                    progressDialog.dismiss()
                                 }
                             }
 
@@ -619,6 +641,7 @@ class MapFragment : Fragment(), LocationListener {
                                     for(i in 0 until markerList.size){
                                         mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                                         mMap.addMarker(markerList[i])
+                                        mMap.animateCamera(CameraUpdateFactory.zoomTo(8f))
                                     }
 
                                     /*for(i in 0 until placeList.size - 1){
@@ -627,6 +650,7 @@ class MapFragment : Fragment(), LocationListener {
                                         }
                                     }*/
                                     hasMarker = true
+                                    progressDialog.dismiss()
                                 }
                             }
 
@@ -649,6 +673,7 @@ class MapFragment : Fragment(), LocationListener {
                                     for(i in 0 until markerList.size){
                                         mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                                         mMap.addMarker(markerList[i])
+                                        mMap.animateCamera(CameraUpdateFactory.zoomTo(8f))
                                     }
                                     /*markerList.groupBy { it.title }
                                     for(i in 0 until markerList.size - 1){
@@ -666,6 +691,7 @@ class MapFragment : Fragment(), LocationListener {
                                     }*/
 
                                     hasMarker = true
+                                    progressDialog.dismiss()
                                 }
                             }
 
@@ -687,6 +713,7 @@ class MapFragment : Fragment(), LocationListener {
                                     for(i in 0 until markerList.size){
                                         mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                                         mMap.addMarker(markerList[i])
+                                        mMap.animateCamera(CameraUpdateFactory.zoomTo(8f))
                                     }
                                     /*markerList.groupBy { it.title }
                                     for(i in 0 until markerList.size - 1){
@@ -704,6 +731,7 @@ class MapFragment : Fragment(), LocationListener {
                                     }*/
 
                                     hasMarker = true
+                                    progressDialog.dismiss()
                                 }
                             }
 
@@ -726,6 +754,7 @@ class MapFragment : Fragment(), LocationListener {
                                     for(i in 0 until markerList.size){
                                         mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
                                         mMap.addMarker(markerList[i])
+                                        mMap.animateCamera(CameraUpdateFactory.zoomTo(8f))
                                     }
                                     /*markerList.groupBy { it.title }
                                     for(i in 0 until markerList.size - 1){
@@ -743,6 +772,7 @@ class MapFragment : Fragment(), LocationListener {
                                     }*/
 
                                     hasMarker = true
+                                    progressDialog.dismiss()
                                 }
                             }
 
@@ -765,305 +795,6 @@ class MapFragment : Fragment(), LocationListener {
             }
         })
     }
-
-    /*private fun compareTransportService(){
-        markerList.clear()
-        dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
-        dbref.addValueEventListener(object: ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                if(snapshot.exists()){
-                    for(facilitySnapshot in snapshot.children){
-                        for(child in facilitySnapshot.child("serviceList").children){
-                            if(child.value.toString().uppercase() == "BUS_STATION" || child.value.toString().uppercase() == "TRAIN_STATION" || child.value.toString().uppercase() == "TRANSIT_STATION" ||
-                                child.value.toString().uppercase() == "TAXI_STAND" || child.value.toString().uppercase() == "SUBWAY_STATION" || child.value.toString().uppercase() == "GAS_STATION" ||
-                                child.value.toString().uppercase() == "AIRPORT" || child.value.toString().uppercase() == "PARKING" || child.value.toString().uppercase() == "GAS_STATION"){ // need to categorize the category
-
-                                pID = facilitySnapshot.child("id").value.toString()
-                                placeList.add(facilitySnapshot.getValue(AppFacilities::class.java)!!)
-                                binding.include.tvPlaceName.text = facilitySnapshot.child("locationName").value.toString()
-                                binding.include.tvService.text = facilitySnapshot.child("serviceList").child("0").value.toString()
-                                serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
-                                serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
-                                var serviceLocation = LatLng(serviceLat, serviceLng)
-                                markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).title("$pID"))
-
-                                markerList.distinct()
-                                placeList.distinct()
-                                for(i in 0 until markerList.size){
-                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                    mMap.addMarker(markerList[i])
-                                }
-                                *//*for(i in 0 until markerList.size - 1){
-                                    if(markerList[i].title.toString() == pID){
-                                        markerList.removeAt(i)
-                                    }
-                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                    mMap.addMarker(markerList[i])
-
-                                }
-
-                                for(i in 0 until placeList.size - 1){
-                                    if(placeList[i].id == pID){
-                                        placeList.removeAt(i)
-                                    }
-                                }*//*
-
-                                hasMarker = true
-                            }
-                        }
-                    }
-                    Log.i(TAG, "Place: ${markerList}")
-                }
-                else{
-                    Toast.makeText(context, "Nothing", Toast.LENGTH_LONG).show()
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
-    }
-
-    private fun compareShoppingService(){
-        markerList.clear()
-        dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
-        dbref.addValueEventListener(object: ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                if(snapshot.exists()){
-                    for(facilitySnapshot in snapshot.children){
-                        for(child in facilitySnapshot.child("serviceList").children){
-                            if(child.value.toString().uppercase() == "CLOTHING_STORE" || child.value.toString().uppercase() == "CONVENIENCE_STORE" || child.value.toString().uppercase() == "DEPARTMENT_STORE" ||
-                                child.value.toString().uppercase() == "ELECTRONIC_STORE" || child.value.toString().uppercase() == "FURNITURE_STORE" || child.value.toString().uppercase() == "HARDWARE_STORE" ||
-                                child.value.toString().uppercase() == "HOME_GOODS_STORE" || child.value.toString().uppercase() == "JEWELRY_STORE" || child.value.toString().uppercase() == "LIQUOR_STORE" ||
-                                child.value.toString().uppercase() == "PET_STORE" || child.value.toString().uppercase() == "SHOE_STORE" || child.value.toString().uppercase() == "SHOPPING_MALL" ||
-                                child.value.toString().uppercase() == "STORE" || child.value.toString().uppercase() == "SUPERMARKET"){ // need to categorize the category
-
-                                pID = facilitySnapshot.child("id").value.toString()
-                                placeList.add(facilitySnapshot.getValue(AppFacilities::class.java)!!)
-                                binding.include.tvPlaceName.text = facilitySnapshot.child("locationName").value.toString()
-                                binding.include.tvService.text = facilitySnapshot.child("serviceList").child("0").value.toString()
-                                serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
-                                serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
-                                var serviceLocation = LatLng(serviceLat, serviceLng)
-                                markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).title("$pID"))
-                                markerList.groupBy { it.title }
-                                *//*for(i in 0 until markerList.size - 1){
-                                    if(markerList[i].title.toString() == pID){
-                                        markerList.removeAt(i)
-                                    }
-                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                    mMap.addMarker(markerList[i])
-                                }*//*
-                                markerList.distinct()
-                                placeList.distinct()
-                                for(i in 0 until markerList.size){
-                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                    mMap.addMarker(markerList[i])
-                                }
-
-                                *//*for(i in 0 until placeList.size - 1){
-                                    if(placeList[i].id == pID){
-                                        placeList.removeAt(i)
-                                    }
-                                }*//*
-                                hasMarker = true
-                            }
-                        }
-                    }
-                    Log.i(TAG, "Place: ${markerList}")
-                }
-                else{
-                    Toast.makeText(context, "Nothing", Toast.LENGTH_LONG).show()
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
-    }
-
-    private fun compareTourismService(){
-        markerList.clear()
-        dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
-        dbref.addValueEventListener(object: ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                if(snapshot.exists()){
-                    for(facilitySnapshot in snapshot.children){
-                        for(child in facilitySnapshot.child("serviceList").children){
-                            if(child.value.toString().uppercase() == "AIRPORT" || child.value.toString().uppercase() == "AMUSEMENT_PARK" || child.value.toString().uppercase() == "AQUARIUM" ||
-                                child.value.toString().uppercase() == "ART_GALLERY" || child.value.toString().uppercase() == "LODGING" || child.value.toString().uppercase() == "MUSEUM" ||
-                                child.value.toString().uppercase() == "TOURIST_ATTRACTION" || child.value.toString().uppercase() == "TRAVEL_AGENCY" || child.value.toString().uppercase() == "ZOO"){ // need to categorize the category
-
-                                pID = facilitySnapshot.child("id").value.toString()
-                                placeList.add(facilitySnapshot.getValue(AppFacilities::class.java)!!)
-                                binding.include.tvPlaceName.text = facilitySnapshot.child("locationName").value.toString()
-                                binding.include.tvService.text = facilitySnapshot.child("serviceList").child("0").value.toString()
-                                serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
-                                serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
-                                var serviceLocation = LatLng(serviceLat, serviceLng)
-                                markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)).title("$pID"))
-
-                                markerList.distinct()
-                                placeList.distinct()
-                                for(i in 0 until markerList.size){
-                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                    mMap.addMarker(markerList[i])
-                                }
-                                *//*markerList.groupBy { it.title }
-                                for(i in 0 until markerList.size - 1){
-                                    if(markerList[i].title.toString() == pID){
-                                        markerList.removeAt(i)
-                                    }
-                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                    mMap.addMarker(markerList[i])
-                                }
-
-                                for(i in 0 until placeList.size - 1){
-                                    if(placeList[i].id == pID){
-                                        placeList.removeAt(i)
-                                    }
-                                }*//*
-
-                                hasMarker = true
-                            }
-                        }
-                    }
-                    Log.i(TAG, "Place: ${markerList}")
-                }
-                else{
-                    Toast.makeText(context, "Nothing", Toast.LENGTH_LONG).show()
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
-    }
-
-    private fun compareEducationService(){
-        markerList.clear()
-        dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
-        dbref.addValueEventListener(object: ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                if(snapshot.exists()){
-                    for(facilitySnapshot in snapshot.children){
-                        for(child in facilitySnapshot.child("serviceList").children){
-                            if(child.value.toString().uppercase() == "BOOK_STORE" || child.value.toString().uppercase() == "LIBRARY" || child.value.toString().uppercase() == "PRIMARY_SCHOOL" ||
-                                child.value.toString().uppercase() == "SECONDARY_SCHOOL" || child.value.toString().uppercase() == "SCHOOL" || child.value.toString().uppercase() == "UNIVERSITY"){ // need to categorize the category
-
-                                pID = facilitySnapshot.child("id").value.toString()
-                                placeList.add(facilitySnapshot.getValue(AppFacilities::class.java)!!)
-                                binding.include.tvPlaceName.text = facilitySnapshot.child("locationName").value.toString()
-                                binding.include.tvService.text = facilitySnapshot.child("serviceList").child("0").value.toString()
-                                serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
-                                serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
-                                var serviceLocation = LatLng(serviceLat, serviceLng)
-                                markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title("$pID"))
-
-                                markerList.distinct()
-                                placeList.distinct()
-                                for(i in 0 until markerList.size){
-                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                    mMap.addMarker(markerList[i])
-                                }
-                                *//*markerList.groupBy { it.title }
-                                for(i in 0 until markerList.size - 1){
-                                    if(markerList[i].title.toString() == pID){
-                                        markerList.removeAt(i)
-                                    }
-                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                    mMap.addMarker(markerList[i])
-                                }
-
-                                for(i in 0 until placeList.size - 1){
-                                    if(placeList[i].id == pID){
-                                        placeList.removeAt(i)
-                                    }
-                                }*//*
-
-                                hasMarker = true
-                            }
-                        }
-                    }
-                    Log.i(TAG, "Place: ${markerList}")
-                }
-                else{
-                    Toast.makeText(context, "Nothing", Toast.LENGTH_LONG).show()
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
-    }
-
-    private fun compareHealthService(){
-        markerList.clear()
-        dbref = FirebaseDatabase.getInstance().getReference("AppFacilities")
-        dbref.addValueEventListener(object: ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                if(snapshot.exists()){
-                    for(facilitySnapshot in snapshot.children){
-                        for(child in facilitySnapshot.child("serviceList").children){
-                            if(child.value.toString().uppercase() == "DENTIST" || child.value.toString().uppercase() == "DRUGSTORE" || child.value.toString().uppercase() == "HOSPITAL" ||
-                                child.value.toString().uppercase() == "PHARMACY" || child.value.toString().uppercase() == "PHYSIOTHERAPIST" || child.value.toString().uppercase() == "VETERINARY_CARE" ||
-                                child.value.toString().uppercase() == "HEALTH"){ // need to categorize the category
-
-                                pID = facilitySnapshot.child("id").value.toString()
-                                placeList.add(facilitySnapshot.getValue(AppFacilities::class.java)!!)
-                                binding.include.tvPlaceName.text = facilitySnapshot.child("locationName").value.toString()
-                                binding.include.tvService.text = facilitySnapshot.child("serviceList").child("0").value.toString()
-                                serviceLat = facilitySnapshot.child("latitude").value.toString().toDouble()
-                                serviceLng = facilitySnapshot.child("longitude").value.toString().toDouble()
-                                var serviceLocation = LatLng(serviceLat, serviceLng)
-                                markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)).title("$pID"))
-
-                                markerList.distinct()
-                                placeList.distinct()
-                                for(i in 0 until markerList.size){
-                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                    mMap.addMarker(markerList[i])
-                                }
-                                *//*markerList.groupBy { it.title }
-                                for(i in 0 until markerList.size - 1){
-                                    if(markerList[i].title.toString() == pID){
-                                        markerList.removeAt(i)
-                                    }
-                                    mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                    mMap.addMarker(markerList[i])
-                                }
-
-                                for(i in 0 until placeList.size - 1){
-                                    if(placeList[i].id == pID){
-                                        placeList.removeAt(i)
-                                    }
-                                }*//*
-
-                                hasMarker = true
-                            }
-                        }
-                    }
-                    Log.i(TAG, "Place: ${markerList}")
-                }
-                else{
-                    Toast.makeText(context, "Nothing", Toast.LENGTH_LONG).show()
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
-    }*/
 
     override fun onLocationChanged(location: Location) {
 
