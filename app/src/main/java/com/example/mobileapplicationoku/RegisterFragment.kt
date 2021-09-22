@@ -7,14 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.example.mobileapplicationoku.adapter.ApproveAdapter
+import com.example.mobileapplicationoku.dataClass.Approve
 import com.example.mobileapplicationoku.databinding.FragmentRegisterBinding
+import com.google.firebase.database.*
 import java.util.regex.Pattern
 
 class RegisterFragment : Fragment() {
 
     private var v_binding: FragmentRegisterBinding? = null
     private val binding get() = v_binding!!
+    private lateinit var approveArrayList : ArrayList<Approve>
+
     val EMAIL_PATTERN = Pattern.compile(
         "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                 "\\@" +
@@ -29,10 +35,10 @@ class RegisterFragment : Fragment() {
             "(?=.*[0-9])" +       //at least 1 digit
             "(?=.*[a-z])" +       //at least 1 lower case letter
             "(?=.*[A-Z])" +       //at least 1 upper case letter
-            //"(?=.*[a-zA-Z])" +    //any letter
-            "(?=.*[;@#$%^&+=])" +  //at least 1 special character
+            //"(?=.*[a-zA-Z])" +  //any letter
+            "(?=.*[;@#$%^&+=])" + //at least 1 special character
             "(?=\\S+$)" +         //no white spaces
-            ".{8,20}" +             //at least 8 characters max 20
+            ".{8,20}" +           //at least 8 characters max 20
             "$"
     )
 
@@ -67,7 +73,8 @@ class RegisterFragment : Fragment() {
     }
 
     private fun emailValidate():Boolean{
-        val email = binding.tfEmail.text.toString().trim()
+        var hasValue = false
+        val email = binding.tfEmail.text.toString().trim().lowercase()
         if (email.isEmpty()){
             binding.tfEmail.error = "Please fill in email"
             binding.tfEmail.requestFocus()
@@ -76,8 +83,9 @@ class RegisterFragment : Fragment() {
             binding.tfEmail.error = "Please fill in valid email"
             binding.tfEmail.requestFocus()
             return false
+        }else{
+            return true
         }
-        return true
     }
 
     private fun passValidate():Boolean{
