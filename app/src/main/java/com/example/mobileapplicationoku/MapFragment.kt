@@ -27,6 +27,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.bumptech.glide.Glide
 import com.example.mobileapplicationoku.dataClass.AppFacilities
 import com.example.mobileapplicationoku.dataClass.Facilities
 import com.example.mobileapplicationoku.databinding.FragmentMapBinding
@@ -49,6 +50,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
@@ -92,15 +95,7 @@ class MapFragment : Fragment(), LocationListener {
     private var to = ""
 
     private val callback = OnMapReadyCallback { googleMap ->
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
+
         mMap = googleMap
 
 
@@ -155,18 +150,6 @@ class MapFragment : Fragment(), LocationListener {
         mMap.setOnMarkerClickListener {marker ->
             if(hasMarker){
                 dbref2 = FirebaseDatabase.getInstance().getReference("AppFacilities")
-                /*dbref2.child(placeID).get().addOnSuccessListener {
-                    if(it.exists()){
-                        binding.include.btnSubmit.text = "Update"
-
-                    }
-
-                    else
-                    binding.include.btnSubmit.text = "Submit"
-                }
-                .addOnFailureListener(){
-
-                }*/
 
                 dbref2.addValueEventListener(object: ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -250,7 +233,7 @@ class MapFragment : Fragment(), LocationListener {
         savedInstanceState: Bundle?
     ): View? {
         v_binding= FragmentMapBinding.inflate(inflater,  container ,false)
-        /*val view = inflater.inflate(R.layout.fragment_maps, container, false)*/
+
         val fab = binding.fabLocation
         val btmSheet = binding.include.bottomSheet
         val btnAddImg = binding.include.btnAddImg
@@ -260,11 +243,11 @@ class MapFragment : Fragment(), LocationListener {
         val cvFull = binding.include.cvFull
         val cvPartial = binding.include.cvPartial
         val cvNo = binding.include.cvNo
-        auth = FirebaseAuth.getInstance()
-        val user:FirebaseUser? = auth.currentUser
-        if(user==null){
-            btnBook.setVisibility(View.GONE)
-        }
+
+        val progressDialog = ProgressDialog(context)
+        progressDialog.setMessage("Loading...")
+        progressDialog.setCancelable(false)
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
         bottomSheetBehavior = BottomSheetBehavior.from(btmSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
@@ -399,13 +382,7 @@ class MapFragment : Fragment(), LocationListener {
     private fun bottomBehavior(){
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                /*when(newState){
-                    BottomSheetBehavior.STATE_EXPANDED-> Toast.makeText(context, "STATE_EXPANDED", Toast.LENGTH_SHORT).show()
-                    BottomSheetBehavior.STATE_DRAGGING -> Toast.makeText(context, "STATE_DRAGGING", Toast.LENGTH_SHORT).show()
-                    BottomSheetBehavior.STATE_SETTLING -> Toast.makeText(context, "STATE_SETTLING", Toast.LENGTH_SHORT).show()
-                    BottomSheetBehavior.STATE_HIDDEN -> Toast.makeText(context, "STATE_HIDDEN", Toast.LENGTH_SHORT).show()
-                    else -> Toast.makeText(context, "OTHER_STATE", Toast.LENGTH_SHORT).show()
-                }*/
+
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -427,6 +404,10 @@ class MapFragment : Fragment(), LocationListener {
                 startActivityForResult(intent, camRequestCode)
             } else if (options[item] == "Choose from Gallery") {
                 val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                intent.type = "image/*"
+                val mimeType = arrayOf("image/jpeg", "image/png", "image/jpg")
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
+                intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                 startActivityForResult(intent, storageRequestCode)
             } else if (options[item] == "Cancel") {
                 dialog.dismiss()
@@ -440,6 +421,7 @@ class MapFragment : Fragment(), LocationListener {
             if (resultCode == Activity.RESULT_OK) {
 
                 bmp = data?.extras!!["data"] as Bitmap?
+
                 val stream = ByteArrayOutputStream()
                 bmp!!.compress(Bitmap.CompressFormat.PNG, 100, stream)
                 val byteArray = stream.toByteArray()
@@ -452,22 +434,45 @@ class MapFragment : Fragment(), LocationListener {
 
                 val path = MediaStore.Images.Media.insertImage(context?.contentResolver, bitmap, "Title" + System.currentTimeMillis(), null)
                 imgUri1 = Uri.parse(path.toString())
-                /*view?.findViewById<ImageView>(R.id.showImg)?.setImageBitmap(bitmap)*/
+
                 view?.findViewById<ImageView>(R.id.showImg)?.setImageURI(imgUri1)
             }
         } else if (requestCode == storageRequestCode) {
             if (resultCode == Activity.RESULT_OK) {
-                imgUri1 = data?.data
-                view?.findViewById<ImageView>(R.id.showImg)?.setImageURI(imgUri1)
+                data?.data?.let{ uri ->
+                    launchImageCrop(uri)
+                }
             }
+        } else if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE ){
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == Activity.RESULT_OK){
+                result.uri?.let {
+                    setImage(it)
+                }
+
+            }else if(resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+                //show error
+            }
+
         }
     }
 
+    private fun setImage(uri: Uri?) {
+        Glide.with(requireContext())
+            .load(uri)
+            .into(binding.include.showImg)
+        imgUri1 = Uri.parse(uri.toString())
+    }
+
+    private fun launchImageCrop(uri: Uri) {
+        CropImage.activity(uri)
+            .setGuidelines(CropImageView.Guidelines.ON)
+            .setAspectRatio(1080,1080)
+            .setCropShape(CropImageView.CropShape.RECTANGLE)
+            .start(requireContext(),this)
+    }
+
     private fun fetchLocation() {
-        val progressDialog = ProgressDialog(context)
-        progressDialog.setMessage("Loading...")
-        progressDialog.setCancelable(false)
-        progressDialog.show()
         val task = fusedLocationProviderClient.lastLocation
         if (ActivityCompat.checkSelfPermission(
                 requireContext().applicationContext,
@@ -504,7 +509,6 @@ class MapFragment : Fragment(), LocationListener {
                 mMap.addMarker(MarkerOptions().position(latilongi).title("You are here"))
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latilongi))
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(20f))
-                progressDialog.dismiss()
 
             }
         }
@@ -555,20 +559,7 @@ class MapFragment : Fragment(), LocationListener {
                                         mMap.addMarker(markerList[i])
                                         mMap.animateCamera(CameraUpdateFactory.zoomTo(8f))
                                     }
-                                    /*markerList.groupBy { it.title }
-                                    for(i in 0 until markerList.size - 1){
-                                        if(markerList[i].title.toString() == pID){
-                                            markerList.removeAt(i)
-                                        }
-                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                        mMap.addMarker(markerList[i])
-                                    }
 
-                                    for(i in 0 until placeList.size - 1){
-                                        if(placeList[i].id == pID){
-                                            placeList.removeAt(i)
-                                        }
-                                    }*/
                                     hasMarker = true
                                     progressDialog.dismiss()
                                 }
@@ -595,20 +586,6 @@ class MapFragment : Fragment(), LocationListener {
                                         mMap.addMarker(markerList[i])
                                         mMap.animateCamera(CameraUpdateFactory.zoomTo(8f))
                                     }
-                                    /*for(i in 0 until markerList.size - 1){
-                                        if(markerList[i].title.toString() == pID){
-                                            markerList.removeAt(i)
-                                        }
-                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                        mMap.addMarker(markerList[i])
-
-                                    }
-
-                                    for(i in 0 until placeList.size - 1){
-                                        if(placeList[i].id == pID){
-                                            placeList.removeAt(i)
-                                        }
-                                    }*/
 
                                     hasMarker = true
                                     progressDialog.dismiss()
@@ -631,13 +608,7 @@ class MapFragment : Fragment(), LocationListener {
                                     var serviceLocation = LatLng(serviceLat, serviceLng)
                                     markerList.add(MarkerOptions().position(serviceLocation).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).title("$pID"))
                                     markerList.groupBy { it.title }
-                                    /*for(i in 0 until markerList.size - 1){
-                                        if(markerList[i].title.toString() == pID){
-                                            markerList.removeAt(i)
-                                        }
-                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                        mMap.addMarker(markerList[i])
-                                    }*/
+
                                     markerList.distinct()
                                     placeList.distinct()
                                     for(i in 0 until markerList.size){
@@ -646,11 +617,6 @@ class MapFragment : Fragment(), LocationListener {
                                         mMap.animateCamera(CameraUpdateFactory.zoomTo(8f))
                                     }
 
-                                    /*for(i in 0 until placeList.size - 1){
-                                        if(placeList[i].id == pID){
-                                            placeList.removeAt(i)
-                                        }
-                                    }*/
                                     hasMarker = true
                                     progressDialog.dismiss()
                                 }
@@ -677,20 +643,6 @@ class MapFragment : Fragment(), LocationListener {
                                         mMap.addMarker(markerList[i])
                                         mMap.animateCamera(CameraUpdateFactory.zoomTo(8f))
                                     }
-                                    /*markerList.groupBy { it.title }
-                                    for(i in 0 until markerList.size - 1){
-                                        if(markerList[i].title.toString() == pID){
-                                            markerList.removeAt(i)
-                                        }
-                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                        mMap.addMarker(markerList[i])
-                                    }
-
-                                    for(i in 0 until placeList.size - 1){
-                                        if(placeList[i].id == pID){
-                                            placeList.removeAt(i)
-                                        }
-                                    }*/
 
                                     hasMarker = true
                                     progressDialog.dismiss()
@@ -717,20 +669,6 @@ class MapFragment : Fragment(), LocationListener {
                                         mMap.addMarker(markerList[i])
                                         mMap.animateCamera(CameraUpdateFactory.zoomTo(8f))
                                     }
-                                    /*markerList.groupBy { it.title }
-                                    for(i in 0 until markerList.size - 1){
-                                        if(markerList[i].title.toString() == pID){
-                                            markerList.removeAt(i)
-                                        }
-                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                        mMap.addMarker(markerList[i])
-                                    }
-
-                                    for(i in 0 until placeList.size - 1){
-                                        if(placeList[i].id == pID){
-                                            placeList.removeAt(i)
-                                        }
-                                    }*/
 
                                     hasMarker = true
                                     progressDialog.dismiss()
@@ -758,20 +696,6 @@ class MapFragment : Fragment(), LocationListener {
                                         mMap.addMarker(markerList[i])
                                         mMap.animateCamera(CameraUpdateFactory.zoomTo(8f))
                                     }
-                                    /*markerList.groupBy { it.title }
-                                    for(i in 0 until markerList.size - 1){
-                                        if(markerList[i].title.toString() == pID){
-                                            markerList.removeAt(i)
-                                        }
-                                        mMap.addMarker(markerList[i]).tag = markerList[i].title.toString()
-                                        mMap.addMarker(markerList[i])
-                                    }
-
-                                    for(i in 0 until placeList.size - 1){
-                                        if(placeList[i].id == pID){
-                                            placeList.removeAt(i)
-                                        }
-                                    }*/
 
                                     hasMarker = true
                                     progressDialog.dismiss()
