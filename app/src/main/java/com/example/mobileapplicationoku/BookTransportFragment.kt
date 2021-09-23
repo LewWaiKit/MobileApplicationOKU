@@ -185,8 +185,8 @@ class BookTransportFragment : Fragment() {
                             }else{
                                 save(date,time,from,to)
 
+                                }
                             }
-                        }
 
 /*                    if(temp > tempList.size){
                         Toast.makeText(requireContext(),"You can only apply to a booking at a time", Toast.LENGTH_LONG).show()

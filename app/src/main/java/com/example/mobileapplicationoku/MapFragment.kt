@@ -297,6 +297,9 @@ class MapFragment : Fragment(), LocationListener {
         }
 
         btnSubmit.setOnClickListener(){
+            val progressDialog = ProgressDialog(context)
+            progressDialog.setMessage("Loading...")
+            progressDialog.setCancelable(false)
             progressDialog.show()
             dbref = FirebaseDatabase.getInstance().getReference("Facilities")
             dbref.addListenerForSingleValueEvent(object: ValueEventListener{
@@ -408,9 +411,9 @@ class MapFragment : Fragment(), LocationListener {
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
             }
-        val progressDialog = ProgressDialog(context)
+/*        val progressDialog = ProgressDialog(context)
         progressDialog.setMessage("Loading...")
-        progressDialog.setCancelable(false)
+        progressDialog.setCancelable(false)*/
 
         })
     }
