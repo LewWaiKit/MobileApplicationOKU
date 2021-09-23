@@ -137,7 +137,8 @@ class ApproveDetailsFragment : Fragment() {
                             "<p>Hello $fullName,</p>\n" +
                             "<p>Your registration has been rejected, here is the following reason.</p>\n" +
                             "<b>$reason</b>\n" +
-                            "<p>Thanks</p>")
+                            "<p>Thanks</p>\n" +
+                            "<p>Your Okie team</p>")
                     .isHtml()
                     .send(){
                         Toast.makeText(context, "Message send",
