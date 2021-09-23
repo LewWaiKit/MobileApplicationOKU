@@ -56,7 +56,7 @@ class ParttimeDetailsFragment : Fragment() {
                 care = it.child("care").value.toString()
 
             }.addOnFailureListener {
-                Toast.makeText(requireContext(),"Error", Toast.LENGTH_LONG).show()
+                Toast.makeText(context,"Error", Toast.LENGTH_LONG).show()
             }
 
         }
@@ -104,15 +104,15 @@ class ParttimeDetailsFragment : Fragment() {
                                         dbref.child(newID).setValue(save).addOnSuccessListener() {
                                             Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
                                         }.addOnFailureListener {
-                                            Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
                                         }
                                     }
                                     override fun onCancelled(error: DatabaseError) {
-                                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
                                     }
                                 })
                             }else{
-                                Toast.makeText(requireContext(),"You must have care people inserted", Toast.LENGTH_LONG).show()
+                                Toast.makeText(context,"You must have care people inserted", Toast.LENGTH_LONG).show()
                             }
                         }else{
                             dbref = FirebaseDatabase.getInstance().getReference("Message")
@@ -125,13 +125,13 @@ class ParttimeDetailsFragment : Fragment() {
                                     }
                                     val save = CaregiverApply(newID,careID,userID,username,"pending",date,"","parttime","","")
                                     dbref.child(newID).setValue(save).addOnSuccessListener() {
-                                        Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
                                     }.addOnFailureListener {
-                                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
                                     }
                                 }
                                 override fun onCancelled(error: DatabaseError) {
-                                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
                                 }
                             })
 

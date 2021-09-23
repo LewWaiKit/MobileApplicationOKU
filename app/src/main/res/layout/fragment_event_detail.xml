@@ -32,9 +32,10 @@
 
             <ImageView
                 android:id="@+id/imageEvent"
-                android:layout_width="365dp"
+                android:layout_width="375dp"
                 android:layout_height="183dp"
                 android:layout_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/avatars" />

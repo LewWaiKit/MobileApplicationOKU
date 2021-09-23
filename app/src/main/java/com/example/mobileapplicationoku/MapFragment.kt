@@ -112,7 +112,7 @@ class MapFragment : Fragment(), LocationListener {
             Places.initialize(requireActivity().applicationContext, getString(R.string.google_maps_key))
         }
 
-        autocompleteFragment?.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.TYPES))
+        autocompleteFragment?.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.TYPES, Place.Field.ADDRESS))
 
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment?.setOnPlaceSelectedListener(object : PlaceSelectionListener {
@@ -130,7 +130,6 @@ class MapFragment : Fragment(), LocationListener {
                 serviceList = place.types
                 binding.include.tvPlaceName.text = name
                 binding.include.tvService.text = service
-
                 to = place.address.toString()
 
 

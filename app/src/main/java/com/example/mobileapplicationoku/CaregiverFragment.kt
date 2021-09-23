@@ -151,12 +151,12 @@ class CaregiverFragment :Fragment() {
                                 if(date_ == date){
                                     caregiverList.add(CareGiver(name,desc,bitmap,location,date_,userID))
                                 }
-                                if(caregiverList.size==0){
+                                /*if(caregiverList.size==0){
                                     val builder = AlertDialog.Builder(context)
                                     builder.setTitle("No data found")
                                     builder.setMessage("It seems like there are currently no part-timer here")
                                     builder.show()
-                                }
+                                }*/
                                 caregiverList = caregiverList.filter { r -> r.name != username } as ArrayList<CareGiver>
                                 recyclerView.layoutManager = linearLayoutManager
                                 recyclerView.adapter = CaregiverAdapter(caregiverList,

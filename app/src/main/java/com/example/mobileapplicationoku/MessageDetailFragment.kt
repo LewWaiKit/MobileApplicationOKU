@@ -1,6 +1,8 @@
 package com.example.mobileapplicationoku
 
+import android.content.Intent
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -41,6 +43,11 @@ class MessageDetailFragment : Fragment() {
         var status = ""
         var status_ = ""
         var type = ""
+        var from = ""
+        var to = ""
+        var time = ""
+        var date = ""
+        var phoneNo = ""
 
         val auth = FirebaseAuth.getInstance()
         val currentUser: FirebaseUser = auth.getCurrentUser() as FirebaseUser
@@ -54,9 +61,14 @@ class MessageDetailFragment : Fragment() {
             dbref.child(messageID).get().addOnSuccessListener {
                 applierID = it.child("applierUserID").value.toString()
                 appliername = it.child("applierName").value.toString()
+                to = it.child("to").value.toString()
+                from = it.child("from").value.toString()
+                date = it.child("date").value.toString()
+                time = it.child("time").value.toString()
                 careID = it.child("careUserID").value.toString()
                 status = it.child("status").value.toString()
                 type = it.child("type").value.toString()
+
 
 
                 if(type == "parttime"){
@@ -78,8 +90,20 @@ class MessageDetailFragment : Fragment() {
                                 status_ = it.child("status").value.toString()
 
                                 view.findViewById<TextView>(R.id.tvMessContain).text = appliername + " would like to hire you as their part-time caregiver on " + jobDate
+                                dbref = FirebaseDatabase.getInstance().getReference("Users")
+                                dbref.child(applierID).get().addOnSuccessListener {
+                                    phoneNo = it.child("contactNo").value.toString()
+
+                                    view.findViewById<TextView>(R.id.tvMessContain2).text = phoneNo
+
+                                    view.findViewById<TextView>(R.id.tvMessContain2).setOnClickListener {
+                                        val intent = Intent(Intent.ACTION_DIAL);
+                                        intent.data = Uri.parse("tel:$phoneNo")
+                                        startActivity(intent)
+                                    }
+                                }
                             }.addOnFailureListener {
-                                Toast.makeText(requireContext(),"Failed to retrieve details", Toast.LENGTH_LONG).show()
+                                Toast.makeText(context,"Failed to retrieve details", Toast.LENGTH_LONG).show()
                             }
 
                             dbref = FirebaseDatabase.getInstance().getReference("Message")
@@ -87,7 +111,7 @@ class MessageDetailFragment : Fragment() {
                                 if(status_ != "booked"){
                                     val stat = mapOf<String,String>("status" to "accepted")
                                     dbref.child(messageID).updateChildren(stat).addOnSuccessListener {
-                                        Toast.makeText(requireContext(),"Accepted", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context,"Accepted", Toast.LENGTH_SHORT).show()
                                         dbref = FirebaseDatabase.getInstance().getReference("Parttime")
                                         val stat = mapOf<String,String>("status" to "booked")
                                         dbref.child(userID).updateChildren(stat).addOnSuccessListener {
@@ -96,7 +120,7 @@ class MessageDetailFragment : Fragment() {
                                     }
                                     Navigation.findNavController(it).navigate(MessageDetailFragmentDirections.actionMessageDetailFragmentToMessageFragment())
                                 }else{
-                                    Toast.makeText(requireContext(),"You can only accept 1 request at a time", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(context,"You can only accept 1 request at a time", Toast.LENGTH_LONG).show()
                                 }
 
                             }
@@ -104,12 +128,12 @@ class MessageDetailFragment : Fragment() {
                             view.findViewById<Button>(R.id.btnMessReject).setOnClickListener {
                                 val stat = mapOf<String,String>("status" to "rejected")
                                 dbref.child(messageID).updateChildren(stat).addOnSuccessListener {
-                                    Toast.makeText(requireContext(),"Rejected", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context,"Rejected", Toast.LENGTH_SHORT).show()
                                 }
                                 Navigation.findNavController(it).navigate(MessageDetailFragmentDirections.actionMessageDetailFragmentToMessageFragment())
                             }
                         }
-                    }else{
+                    }else if(status == "accepted" || status == "rejected"){
                         view.findViewById<Button>(R.id.btnMessAccept).visibility = View.GONE
                         view.findViewById<Button>(R.id.btnMessReject).visibility = View.GONE
 
@@ -120,10 +144,20 @@ class MessageDetailFragment : Fragment() {
                         dbref.child(careID).get().addOnSuccessListener {
                             jobDate = it.child("date").value.toString()
                             name = it.child("fullName").value.toString()
+                            phoneNo = it.child("contactNo").value.toString()
 
                             view.findViewById<TextView>(R.id.tvMessContain).text = name + " has " + status + " your request on "+jobDate
+                            if(status == "accepted"){
+                                view.findViewById<TextView>(R.id.tvMessContain2).text = phoneNo
+
+                                view.findViewById<TextView>(R.id.tvMessContain2).setOnClickListener {
+                                    val intent = Intent(Intent.ACTION_DIAL);
+                                    intent.data = Uri.parse("tel:$phoneNo")
+                                    startActivity(intent)
+                                }
+                            }
                         }.addOnFailureListener {
-                            Toast.makeText(requireContext(),"Failed to retrieve details", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context,"Failed to retrieve details", Toast.LENGTH_LONG).show()
                         }
 
                         srref = FirebaseStorage.getInstance().reference.child("UserProfilePic/"+careID)
@@ -150,14 +184,26 @@ class MessageDetailFragment : Fragment() {
                             view.findViewById<ImageView>(R.id.imgMessProfile).setImageBitmap(bitmap)
                             view.findViewById<TextView>(R.id.tvMessTitle).text = appliername
 
-                            view.findViewById<TextView>(R.id.tvMessContain).text = appliername + " would like to hire you for the transportation"
+                            view.findViewById<TextView>(R.id.tvMessContain).text = appliername + " would like to hire you for the transportation on " +to+" from "+from+ " on "+date+" on "+time
+                            dbref = FirebaseDatabase.getInstance().getReference("Users")
+                            dbref.child(applierID).get().addOnSuccessListener {
+                                phoneNo = it.child("contactNo").value.toString()
+
+                                    view.findViewById<TextView>(R.id.tvMessContain2).text = phoneNo
+
+                                    view.findViewById<TextView>(R.id.tvMessContain2).setOnClickListener {
+                                        val intent = Intent(Intent.ACTION_DIAL);
+                                        intent.data = Uri.parse("tel:$phoneNo")
+                                        startActivity(intent)
+                                    }
+                                }
 
                             dbref = FirebaseDatabase.getInstance().getReference("Message")
                             view.findViewById<Button>(R.id.btnMessAccept).setOnClickListener {
                                 var tempList = ArrayList<CaregiverApply>()
                                     val stat = mapOf<String,String>("status" to "accepted")
                                     dbref.child(messageID).updateChildren(stat).addOnSuccessListener {
-                                        Toast.makeText(requireContext(),"Accepted", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context,"Accepted", Toast.LENGTH_SHORT).show()
 
                                         dbref = FirebaseDatabase.getInstance().getReference("Message")
                                         dbref.addValueEventListener(object : ValueEventListener {
@@ -168,10 +214,13 @@ class MessageDetailFragment : Fragment() {
                                                     if(message?.type == "transport"){
                                                         tempList.add(message!!)
                                                         tempList= tempList.filter{ r -> r.applierUserID == applierID} as ArrayList<CaregiverApply>
+                                                        tempList= tempList.filter { r -> r.date == date } as ArrayList<CaregiverApply>
+                                                        tempList= tempList.filter { r -> r.time == time } as ArrayList<CaregiverApply>
+                                                        tempList= tempList.filter { r -> r.status == "pending" } as ArrayList<CaregiverApply>
 
                                                     }
                                                 }
-                                                for(i in 0 until tempList.size){
+                                                for(i in 0..tempList.size-1){
                                                     var temp = tempList[0].messageID.toString()
                                                     val stat = mapOf<String,String>("status" to "expired")
                                                     dbref.child(temp).updateChildren(stat).addOnSuccessListener {
@@ -192,7 +241,7 @@ class MessageDetailFragment : Fragment() {
                             view.findViewById<Button>(R.id.btnMessReject).setOnClickListener {
                                 val stat = mapOf<String,String>("status" to "rejected")
                                 dbref.child(messageID).updateChildren(stat).addOnSuccessListener {
-                                    Toast.makeText(requireContext(),"Rejected", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(context,"Rejected", Toast.LENGTH_SHORT).show()
                                 }
                                 Navigation.findNavController(it).navigate(MessageDetailFragmentDirections.actionMessageDetailFragmentToMessageFragment())
                             }
@@ -206,10 +255,23 @@ class MessageDetailFragment : Fragment() {
                         dbref = FirebaseDatabase.getInstance().getReference("Users")
                         dbref.child(careID).get().addOnSuccessListener {
                             name = it.child("fullName").value.toString()
+                            phoneNo = it.child("contactNo").value.toString()
 
-                            view.findViewById<TextView>(R.id.tvMessContain).text = name + " has " + status + " your transport request"
+                            view.findViewById<TextView>(R.id.tvMessContain).text = name + " has " + status + " your transport request to " +to+" from "+from+ " on "+date+" in "+time
+
+                            if(status == "accepted"){
+                                view.findViewById<TextView>(R.id.tvMessContain2).text = phoneNo
+
+                                view.findViewById<TextView>(R.id.tvMessContain2).setOnClickListener {
+                                    val intent = Intent(Intent.ACTION_DIAL);
+                                    intent.data = Uri.parse("tel:$phoneNo")
+                                    startActivity(intent)
+                                }
+                            }
+
+
                         }.addOnFailureListener {
-                            Toast.makeText(requireContext(),"Failed to retrieve details", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context,"Failed to retrieve details", Toast.LENGTH_LONG).show()
                         }
 
                         srref = FirebaseStorage.getInstance().reference.child("UserProfilePic/"+careID)
@@ -228,7 +290,7 @@ class MessageDetailFragment : Fragment() {
 
 
         }.addOnFailureListener {
-                Toast.makeText(requireContext(),"Failed to retrieve details", Toast.LENGTH_LONG).show()
+                Toast.makeText(context,"Failed to retrieve details", Toast.LENGTH_LONG).show()
             }
 
     }
