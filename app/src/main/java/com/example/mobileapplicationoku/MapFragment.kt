@@ -282,7 +282,7 @@ class MapFragment : Fragment(), LocationListener {
             val progressDialog = ProgressDialog(context)
             progressDialog.setMessage("Loading...")
             progressDialog.setCancelable(false)
-            progressDialog.show()
+            //progressDialog.show()
             dbref = FirebaseDatabase.getInstance().getReference("Facilities")
             dbref.addListenerForSingleValueEvent(object: ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -299,10 +299,10 @@ class MapFragment : Fragment(), LocationListener {
                     }
                     dbref.child(fID).setValue(facility).addOnSuccessListener() {
                         Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
-                        progressDialog.dismiss()
+                        //progressDialog.dismiss()
                     }.addOnFailureListener(){
                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-                        progressDialog.dismiss()
+                        //progressDialog.dismiss()
                     }
 
                 }

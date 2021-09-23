@@ -1,10 +1,11 @@
 package com.example.mobileapplicationoku
 
 import android.Manifest
+import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
 import androidx.fragment.app.Fragment
-
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,6 +74,7 @@ class event : Fragment() {
             Navigation.findNavController(it).navigate(eventDirections.actionEventToNonGovEvent())
         }
 
+
         return binding.root
     }
 
@@ -93,7 +95,7 @@ class event : Fragment() {
                     val it = view
                     if (it != null){
 
-                        // do something (when u need ur recycle view do something for btn)
+                        // do something
                         Navigation.findNavController(it).navigate(eventDirections.actionEventToEventDetail(ID))
                          }
                     })

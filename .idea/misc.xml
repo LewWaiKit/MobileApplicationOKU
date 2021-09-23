@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/FinalVer MobileOKU/app/src/main/res/layout/eventlist.xml" value="0.24682971014492755" />
         <entry key="..\:/FinalVer MobileOKU/app/src/main/res/layout/fragment_event.xml" value="0.25416666666666665" />
+        <entry key="..\:/FinalVer MobileOKU/app/src/main/res/layout/fragment_event_detail.xml" value="0.24682971014492755" />
         <entry key="..\:/MobileOKU/app/src/main/res/layout/activity_event_test.xml" value="0.25416666666666665" />
         <entry key="..\:/MobileOKU/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/MobileOKU/app/src/main/res/layout/caregiver_item.xml" value="0.25416666666666665" />

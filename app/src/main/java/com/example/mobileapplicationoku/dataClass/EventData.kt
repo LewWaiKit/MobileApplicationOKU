@@ -6,6 +6,8 @@ data class EventData(
     val destination :String ?=null,
     val date :String ?=null,
     val location :String ?=null,
-    val time :String ?=null 
-
+    val time :String ?=null,
+    val latitude: Double? = null,
+    val longitude: Double? = null
 )
+
