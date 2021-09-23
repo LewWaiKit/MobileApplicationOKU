@@ -85,7 +85,7 @@ class ApplyFragment : Fragment() {
             dbref.child(userID).get().addOnSuccessListener {
                 if(it.exists()){
                     if (care == ""){
-                        if(it.child("status").value.toString() != "cancel" && it.child("status").value.toString() != "expired"){
+                        if(it.child("status").value.toString() != "cancel" && it.child("status").value.toString() != "expired" && it.child("status").value.toString() != "booked"){
                             view.findViewById<Button>(R.id.btnProApply).visibility = View.GONE
                             view.findViewById<Button>(R.id.btnProRemove).visibility = View.VISIBLE
 
